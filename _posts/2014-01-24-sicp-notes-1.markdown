@@ -1,0 +1,96 @@
+---
+layout:	post
+title:	"Structure and Interpretation of Computer Programs notes I"
+date:	2014-01-24
+---
+# environment:
+There are multiple List dialects. The one used in this book is Scheme:
+{% highlight Bash %}
+sudo apt-get install mit-scheme
+{% endhighlight %}
+Then run "mit-scheme" in the shell.
+
+I also installed Steel Bank Common Lisp:
+{% highlight Bash %}
+sudo apt-get install sbcl
+{% endhighlight %}
+
+Then run "sbcl" in the shell.
+
+in "mit-scheme", if you type something by mistake, or the expression is
+invalid, We will enter "Error system", like:
+2 error>
+
+To jump out of Error system, input (RESTART x) x is the option number 
+
+# Chapter 1 Building Abstractions with Procedures
+## 1. define variables
+{% highlight Scheme %}
+(define size 2)
+{% endhighlight %}
+## 2. define functions
+{% highlight Scheme %}
+(define (square x) (* x x))
+{% endhighlight %}
+## 3. condition expression
+{% highlight Scheme %}
+(define (abs x)
+  (cond ((> x 0) x)
+        ((= x 0) 0)
+        ((< x 0) (- x))))
+
+(define (abs x)
+  (cond ((< x 0) (- x))
+  	(else x)))
+
+(define (abs x)
+  (if (< x 0)
+      (- x)
+      x))
+
+(define (>= x y)
+  (or (> x y) (= x y)))
+or alternative as
+(define (>= x y)
+  (not (< x y)))
+{% endhighlight %}
+
+## Exercise 1.1
+
+10
+12
+8
+3
+6
+19
+false
+4
+16
+6
+16
+
+## Exercise 1.2
+{% highlight Scheme %}
+(/ (+ 5 4 (- 2 (- 3 (+ 6 (/ 4 3))))) (* 3 (- 6 2) (- 2 7)))
+{% endhighlight %}
+## Exercise 1.3
+{% highlight Scheme %}
+(define (f a b c)
+	(define maxab (if (>= a b)
+		      	a
+			b)
+	)
+	(define minab (if (>= a b)
+			b
+			a)
+	)
+  
+	(if (>= maxab c)
+      		(if (>= c minab)
+        		(+ (* maxab maxab) (* c c))
+	  		(+ (* maxab maxab) (* minab minab))
+      		)
+      		(+ (* maxab maxab) (* c c))
+  	)
+)
+{% endhighlight %}
