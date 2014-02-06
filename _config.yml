@@ -1,1 +1,3 @@
-baseurl: /jslhcl.github.io
+name: Lei Cao
+markdown: redcarpet
+pygments: true

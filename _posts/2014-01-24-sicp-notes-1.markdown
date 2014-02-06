@@ -54,19 +54,109 @@ or alternative as
 (define (>= x y)
   (not (< x y)))
 {% endhighlight %}
+## 4. Newton's method to get square root
+Whenever we have a guess y for the value of the square root of a number x, we can perform a simple manipulation to get a better guess by average y with x/y.
+{% highlight Scheme %}
+(define (sqrt-iter guess x)
+  (if (good-enough? guess x)
+	guess
+    	(sqrt-iter (improve guess x) x)
+  ))
 
+(define (improve guess x)
+	(average guess (/ x guess)))
+
+(define (average x y)
+	(/ (+ x y) 2))
+
+(define (good-enough? guess x)
+	(< (abs (- (square guess) x)) 0.001)) 
+
+(define (mysqrt x)
+	(sqrt-iter 1.0 x))
+{% endhighlight %}
+
+## 5. Internal definitions and block structure
+{% highlight Scheme %}
+(define (sqrt x)
+	(define (good-enough? guess)
+		(< (abs (- (square guess) x)) 0.001))
+	(define (improve guess)
+		(average guess (/ x guess)))
+	(define (sqrt-iter guess)
+		(if (good-enough? guess)
+			guess
+			(sqrt-iter (improve guess))))
+	(sqrt-iter 1.0))
+{% endhighlight %}
+It is not necessary to pass x explicitly to each of these procedures. Instead, we allow x to be a free variable in the internal definitions.
+This discipline is called lexical scoping.
+
+## 6. Linear Recursion and Iteration
+Linear Recursion:
+{% highlight Scheme %}
+(define (factorial n)
+	(if (= n 1)
+		1
+		(* n (factorial (- n 1)))))
+{% endhighlight %}
+
+Linear Iterative:
+{% highlight Scheme %}
+(define (factorial n)
+	(fact-iter 1 1 n))
+(define (fact-iter product counter max-count)
+	(if (> count max-count)
+		product
+		(fact-iter (* counter product)
+			(+ counter 1)
+			max-count)))
+{% endhighlight %}
+
+Difference: bottom-up vs. top-down
+Linear iterative does not grow and shrink. At each step, all we need to keep track of, are the current value of the variables product, counter and max-count.
+
+Scheme will execute an iterative process in constant space even if the iterative process is described by a recursive procedure. An implementation with this property is called tail-recursive.
+
+## 7. How many different ways can we make change of $1.00
+The number of ways to change amount a using n kinds of coins equals:
+The number of ways to change amount a using all but the first kind of coins, plus
+The number of ways to change amount a-d using all n kinds of coins, where d is the denomination of the first kind of coin
+{% highlight Scheme %}
+(define (coin-change amount)
+	(cc amount 5))
+(define (cc amount kinds-of-coins)
+	(cond ((= amount 0) 1)
+	      ((or (< amount 0) (= kinds-of-coins 0)) 0)
+	      (else (+ (cc amount (- kinds-of-coins 1))
+	      		(cc (- amount (first-denomination kinds-of-coins)) kinds-of-coins)))))  	
+(define (first-denomination kinds-of-coins)
+	(cond 	((= kinds-of-coins 1) 1)
+		((= kinds-of-coins 2) 5)
+		((= kinds-of-coins 3) 10)
+		((= kinds-of-coins 4) 50)))
+{% endhighlight %}
 ## Exercise 1.1
-
 10
+
 12
+
 8
+
 3
-6
+
+ddd
+
 19
+
 false
+
 4
+
 16
+
 6
+
 16
 
 ## Exercise 1.2
@@ -94,3 +184,36 @@ false
   	)
 )
 {% endhighlight %}
+## Exercise 1.6
+maximum recursion depth exceeded
+Since the else-clause is always executed in new-if.
+
+## Exercise 1.8
+{% highlight Scheme %}
+(define (mycbrt x)
+  	(cbrt-iter 1.0 x))
+
+(define (cbrt-iter guess x)
+	(if (cb-good-enough? guess x)
+	  	guess
+		(cbrt-iter (cbimprove guess x) x)))
+
+(define (cb-good-enough? guess x)
+  	(< (abs (- (* (* guess guess) guess) x)) 0.001))
+
+(define (cbimprove guess x)
+  	(/ (+ (/ x (* guess guess)) (* 2 guess)) 3))
+{% endhighlight %}
+
+## Exercise 1.10
+1024
+
+65536
+
+65536
+
+(f n) = 2n
+
+(g n) = 2^n
+
+(h n) = 2^(2^(2^(...)))
