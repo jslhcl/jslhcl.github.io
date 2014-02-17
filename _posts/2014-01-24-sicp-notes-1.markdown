@@ -138,8 +138,34 @@ The number of ways to change amount a-d using all n kinds of coins, where d is t
 		((= kinds-of-coins 5) 50)))
 {% endhighlight %}
 
-## 8. Lame's Theorem
-If Euclid's Algorithm requires k steps to compute the GCD of some pair, then the smaller number in the pair must be greater than or equal to the kth Fibonacci number.
+## 8. GCD and Fibonacci number
+**Lame's Theorem**: If Euclid's Algorithm requires *k* steps to compute the GCD of some pair, then the smaller number in the pair must be greater than or equal to the *k*th Fibonacci number.
+
+Let *n* be the smaller of the two inputs to the procedure. If the process takes *k* steps, then we must have $n\geq Fib(k) \approx \phi^{k}/\sqrt{5}$, Hence the order of growth is $\Theta(log n)$
+
+$$gcd(F\_m, F\_n)=F\_{gcd(m,n)}$$  (*Concrete Mathematics*, 6.111)
+
+## 9. the Fermat test
+**Fermat's Little Theorem**: If *n* is a prime number and *a* is any positive integer less than *n*, then *a* raised the *n*th power is congruent to *a* modulo *n*.
+
+**the Fermat test**: If *n* is not prime, then, in general, most of the number *a<n* will not satisfy the above relation. This leads to the following algorithm for testing primality: Given a number *n*, pick a random number *a<n* and compute the remainder of *a^n* modulo *n*. If the result is not equal to *a*, then *n* is certainly not prime. If it is *a*, then chances are good that *n* is prime. Now pick another random number *a* and test it with the same method. If it also satisfies the equation, then we can be even more confident that *n* is prime. By trying more and more values of *a*, we can increase our confidence in the result.
+
+{% highlight Scheme %}
+(define (expmod base exp m)
+	(cond ((= exp 0) 1)
+	      ((even? exp) (remainder (square (expmod base (/ exp 2) m)) m))
+	      (else (remainder (* base (expmode base (- exp 1) m)) m)))) 
+
+(define (fermat-test n)
+	(define (try-it a)
+		(= (expmod a n n) a))
+	(try-it (+ 1 (random (- n 1)))))
+
+(define (fast-prime? n times)
+	(cond ((= times 0) true)
+	      ((fermat-test n) (fast-prime? n (- times 1)))
+	      (else false)))
+{% endhighlight %}
 
 ## Exercise 1.1
 10
@@ -260,6 +286,7 @@ $$Fib(n)=({\phi}^{k-2}({\phi}+1)-{\widehat{\phi}}^{k-2}({\widehat{\phi}}+1))/{\s
 $$Fib(n)=({\phi}^{n}-{\widehat{\phi}}^{n})/{\sqrt{5}}$$
 
 ## Exercise 1.14
+
 $$F(m,n)=F(m,n-1)+F(m-f(n),n)$$
 
 There are at most n levels in its recursion tree, so there are at most 2^n leaf nodes. Time complexity O(m*2^n)  ??
@@ -286,3 +313,27 @@ O(log(a)))
 	      ((= (remainder b 2) 0) (times (double a) (halve b)))
 	      ((= (remainder b 2) 1) (+ a (times (double a) (halve (- b 1)))))))
 {% endhighlight %}
+
+## Exercise 1.18
+{% highlight Scheme %}
+(define (times2 a b)
+  	(times-iter 0 a b))
+(define (times-iter ret a b)
+  	(cond ((= b 0) ret)
+	      ((even? b) (times-iter ret (double a) (halve b)))
+	      (else (times-iter (+ ret a) a (- b 1))))) 
+{% endhighlight %}
+
+## Exercise 1.19
+$a'=bq+aq+ap$, $b'=bp+aq$, $a''=b'q+a'q+a'p$, $b''=b'p+a'q$
+
+so $a''=bq(q+2p)+aq(q+2p)+a(p^2+q^2)$, $b''=b(p^2+q^2)+aq(q+2p)$
+
+so $p'=(p^2+q^2)$, $q'=q(q+2p)$
+
+## Exercise 1.21
+199
+
+1999
+
+7
