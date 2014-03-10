@@ -154,7 +154,7 @@ $$gcd(F\_m, F\_n)=F\_{gcd(m,n)}$$  (*Concrete Mathematics*, 6.111)
 (define (expmod base exp m)
 	(cond ((= exp 0) 1)
 	      ((even? exp) (remainder (square (expmod base (/ exp 2) m)) m))
-	      (else (remainder (* base (expmode base (- exp 1) m)) m)))) 
+	      (else (remainder (* base (expmod base (- exp 1) m)) m)))) 
 
 (define (fermat-test n)
 	(define (try-it a)
@@ -166,6 +166,9 @@ $$gcd(F\_m, F\_n)=F\_{gcd(m,n)}$$  (*Concrete Mathematics*, 6.111)
 	      ((fermat-test n) (fast-prime? n (- times 1)))
 	      (else false)))
 {% endhighlight %}
+
+## 10. Higher-order Procedure
+Procedures that can accept procedures as arguments or return procedures as values are called *high-order procedures*
 
 ## Exercise 1.1
 10
@@ -337,3 +340,45 @@ so $p'=(p^2+q^2)$, $q'=q(q+2p)$
 1999
 
 7
+
+## Exercise 1.22
+{% highlight Scheme %}
+(define (start-prime-test n start-time)
+  	(if (prime? n)
+	  	(report-prime n (- (runtime) start-time))
+		0))
+
+(define (report-prime n elapsed-time)
+  	(newline)
+  	(display n)
+  	(display " *** ")
+	(display elapsed-time)
+	1)
+(define (search-for-primes start count)
+  	(if (< count 3)
+	    (if (timed-prime-test start)
+	      	(search-for-primes (+ start 1) (+ count 1))
+		(search-for-primes (+ start 1) count))
+	    0))
+{% endhighlight %}
+(wrong?)
+
+## Exercise 1.23
+{% highlight Scheme %}
+(define (next n)
+  	(if (= n 2) 3
+	    (+ n 2)))
+
+(define (smallest-divisor2 n)
+  	(find-divisor2 n 2))
+(define (find-divisor2 n test-divisor)
+  	(cond ((> (square test-divisor) n) n)
+	      ((divides? test-divisor n) test-divisor)
+	      (else (find-divisor2 n (next test-divisor)))))
+{% endhighlight %}
+
+## Exercise 1.25
+I think his solution is correct but slow. May cause overflow issue when base^exp is large
+
+## Exercise 1.26
+The procedure expmod will be executed twice using explicit multiplication, rather than once using *square*
