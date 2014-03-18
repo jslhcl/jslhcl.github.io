@@ -167,9 +167,85 @@ $$gcd(F\_m, F\_n)=F\_{gcd(m,n)}$$  (*Concrete Mathematics*, 6.111)
 	      (else false)))
 {% endhighlight %}
 
+**Miller-Rabin primality test**: if *p* is a prime, *x* is a positive integer less than *p*, and *x^2 mod p=1*, then *x=1* or *x=p-1*. 
+
 ## 10. Higher-order Procedure
 Procedures that can accept procedures as arguments or return procedures as values are called *high-order procedures*
 
+## 11. Procedures as Arguments
+Consider the following 3 procedures. The first computes the sum of the integers from *a* through *b*
+{% highlight Scheme %}
+(define (sum-integers a b)
+	(if (> a b)
+	    0
+	    (+ a (sum-integers (+ a 1) b))))
+{% endhighlight %}
+
+The second computes the sum of the cubes of the integers in the given range.
+{% highlight Scheme %}
+(define (sum-cubes a b)
+	(if (> a b)
+	    0
+	    (+ (cube a) (sum-cubes (+ a 1) b))))
+{% endhighlight %}
+
+The third computes the sum of a sequence of terms in the series
+
+1/(1\*3) + 1/(5\*7) + 1/(9\*11) + ...
+
+which converges to pi/8 (very slowly):
+
+{% highlight Scheme %}
+(define (pi-sum a b)
+	(if (> a b)
+	    0
+	    (+ (/ 1.0 (* a (+ a 2))) (pi-sum (+ a 4) b))))
+{% endhighlight %}
+
+We would like our language to be powerful enough so that we can write a procedure that express the concept of summation itself rather than only procedures that compute particular sums.
+
+{% highlight Scheme %}
+(define (sum term a next b)
+	(if (> a b)
+	    0
+	    (+ (term a)
+	       (sum term a (next a) next b))))
+{% endhighlight %}
+
+We can use it to define *sum-cubes*, *sum-integers* and *pi-sum*:
+
+{% highlight Scheme %}
+(define (inc n) (+ n 1))
+(define (sum-cubes a b)
+	(sum cube a inc b))
+
+(define (identity x) x)
+(define (sum-integers a b)
+	(sum identity a inc b))
+
+(define (pi-sum a b)
+	(define (pi-term x)
+		(/ 1.0 (* x (+ x 2))))
+	(define (pi-next x)
+		(+ x 4))
+	(sum pi-term a pi-next b))
+{% endhighlight %}
+
+Once we have *sum*, we can use it as a building block in formulating further concept. For instance, the definition integeral of a function *f* between the limits *a* and *b* can be approximated numberically using the formula:
+
+{% highlight Latex %}
+\int_a^b f(x) dx=[f(a+dx/2)+f(a+dx+dx/2)+f(a+2dx+dx)+\cdots]dx
+{% endhighlight %}
+
+{% highlight Scheme %}
+(define (integeral f a b dx)
+	(define (add-dx x) (+ x dx))
+	(* (sum f (+ a (/ dx 2.0)) add-dx b)
+	   dx))
+
+(integral cube 0 1 0.01)
+.2499875
+{% endhighlight %}
 ## Exercise 1.1
 10
 
@@ -382,3 +458,24 @@ I think his solution is correct but slow. May cause overflow issue when base^exp
 
 ## Exercise 1.26
 The procedure expmod will be executed twice using explicit multiplication, rather than once using *square*
+
+## Exercise 1.28
+{% highlight Scheme %}
+(define (Miller-Rabin-test a n)
+	(define (getOdd x)
+	       	(if (odd? x)
+		     	x
+	     		(getOdd (/ x 2))))
+
+	(define (check x y)
+	  	(if (or (= x (- n 1)) (= y 1) (= y (- n 1)))
+		    (or (= y (- n 1)) (odd? x))
+		    (check (* x 2) (expmod y 2 n))))
+
+	(define d (getOdd (- n 1)))
+  	(if (= n 2)
+	    1 
+	    ((if (or (= n 1) (even? n))
+	         0
+		 ((check d (expmod a d n)))))))
+{% endhighlight %}
