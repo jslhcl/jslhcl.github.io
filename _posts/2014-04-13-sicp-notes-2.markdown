@@ -23,7 +23,16 @@ date:	2014-04-13
 1
 (car (cdr z))
 3
+
+(define (make-rat n d)
+	(let ((g (gcd n d)))
+	     (cons (/ n g) (/ d g)))) 
+
+(define (numer x) (car x))
+(define (denom x) (cdr x))
 {% endhighlight %}
+
+The ability to manipulate procedures as objects automatically provides the ability to represent compound data. This style of programming is often called *message passing* 
 
 ## Exercise 2.1
 
@@ -35,4 +44,113 @@ date:	2014-04-13
 	     (cond ((= (* n d) 0) (cons (n d)))
 	           ((> (* n d) 0) (cons (/ nn g) (/ dd g)))
 		   (else (cons (- (/ nn g)) (/ dd g))))))	
+{% endhighlight %}
+
+## Exercise 2.2
+
+{% highlight Scheme %}
+(define (make-point x y) (cons x y))
+(define (x-point p) (car p))
+(define (y-point p) (cdr p))
+
+(define (make-segment pstart pend) (cons pstart pend))
+(define (start-segment segment) (car segment))
+(define (end-segment segment) (cdr segment))
+
+(define (mid-segment segment) 
+	(let ((xmid (/ (+ (x-point (start-segment segment)) (x-point (end-segment segment))) 2))
+	      (ymid (/ (+ (y-point (start-segment segment)) (y-point (end-segment segment))) 2)))
+	     (make-point xmid ymid)))
+{% endhighlight %}
+
+## Exercise 2.3
+
+{% highlight Scheme %}
+(define (make-rect pLT pRB) (cons pLT pRB))
+(define (area rect)
+	(let ((height (abs (- (x-point pLT) (x-point pRB))))
+	      (width  (abs (- (y-point pLT) (y-point pRB)))))
+	     (* height width)))
+(define (perimeter rect)
+	(let ((height (abs (- (x-point pLT) (x-point pRB))))
+	      (width  (abs (- (y-point pLT) (y-point pRB)))))
+	     (+ height height width width)))
+{% endhighlight %}
+
+## Exercise 2.4
+
+{% highlight Scheme %}
+(define (cons x y)
+	(lambda (m) (m x y)))
+
+(define (car z)
+	(z (lambda (p q) p)))
+
+(define (cdr z)
+	(z (lambda (p q) q)))
+{% endhighlight %}
+
+## Exercise 2.5
+
+{% highlight Scheme %}
+(define (cons x y)
+	(* (expt 2 x) (expt 3 y)))
+
+(define (logNum base value ret)
+	(if (= 0 (remainder value base))
+	    (logNum base (/ value base) (+ 1 ret))
+	    ret))
+
+(define (car z)
+	(logNum 2 z 0))
+
+(define (cdr z)
+	(logNum 3 z 0))
+{% endhighlight %}
+
+## Exercise 2.6
+
+{% highlight Scheme %}
+(define one (lambda (f) (lambda (x) (f x))))
+
+(define two (lambda (f) (lambda (x) (f (f x)))))
+
+(define (plus n1 n2)
+	(lambda (f) (lambda (x) ((n1 f) ((n2 f) x)))))
+{% endhighlight %}
+
+[Link] (http://wqzhang.wordpress.com/2009/06/16/sicp-exercise-2-6/)
+
+[Wiki_page](http://en.wikipedia.org/wiki/Church_encoding)
+
+## Exercise 2.7
+
+{% highlight Scheme %}
+(define (upper-bound interval) (cdr interval))
+
+(define (lower-bound interval) (car interval))
+{% endhighlight %}
+
+## Exercise 2.8
+
+{% highlight Scheme %}
+(define (sub-interval x y)
+	(make-interval (- (lower-bound x) (upper-bound y))
+	               (- (upper-bound x) (lower-bound y))))
+{% endhighlight %}
+
+## Exercise 2.10
+
+{% highlight Scheme %}
+(define (div-interval x y)
+	(if (<= (* (lower-bound y) (upper-bound y)) 0)
+	    (error "y spans zero")
+	    (mul-interval x (make-interval (/ 1.0 (upper-bound y))
+	    				   (/ 1.0 (lower-bound y))))))
+{% endhighlight %}
+
+## Exercise 2.12
+
+{% highlight Scheme %}
+
 {% endhighlight %}
