@@ -80,6 +80,30 @@ is equivalent to
 
 The value of *nil*, used to terminate the chain of pairs, can be thought of as a sequence of no elements, the *empty list*. The word *nil* is a contraction of the Latin word *nihil*, which means "nothing"
 
+Scheme provided the primitive predictor *pair?* which tests whether its argument is a pair.
+
+{% highlight Scheme %}
+(define (count-leaves x)
+	(cond ((null? x) 0)
+	      ((not (pair? x)) 1)
+	      (else (+ (count-leaves (car x)) (count-leaves (cdr x))))))
+{% endhighlight %}
+
+## 3. Mapping 
+
+{% highlight Scheme %}
+(define (scale-list items factor)
+	(if (null? items)
+	    nil
+	    (cons (* (car items) factor)
+	          (scale-list (cons items) factor))))
+
+(define (scale-tree tree factor)
+	(cond ((null? tree) nil)
+	      ((not (pair? tree)) (* tree factor))
+	      (else (cons (scale-tree (car tree) factor) (scale-tree (cdr tree) factor)))))
+{% endhighlight %}
+
 ## Exercise 2.1
 
 {% highlight Scheme %}
@@ -237,7 +261,140 @@ The value of *nil*, used to terminate the chain of pairs, can be thought of as a
 
 {% highlight Scheme %}
 (define (same-parity first . rest)
-	(define (same-parity-iter first n . rest)
-		(
-
+	(define (same-parity-iter ret rest)
+		(if (null? rest)
+		    ret
+		    (if (odd? (+ first (car rest)))
+		         (same-parity-iter ret (cdr rest))
+			 (same-parity-iter (append ret (list (car rest))) (cdr rest)))))
+	(same-parity-iter (list first) (cdr rest)))
 {% endhighlight %}
+
+## Exercise 2.21
+
+{% highlight Scheme %}
+(define (square-list items)
+	(if (null? items)
+	nil
+	(cons (* (car items) (car items)) (square-list (cdr items)))))
+
+(define (square-list items)
+	(map square items))
+{% endhighlight %}
+
+## Exercise 2.23
+
+{% highlight Scheme %}
+(define (for-each f li)
+  	(if (null? li)
+	    li
+	    (cons (f (car li)) (for-each f (cdr li)))))
+{% endhighlight %}
+
+## Exercise 2.25
+
+{% highlight Scheme %}
+(car (cdr (car (cdr (cdr '(1 3 (5 7) 9))))))
+
+(car (car '((7))))
+
+(car (cdr (car (cdr (car (cdr (car (cdr (car (cdr (car (cdr '(1 (2 (3 (4 (5 (6 7))))))))))))))))))
+{% endhighlight %}
+
+## Exercise 2.26
+
+{% highlight Scheme %}
+(1 2 3 4 5 6)		;append
+
+((1 2 3) 4 5 6)		;cons
+
+((1 2 3) (4 5 6))	;list
+{% endhighlight %}
+
+## Exercise 2.27
+
+{% highlight Scheme %}
+(define (deep-reverse li)
+	(define (f re-li)
+		(cond ((null? re-li) '())
+		      ((pair? (car re-li)
+		       (append (reverse (car re-li)) (f (cdr re-li)))))
+		      (else (append (list (car re-li)) (f (cdr re-li))))))
+	(f (reverse li)))
+{% endhighlight %}
+
+## Exercise 2.28
+
+{% highlight Scheme %}
+(define (fringe li)
+	(cond ((null? li) '())
+	      ((pair? (car li))
+	       (append (fringe (car li)) (fringe (cdr li))))
+	      (else (append (list (car li)) (fringe (cdr li))))))
+{% endhighlight %}
+
+## Exercise 2.29
+
+{% highlight Scheme %}
+(define (left-branch mobile)
+	(car mobile))
+
+(define (right-branch mobile)
+	(car (cdr mobile)))
+
+(define (branch-length branch)
+	(car branch))
+
+(define (branch-structure branch)
+	(car (cdr branch)))
+
+(define (branch-weight branch)
+	(if (not (pair? (branch-structure branch)))
+	    (branch-structure branch)
+	    (+ (branch-weight (left-branch (branch-structure branch))) (branch-weight (right-branch (branch-structure branch))))))
+
+(define (total-weight mobile)
+	(+ (branch-weight (left-branch mobile)) (branch-weight (right-branch mobile))))
+
+(define (balanced? mobile)
+	(if (pair? (car mobile))
+		(let ((lb (left-branch mobile))
+		      (rb (right-branch mobile)))
+		     (and (= (* (branch-length lb) (branch-weight lb)) (* (branch-length rb) (branch-weight rb)))
+		          (balanced? (branch-structure lb))
+			  (balanced? (branch-structure rb))))
+	    true))
+{% endhighlight %}
+
+## Exercise 2.30
+
+{% highlight Scheme %}
+(define (square-tree tree)
+	(cond ((null? tree) nil)
+	      ((not (pair? tree)) (* tree tree))
+	      (else (cons (square-tree (car tree)) (square-tree (cdr tree))))))
+
+(define (square-tree2 tree)
+	(map (lambda (sub-tree)
+	             (if (pair? sub-tree)
+	         	 (square-tree2 sub-tree)
+		 	 (* sub-tree sub-tree)))
+	     tree))
+{% endhighlight %}
+
+## Exercise 2.31
+
+{% highlight Scheme %}
+(define (tree-map proc tree)
+	(cond ((null? tree) '())
+	      ((not (pair? tree)) (proc tree))
+	      (else (cons (tree-map proc (car tree)) (tree-map proc (cdr tree))))))
+{% endhighlight %}
+
+## Exercise 2.32
+
+{% highlight Scheme %}
+(lambda (x) (append (list (car s)) x))
+{% endhighlight %}
+
+
