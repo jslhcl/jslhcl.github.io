@@ -29,3 +29,16 @@ What we're doing is an aesthetic pursuit. It involves craftsmanship as well as m
 # Joe Armstrong
 I think the lack of reusability comes in object-oriented languages, not in functional languages. Because the problem with object-oriented language is they've got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.
 
+What I've learned is, programming when you're tired, you write crap and you throw it all away the next day.
+
+I have noticed over the years, the really good code I would write was when I'm in complete flow -- just totally unaware of time: not even really thinking about the program, just sitting there in a relaxed state just typing this stuff and watching it come out on the screen as I type it in. That's code's going to be OK.
+
+It's a movtivating force to implement something; I really recommand it. If you want to understand C, write a C compiler. If you want to understand Lisp, write a Lisp compiler or a Lisp interpreter.
+
+Things you don't do are difficult and things you've done are easy.
+
+Then there's -- I don't know if I read it somewhere or if I invented myself -- Joe's Law of Debugging, which is that all errors will be plus/minus three statements of the place you last changed the program.
+
+I think the code is the answer to a problem. If you don't have the spec or you don't have any documentation, you have to guess what the problem is from the answer. You might guess wrong.
+
+Do good stuff. If you don't do good stuff, in good areas, it doesn't matter what you do.
