@@ -267,6 +267,19 @@ Nested mappings are also useful for sequences other than those that enumerate in
 	(filter (lambda (x) (not (= x item))) sequence))
 {% endhighlight %}
 
+## 5. Quotation
+
+{% highlight Scheme %}
+(define a 1)
+(define b 2)
+
+(list a b)
+(1 2)
+
+(list 'a 'b)
+(a b)
+{% endhighlight %}
+
 ## Exercise 2.1
 
 {% highlight Scheme %}
@@ -759,3 +772,95 @@ Nested mappings are also useful for sequences other than those that enumerate in
 (define (end-segment s)
 	(cdr s))
 {% endhighlight %}
+
+## Exercise 2.53
+
+{% highlight Scheme %}
+(a b c)
+
+((george))
+
+((y1 y2))
+
+(y1 y2)
+
+false
+
+false
+
+(red shoes blue socks)
+{% endhighlight %}
+
+## Exercise 2.54
+
+{% highlight Scheme %}
+(define (equal? list1 list2)
+	(cond ((and (pair? list1) (pair? list2)) (and (equal? (car list1) (car list2)) (equal? (cdr list1) (cdr list2))))
+	      ((and (not (pair? list1)) (not (pair? list2))) (eq? list1 list2))
+	      (else false))) 
+{% endhighlight %}
+
+## Exercise 2.55
+(car ''abrac) is equal to (car (quote (quote abrac)))
+
+## Exercise 2.56
+
+{% highlight Scheme %}
+(define (deriv exp var)
+	(cond ((number? exp) 0)
+	      ((variable? exp) (if (same-variable? exp var) 1 0))
+	      ((sum? exp) (make-sum (deriv (addend exp) var) (deriv (augend exp) var)))
+	      ((product? exp)
+	       (make-sum (make-product (multiplier exp) (deriv (multiplicand exp) var))
+	                 (make-product (deriv (multiplier exp) var) (multiplicand exp))))
+	      ((exponentiation? exp)
+	       (make-product (exponent exp) 
+	                     (make-exponent (base exp) (make-sum (exponent exp) (- 1)))
+			     (deriv (base exp) var)))
+	      (else (error "unknown expression type -- DERIV" exp))))
+
+(define (exponentiation? exp)
+	(and (pair? exp) (eq? (car x) '**)))
+
+(define (base exp) (cadr exp))
+
+(define (exponent exp) (caddr exp))
+
+(define (make-exponent base exp)
+	(cond ((=number? exp 0) 1)
+	      ((=number? exp 1) base)
+	      (else (list '** base exp))))
+{% endhighlight %}
+
+## Exercise 2.59
+
+{% highlight Scheme %}
+(define (union-set set1 set2)
+	(cond ((null? set1) set2)
+	      ((null? set2) set1)
+	      ((element-of-set? (car set1) set2) (union-set (cdr set1) set2))
+	      (else (cons (car set1) (union-set (cdr set1) set2))))) 
+{% endhighlight %}
+
+## Exercise 2.61
+
+{% highlight Scheme %}
+(define (adjoin-set x set)
+	(cond ((null? set) (list x))
+	      ((= x (car set)) set)
+	      ((> x (car set)) (cons (car set) (adjoin-set x (cdr set))))
+	      (else (cons x set)))) 
+{% endhighlight %}
+
+## Exercise 2.62
+
+{% highlight Scheme %}
+(define (union-set set1 set2)
+	(cond ((null? set1) set2)
+	      ((null? set2) set1)
+	      (else (let ((x1 (car set1)) (x2 (car set2)))
+	                 (cond ((= x1 x2) (cons x1 (union-set (cdr set1) (cdr set2))))
+			       ((< x1 x2) (cons x1 (union-set (cdr set1) set2)))
+			       ((> x1 x2) (cons x2 (union-set set1 (cdr set2))))))))) 
+{% endhighlight %}
+
