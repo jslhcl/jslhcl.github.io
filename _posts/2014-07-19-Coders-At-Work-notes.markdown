@@ -42,3 +42,9 @@ Then there's -- I don't know if I read it somewhere or if I invented myself -- J
 I think the code is the answer to a problem. If you don't have the spec or you don't have any documentation, you have to guess what the problem is from the answer. You might guess wrong.
 
 Do good stuff. If you don't do good stuff, in good areas, it doesn't matter what you do.
+
+## Peter Norvig
+I think one of the most important thing is being able to keep everything in your head at once. If you can do that you have a much better chance of being successful. That maks a small program easier.
+
+One of the most important things for having a successful project is having people that have enough experience that they build the right thing. And barring that, if it's something that you haven't built before, that you don't know how to do, then the next best thing you can do is to be flexible enough that if you build the wrong thing you can adjust.
+
