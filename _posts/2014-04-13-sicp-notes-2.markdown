@@ -864,3 +864,36 @@ false
 			       ((> x1 x2) (cons x2 (union-set set1 (cdr set2))))))))) 
 {% endhighlight %}
 
+## Exercise 2.65
+
+{% highlight Scheme %}
+(define (union-set-tree set1 set2)
+	(let ((list1 (tree->list-2 set1))
+	      (list2 (tree->list-2 set2)))
+	     (list-tree (union-set list1 list2))))
+
+(define (intersection-set-tree set1 set2)
+	(let ((list1 (tree->list-2 set1))
+	      (list2 (tree->list-2 set2)))
+	     (list-tree (intersection-set-tree list1 list2))))
+{% endhighlight %}
+
+## Exercise 2.66
+
+{% highlight Scheme %}
+(define (lookup given-key set-of-records)
+	(cond ((null? set-of-records) false)
+	      ((= given-key (key (entry set-of-records))) (entry set-of-records))
+	      ((< given-key (key (entry set-of-records))) 
+	       (lookup given-key (left-branch set-of-records)))
+	      ((> given-key (key (entry set-of-records)))
+	       (lookup given-key (right-branch set-of-records))))) 
+{% endhighlight %}
+
+## Exercise 2.67
+
+ADABBCA
+
+## Exercise 2.71
+
+1, n-1
