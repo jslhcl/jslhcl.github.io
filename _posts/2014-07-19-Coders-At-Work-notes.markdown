@@ -48,3 +48,18 @@ I think one of the most important thing is being able to keep everything in your
 
 One of the most important things for having a successful project is having people that have enough experience that they build the right thing. And barring that, if it's something that you haven't built before, that you don't know how to do, then the next best thing you can do is to be flexible enough that if you build the wrong thing you can adjust.
 
+## Dan Ingalls
+Although I didn't go very far, my conclusion was that it isn't that young people learn that much faster; it's just they have more time. When I would put time in, I made progress.
+
+## L Peter Deutsch
+The old idea of program correctness was that there were these assertions that were your expressions of what you intend the code to do in a way that was mechanically checkable against the code itself. There were lots of problems with that approach. I now think that the path to software that's more likely to do what we intend it to do lies not through assertions, or inductive assertions, but lies through better, more powerful, deeper declarative notations. 
+
+Language systems stands on a tripod. There's the language, there's the libraries, and there are the tools. And how successful a language is depends on a complex interaction between those three things.
+
+## Ken Thompson
+Modern programming scares me in many respects, where they will just build layer after layer after layer that does nothing except translate. It confuses me to read a program which you must read top-down. It says "do something." And you go find "something." And you read it and it says "do something else" and you go find something and it says, "do something else" and it goes back to the top maybe. And nothing gets done. It's just relegating the problem to a deeper and deeper level.
+
+You should do well but not really good. And the reason is that in the time it takes you to go from well to really good, Moore's law has already surpassed you. You can pick up 10 percent but while you're picking up that 10 percent, computers have gotten twice as fast and maybe with some other stuff that matters more for optimization, like caches. I think it's largely a waste of time to do really well. It's really hard; you generate as many bugs as you fix. You should stop, not take that extra 100 percent of time to do 10 percent of the work.
+
+## Fran Allen
+One could never really write specs that were going to be adequate and useful at a detail level over the years of the life circle. That was a problem. And now we have another process, of course--just do it and throw it away, kind of.
