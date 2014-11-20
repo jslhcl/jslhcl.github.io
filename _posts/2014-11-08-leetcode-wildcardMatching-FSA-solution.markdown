@@ -3,7 +3,6 @@ layout:	post
 title:	"FSA solution to wildcardMatching in leetcode"
 date:	2014-11-08
 ---
-
 以前在做“[Valid Number](https://oj.leetcode.com/problems/valid-number/)”这道题的时候，各种corner case，代码又长又乱。后来上网搜了下，有大神用有限状态自动机(FSA)给了[解法](https://github.com/fuwutu/LeetCode/blob/master/Valid%20Number.cpp)。真是neat & elegant，实在佩服。后来想到这种方法也可以用来解决“[Wildcard Matching](https://oj.leetcode.com/problems/wildcard-matching/)”。具体思路如下：
 
 首先构造FSA：假设pattern为"c*a?d"，假设初始状态为1，读取"c"之后变为状态2，状态2读取"a"变为状态3，或者读取任意多字符后留在状态2；状态3读取任意一个字符后变为状态4；状态4读取"d"之后变为状态5。状态转换图如下所示：
