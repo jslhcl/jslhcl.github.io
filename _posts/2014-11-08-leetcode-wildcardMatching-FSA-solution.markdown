@@ -1,6 +1,6 @@
----
+﻿---
 layout:	post
-title:	"leetcode里wildcardMatching的有限状态自动机(FSA)解法"
+title:	"FSA solution to wildcardMatching in leetcode"
 date:	2014-11-08
 ---
 
