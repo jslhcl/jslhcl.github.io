@@ -1,4 +1,4 @@
-﻿---
+---
 layout:	post
 title:	"FSA solution to wildcardMatching in leetcode"
 date:	2014-11-08
