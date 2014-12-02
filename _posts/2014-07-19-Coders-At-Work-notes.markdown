@@ -15,7 +15,7 @@ Your competitor's six-month 1.0 has crap code and they're going to have to rewri
 ...Design Patterns -- which I just thought was crap...Then in meetings they'd be tossing around all this terminology they got out of that book. Like, the inverse, reverse, double-back-flip pattern -- whatever. Oh, you mean a loop? OK.
 
 # Brendan Eich
-But we need to be pratical about standards. We can't just say all you need are lambdas -- Alonzo Church proved it, so we're not going to add any more to the language.
+But we need to be practical about standards. We can't just say all you need are lambdas -- Alonzo Church proved it, so we're not going to add any more to the language.
 
 # Joshua Bloch
 But what you do is you force people to subset it (c++)
@@ -63,3 +63,28 @@ You should do well but not really good. And the reason is that in the time it ta
 
 ## Fran Allen
 One could never really write specs that were going to be adequate and useful at a detail level over the years of the life circle. That was a problem. And now we have another process, of course--just do it and throw it away, kind of.
+
+## Donald Knuth
+The scientist gets older and says, "Oh, yes, some of the things that I've been doing have a really great payoff and other things, I'm not using anymore. I'm not going to have my students waste time on the stuff that doesn't make giant steps. I'm not going to talk about low-level stuff at all. These theoretical concepts are really so powerful -- That's the whole story. Forget about how I got to this point."
+I think that's a fundamental error made by scientists in every field. They don't realize that when you're learning something you've got to see something at all levels. You've got to see the floor before you build the ceiling. That all goes into the brain and gets shoved down to the point where the older people forget that they needed it.
+
+I think programming is a lot like religion; people have their beliefs. Some people like to force their beliefs on others.
+
+The first rule of writing is to understand your audience -- the better you know your reader the better you can write, of course. The second rule, for technical writing, is say everything twice in complementary ways so that the person who's reading it has a chance to put the ideas into his or her brain in ways that reinforce each other.
+
+The problem is that coding isn't fun if all you can do is call things out of a library, if you can't write the library yourself. If the job of coding is just to be finding the right combination of parameters, that does fairly obvious things, then who'd want to go into that as a career?
+
+On one hand you have this impossibility of ever having something proved. Somebody will say they have a program that's verified and it's only verified because it met its specifications according to some verifier. But the verifier might have a bug in it. The specifications might have bugs in them. So you never know that the program is correct. You have more reason to believe it, but you never get to the end of the loop. It's theoretically impossible.
+
+========
+## 几点感想
+
+貌似也没几个人从头到尾读过TAOCP
+
+如何判断一个人是不是优秀的程序员，基本都是靠感觉。
+
+程序证明这种事情工业届真的会去执行吗？preconditions, postconditions, 一个应用程序那么多函数，放在哪一层合适？
+
+对Literate programming也有同样的疑问。
+
+Knuth不愧“述而不作，信而好古”的名士风范
