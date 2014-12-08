@@ -27,3 +27,26 @@ rather than
 a- --b
 {%endhighlight%}
 
+# Chapter 3 Semantic pitfalls
+
+{%highlight C%}
+int (*ap)[31];
+{%endhighlight%}
+
+we are saying here that \*ap is an array of 31 *int* elements, so *ap* is a pointer to such an array.
+
+*Express a range by the first element of the range and the first element beyond it*. It is for that reason that we write
+
+{%highlight C%}
+int a[10], i;
+for (i=0; i<10; i++)
+	a[i] = 0;
+{%endhighlight%}
+
+instead of 
+
+{%highlight C%}
+int a[10], i;
+for (i=0; i<=9; i++)
+	a[i] = 0;
+{%endhighlight%}
