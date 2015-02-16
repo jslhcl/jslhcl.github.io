@@ -1,4 +1,4 @@
-﻿---
+---
 layout:	post
 title:	"How to debug installation build using vs2010"
 date:	2014-11-30
