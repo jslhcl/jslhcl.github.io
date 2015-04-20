@@ -2309,3 +2309,905 @@ if __name__ == '__main__':
 	main, save = viewer(imgdir, kind=Tk)
 	main.mainloop()
 {%endhighlight%}
+
+# Chapter 10 A Tkinter Tour, Part 2
+
+## Top-Level Window Menus
+{%highlight python%}
+##menu_win.py
+
+from Tkinter import *
+from tkMessageBox import *
+
+def notdone():
+	showerror('Not implemented', 'Not yet available')
+
+def makemenu(win):
+	top = Menu(win)
+	win.config(menu=top)
+
+	file = Menu(top)
+	file.add_command(label='New...', command=notdone, underline=0)
+	file.add_command(label='Open...', command=notdone, underline=0)
+	file.add_command(label='Quit', command=win.quit, underline=0)
+	top.add_cascade(label='File', menu=file, underline=0)
+
+	edit = Menu(top, tearoff=0)
+	edit.add_command(label='Cut', command=notdone, underline=0)
+	edit.add_command(label='Paste', command=notdone, underline=0)
+	edit.add_separator()
+	top.add_cascade(label='Edit', menu=edit, underline=0)
+
+	submenu = Menu(edit, tearoff=0)
+	submenu.add_command(label='Spam', command=win.quit, underline=0)
+	submenu.add_command(label='Eggs', command=notdone, underline=0)
+	edit.add_cascade(label='Stuff', menu=submenu, underline=0)
+
+if __name__ == '__main__':
+	root = Tk()
+	root.title('menu_win')
+	makemenu(root)
+	msg = Label(root, text='Window menu basics')
+	msg.pack(expand=YES, fill=BOTH)
+	msg.config(relief=SUNKEN, width=40, height=7, bg='beige')
+	root.mainloop()
+{%endhighlight%}
+
+## Frame- and Menubutton-Based Menus
+{%highlight python%}
+## menu_frm.py
+
+from Tkinter import *
+from tkMessageBox import *
+
+def notdone():
+	showerror('Not implemented', 'Not yet available')
+
+def makemenu(parent):
+	menubar = Frame(parent)
+	menubar.pack(side=TOP, fill=X)
+
+	fbutton = Menubutton(menubar, text='File', underline=0)
+	fbutton.pack(side=LEFT)
+	file = Menu(fbutton)
+	file.add_command(label='New...', command=notdone, underline=0)
+	file.add_command(label='Open...', command=notdone, underline=0)
+	file.add_command(label='Quit', command=parent.quit, underline=0)
+	fbutton.config(menu=file)
+
+	ebutton = Menubutton(menubar, text='Edit', underline=0)
+	ebutton.pack(side=LEFT)
+	edit = Menu(ebutton, tearoff=0)
+	edit.add_command(label='Cut', command=notdone, underline=0)
+	edit.add_command(label='Paste', command=notdone, underline=0)
+	edit.add_separator()
+	ebutton.config(menu=edit)
+
+	submenu = Menu(edit, tearoff=0)
+	submenu.add_command(label='Spam', command=parent.quit, underline=0)
+	submenu.add_command(label='Eggs', command=notdone, underline=0)
+	edit.add_cascade(label='Stuff', menu=submenu, underline=0)
+	return menubar
+
+if __name__ == '__main__':
+	root = Tk()
+	root.title('menu_frm')
+	makemenu(root)
+	msg = Label(root, text='Frame menu basics')
+	msg.pack(expand=YES, fill=BOTH)
+	msg.config(relief=SUNKEN, width=40, height=7, bg='beige')
+	root.mainloop()
+{%endhighlight%}
+
+## Optionmenus
+
+{%highlight python%}
+## optionmenu.py
+from Tkinter import *
+
+root = Tk()
+var1 = StringVar()
+var2 = StringVar()
+opt1 = OptionMenu(root, var1, 'spam', 'eggs', 'toast')
+opt2 = OptionMenu(root, var2, 'ham', 'bacon', 'sausage')
+opt1.pack(fill=X)
+opt2.pack(fill=X)
+var1.set('spam')
+var2.set('ham')
+def state(): print var1.get(), var2.get()
+Button(root, command=state, text='state').pack()
+root.mainloop()
+{%endhighlight%}
+
+## Listboxes and Scrollbars
+
+{%highlight python%}
+## scrolledlist.py
+
+from Tkinter import *
+
+class ScrolledList(Frame):
+	def __init__(self, options, parent=None):
+		Frame.__init__(self, parent)
+		self.pack(expand=YES, fill=BOTH)
+		self.makeWidgets(options)
+	def handleList(self, event):
+		index = self.listbox.curselection()
+		label = self.listbox.get(index)
+		self.runCommand(label)
+	def makeWidgets(self, options):
+		sbar = Scrollbar(self)
+		list = Listbox(self, relief=SUNKEN)
+		sbar.config(command=list.yview)
+		list.config(yscrollcommand=sbar.set)
+		sbar.pack(side=RIGHT, fill=Y)
+		list.pack(side=LEFT, expand=YES, fill=BOTH)
+		pos = 0
+		for label in options:
+			list.insert(pos, label)
+			pos += 1
+		#list.config(selectmode=SINGLE, setgrid=1)
+		list.bind('<Double-1>', self.handleList)
+		self.listbox = list
+	def runCommand(self, selection):
+		print 'You selected:', selection 
+
+if __name__ == '__main__':
+	options = map((lambda x: 'Lumberjack-' + str(x)), range(20))
+	#options = [('Lumberjack-%s % x) for x in range(20)]
+	ScrolledList(options).mainloop()
+{%endhighlight%}
+
+## Text
+
+{%highlight python%}
+
+## scrolledtext.py
+
+from Tkinter import *
+
+class ScrolledText(Frame):
+	def __init__(self, parent=None, text='', file=None):
+		Frame.__init__(self, parent)
+		self.pack(expand=YES, fill=BOTH)
+		self.makeWidgets()
+		self.settext(text, file)
+	def makeWidgets(self):
+		sbar = Scrollbar(self)
+		text = Text(self, relief=SUNKEN)
+		sbar.config(command=text.yview)
+		text.config(yscrollcommand=sbar.set)
+		sbar.pack(side=RIGHT, fill=Y)
+		text.pack(side=LEFT, expand=YES, fill=BOTH)
+		self.text = text
+	def settext(self, text='', file=None):
+		if file:
+			text = open(file, 'r').read()
+		self.text.delete('1.0', END)
+		self.text.insert('1.0', text)
+		self.text.mark_set(INSERT, '1.0')
+		self.text.focus()
+	def gettext(self):
+		return self.text.get('1.0', END+'-1c')
+
+if __name__ == '__main__':
+	root = Tk()
+	try:
+		st = ScrolledText(file=sys.argv[1])
+	except IndexError:
+		st = ScrolledText(text='Words\ngo here')
+	def show(event): print repr(st.gettext())
+	root.bind('<Key-Escape>', show)
+	root.mainloop()
+{%endhighlight%}
+
+## Adding Text-Editing Operations
+
+{%highlight python%}
+## simpleedit.py
+
+from Tkinter import *
+from tkSimpleDialog import askstring
+from tkFileDialog import asksaveasfilename
+from scrolledtext import ScrolledText
+
+class SimpleEditor(ScrolledText):
+	def __init__(self, parent=None, file=None):
+		frm = Frame(parent)
+		frm.pack(fill=X)
+		Button(frm, text='Save', command=self.onSave).pack(side=LEFT)
+		Button(frm, text='Cut', command=self.onCut).pack(side=LEFT)
+		Button(frm, text='Paste', command=self.onPaste).pack(side=LEFT)
+		Button(frm, text='Find', command=self.onFind).pack(side=LEFT)
+		ScrolledText.__init__(self, parent, file=file)
+		self.text.config(font=('courier', 9, 'normal'))
+	def onSave(self):
+		filename = asksaveasfilename()
+		if filename:
+			alltext = self.gettext()
+			open(filename, 'w').write(alltext)
+	def onCut(self):
+		text = self.text.get(SEL_FIRST, SEL_LAST)
+		self.text.delete(SEL_FIRST, SEL_LAST)
+		self.clipboard_clear()
+		self.clipboard_append(text)
+	def onPaste(self):
+		try:
+			text = self.selection_get(selection='CLIPBOARD')
+			self.text.insert(INSERT, text)
+		except TclError:
+			pass
+	def onFind(self):
+		target = askstring('SimpleEditor', 'Search String?')
+		if target:
+			where = self.text.search(target, INSERT, END)
+			if where:
+				print where
+				pastit = where + ('+%dc' % len(target))
+				#self.text.tag_remove(SEL, '1.0', END)
+				self.text.tag_add(SEL, where, pastit)
+				self.text.mark_set(INSERT, pastit)
+				self.text.see(INSERT)
+				self.text.focus()
+
+if __name__ == '__main__':
+	try:
+		SimpleEditor(file = sys.argv[1]).mainloop()
+	except IndexError:
+		SimpleEditor().mainloop()
+{%endhighlight%}
+
+## Advanced Text and Tag Operations
+
+{%highlight python%}
+
+## texttags.py
+
+from Tkinter import *
+root = Tk()
+def hello(event): print 'Got tag event'
+
+text = Text()
+text.config(font=('courier', 15, 'normal'))
+text.config(width=20, height=12)
+text.pack(expand=YES, fill=BOTH)
+text.insert(END, 'This is\n\nthe meaning\n\nof life.\n\n')
+
+btn = Button(text, text='Spam', command=lambda: hello(0))
+btn.pack()
+text.window_create(END, window=btn)
+text.insert(END, '\n\n')
+img = PhotoImage(file='M_007.gif')
+text.image_create(END, image=img)
+
+text.tag_add('demo', '1.5', '1.7')
+text.tag_add('demo', '3.0', '3.3')
+text.tag_add('demo', '5.3', '5.7')
+text.tag_config('demo', background='purple')
+text.tag_config('demo', foreground='white')
+text.tag_config('demo', font=('times', 16, 'underline'))
+text.tag_bind('demo', '<Double-1>', hello)
+root.mainloop()
+{%endhighlight%}
+
+## Canvas
+
+{%highlight python%}
+## canvas1.py
+
+from Tkinter import *
+
+canvas = Canvas(width=300, height=300, bg='white')
+canvas.pack(expand=YES, fill=BOTH)
+
+canvas.create_line(100,100, 200,200)
+canvas.create_line(100,200, 200,300)
+for i in range(1,20,2):
+	canvas.create_line(0, i, 50, i)
+
+canvas.create_oval(10, 10, 200, 200, width=2, fill='blue')
+canvas.create_arc(200,200,300,100)
+canvas.create_rectangle(200,200,300,300,width=5, fill='red')
+canvas.create_line(0,300,150,150, width=10, fill='green')
+
+photo = PhotoImage(file='M_007.gif')
+canvas.create_image(250,0,image=photo, anchor=NW)
+
+widget = Label(canvas, text='Spam', fg='white', bg='black')
+widget.pack()
+canvas.create_window(100,100,window=widget)
+canvas.create_text(100,280,text='Ham')
+mainloop()
+
+{%endhighlight%}
+
+## Scrolling Canvas
+
+{%highlight python%}
+
+## scrolledcanvas.py
+
+from Tkinter import *
+
+class ScrolledCanvas(Frame):
+	def __init__(self, parent=None, color='brown'):
+		Frame.__init__(self, parent)
+		self.pack(expand=YES, fill=BOTH)
+		canv = Canvas(self, bg=color, relief=SUNKEN)
+		canv.config(width=300, height=200)
+		canv.config(scrollregion=(0,0,300,1000))
+		canv.config(highlightthickness=0)
+
+		sbar = Scrollbar(self)
+		sbar.config(command=canv.yview)
+		canv.config(yscrollcommand=sbar.set)
+		sbar.pack(side=RIGHT, fill=Y)
+		canv.pack(side=LEFT, expand=YES, fill=BOTH)
+
+		for i in range(10):
+			canv.create_text(150, 50+(i*100), text='spam'+str(i), fill='beige')
+		canv.bind('<Double-1>', self.onDoubleClick)
+		self.canvas = canv
+	def onDoubleClick(self, event):
+		print event.x, event.y
+		print self.canvas.canvasx(event.x), self.canvas.canvasy(event.y)
+
+if __name__ == '__main__': ScrolledCanvas().mainloop()
+{%endhighlight%}
+
+## Canvas Events
+
+{%highlight python%}
+
+## scrolledcanvas.py
+
+from Tkinter import *
+trace = 1
+
+class CanvasEventDemo:
+	def __init__(self, parent=None):
+		canvas = Canvas(width=300, height=300, bg='beige')
+		canvas.pack()
+		canvas.bind('<ButtonPress-1>', self.onStart)	#mouse click
+		canvas.bind('<B1-Motion>', self.onGrow)		#mouse is moved with left button being held down
+		canvas.bind('<Double-1>', self.onClear)		#double click
+		canvas.bind('<ButtonPress-3>', self.onMove)	#right click
+		self.canvas = canvas
+		self.drawn = None
+		self.kinds = [canvas.create_oval, canvas.create_rectangle]
+	def onStart(self, event):
+		self.shape = self.kinds[0]
+		self.kinds = self.kinds[1:]+self.kinds[:1]
+		self.start = event
+		self.drawn = None
+	def onGrow(self, event):
+		canvas = event.widget
+		if self.drawn: canvas.delete(self.drawn)
+		objectId = self.shape(self.start.x, self.start.y, event.x, event.y)
+		if trace: print objectId
+		self.drawn = objectId
+	def onClear(self, event):
+		event.widget.delete('all')
+	def onMove(self, event):
+		if self.drawn:
+			if trace: print self.drawn
+			canvas = event.widget
+			diffX, diffY = (event.x-self.start.x), (event.y-self.start.y)
+			canvas.move(self.drawn, diffX, diffY)
+			self.start = event
+
+if __name__ == '__main__': 
+	CanvasEventDemo()
+	mainloop()
+{%endhighlight%}
+
+## Binding events on specific items
+
+{%highlight python%}
+
+## canvas-bind.py 
+
+from Tkinter import *
+
+def onCanvasClick(event):
+	print 'Got canvas click', event.x, event.y, event.widget
+def onObjectClick(event):
+	print 'Got Object click', event.x, event.y, event.widget
+	print event.widget.find_closest(event.x, event.y)
+
+root = Tk()
+canv = Canvas(root, width=100, height=100)
+obj1 = canv.create_text(50, 30, text='Click me one')
+obj2 = canv.create_text(50, 70, text='Click me two')
+
+canv.bind('<Double-1>', onCanvasClick)
+canv.tag_bind(obj1, '<Double-1>', onObjectClick)
+canv.tag_bind(obj2, '<Double-1>', onObjectClick)
+canv.pack()
+root.mainloop()
+
+{%endhighlight%}
+
+## grid
+
+{%highlight python%}
+
+## grid3.py 
+
+from Tkinter import *
+colors = ['red', 'white', 'blue']
+
+def gridbox(root):
+	Label(root, text='Grid').grid(columnspan=2)
+	r = 1
+	for c in colors:
+		l = Label(root, text=c, relief=RIDGE, width=25)
+		e = Entry(root, bg=c, relief=SUNKEN, width=50)
+		l.grid(row=r, column=0, sticky=NSEW)
+		e.grid(row=r, column=1, sticky=NSEW)
+		root.rowconfigure(r, weight=1)
+		r = r+1
+	root.columnconfigure(0, weight=1)
+	root.columnconfigure(1, weight=1)
+
+def packbox(root):
+	Label(root, text='Pack').pack()
+	for c in colors:
+		f = Frame(root)
+		l = Label(f, text=c, relief=RIDGE, width=25)
+		e = Entry(f, bg=c, relief=SUNKEN, width=50)
+		f.pack(side=TOP, expand=YES, fill=BOTH)
+		l.pack(side=LEFT, expand=YES, fill=BOTH)
+		e.pack(side=RIGHT, expand=YES, fill=BOTH)
+
+root = Tk()
+gridbox(Toplevel(root))
+packbox(Toplevel(root))
+Button(root, text='Quit', command=root.quit).pack()
+mainloop()
+{%endhighlight%}
+
+## time.sleep loops
+
+{%highlight python%}
+
+## canvasDraw_tags.py
+
+from Tkinter import *
+import canvasDraw, time
+
+class CanvasEventsDemo(canvasDraw.CanvasEventDemo):
+	def __init__(self, parent=None):
+		canvasDraw.CanvasEventDemo.__init__(self, parent)
+		self.canvas.create_text(75,8,text='Press o and r to move shapes')
+		self.canvas.master.bind('<KeyPress-o>', self.onMoveOvals)
+		self.canvas.master.bind('<KeyPress-r>', self.onMoveRectangles)
+		self.kinds = self.create_oval_tagged, self.create_rectangle_tagged
+	def create_oval_tagged(self, x1, y1, x2, y2):
+		objectId = self.canvas.create_oval(x1, y1, x2, y2)
+		self.canvas.itemconfig(objectId, tag='ovals', fill='blue')
+		return objectId
+	def create_rectangle_tagged(self, x1, y1, x2, y2):
+		objectId = self.canvas.create_rectangle(x1, y1, x2, y2)
+		self.canvas.itemconfig(objectId, tag='rectangles', fill='red')
+		return objectId
+	def onMoveOvals(self, event):
+		print 'moving ovals'
+		self.moveInSquares(tag='ovals')
+	def onMoveRectangles(self, event):
+		print 'moving rectangles'
+		self.moveInSquares(tag='rectangles')
+	def moveInSquares(self, tag):
+		for i in range(5):
+			for (diffx, diffy) in [(+20, 0), (0, +20), (-20, 0), (0, -20)]:
+				self.canvas.move(tag, diffx, diffy)
+				self.canvas.update()
+				time.sleep(0.25)
+
+if __name__ == '__main__':
+	CanvasEventsDemo()
+	mainloop()
+{%endhighlight%}
+
+## widget.after events
+
+{%highlight python%}
+
+## canvasDraw_tags_after
+
+from Tkinter import *
+import canvasDraw_tags
+
+class CanvasEventsDemo(canvasDraw_tags.CanvasEventsDemo):
+	def moveEm(self, tag, moremoves):
+		(diffx, diffy), moremoves = moremoves[0], moremoves[1:]
+		self.canvas.move(tag, diffx, diffy)
+		if moremoves:
+			self.canvas.after(250, self.moveEm, tag, moremoves)
+	def moveInSquares(self, tag):
+		allmoves = [(+20,0), (0,+20), (-20,0), (0,-20)]*5
+		self.moveEm(tag, allmoves)
+
+if __name__ == '__main__':
+	CanvasEventsDemo()
+	mainloop()
+{%endhighlight%}
+
+# Chapter 13 Network Scripting
+
+## Socket Programming
+
+{%highlight python%}
+
+## echo-server.py
+
+from socket import *
+myHost = ''
+myPort = 50007
+
+sockobj = socket(AF_INET, SOCK_STREAM)
+sockobj.bind((myHost, myPort))
+sockobj.listen(5)	#listen, allow 5 pending connects
+
+while True:
+	connection, address = sockobj.accept()
+	print 'Server connected by', address
+	while True:
+		data = connection.recv(1024)	#read next line on client socket
+		if not data: break
+		connection.send('Echo=>' +data)
+	connection.close()
+
+## echo-client.py
+
+import sys
+from socket import *
+serverHost = 'localhost'
+serverPort = 50007
+
+message = ['Hello network world']
+if len(sys.argv) > 1:
+	serverHost = sys.argv[1]
+	if len(sys.argv) > 2:
+		serverHost = sys.argv[2:]
+
+sockobj = socket(AF_INET, SOCK_STREAM)
+sockobj.connect((serverHost, serverPort))
+
+for line in message:
+	sockobj.send(line)
+	data = sockobj.recv(1024)
+	print 'Client received:', repr(data)
+
+sockobj.close()
+{%endhighlight%}
+
+## Forking Servers
+
+{%highlight python%}
+
+## fork-server.py
+
+import os, time, sys
+from socket import *
+myHost = ''
+myPort = 50007
+
+sockobj = socket(AF_INET, SOCK_STREAM)
+sockobj.bind((myHost, myPort))
+sockobj.listen(5)	#listen, allow 5 pending connects
+
+def now():
+	return time.ctime(time.time())
+
+activeChildren = []
+def reapChildren():
+	while activeChildren:
+		pid, stat = os.waitpid(0, os.WNOHANG)	# don't hang if no child exited
+		if not pid: break
+		activeChildren.remove(pid)
+
+def handleClient(connection):
+	time.sleep(5)
+	while True:
+		data = connection.recv(1024)
+		if not data: break
+		connection.send('Echo=>%s at %s' % (data, now()))
+	connection.close()
+	os._exit(0)
+
+def dispatcher():
+	while True:
+		connection, address = sockobj.accept()
+		print 'Server connected by', address
+		print 'at', now()
+		reapChildren()
+		childPid = os.fork()
+		if childPid == 0:	# child process
+			handleClient(connection)
+		else:
+			activeChildren.append(childPid)
+	
+dispatcher()
+{%endhighlight%}
+
+## Killing the zombies
+
+{%highlight python%}
+
+## fork-server-signal.py
+
+# Much simpler, we don't need to manually track or reap child process
+# More accurate, it leaves no zombies temporarily between client requests
+
+import os, time, sys, signal
+from socket import *
+myHost = ''
+myPort = 50007
+
+sockobj = socket(AF_INET, SOCK_STREAM)
+sockobj.bind((myHost, myPort))
+sockobj.listen(5)	#listen, allow 5 pending connects
+signal.signal(signal.SIGCHLD, signal.SIG_IGN)
+
+def now():
+	return time.ctime(time.time())
+
+def handleClient(connection):
+	time.sleep(5)
+	while True:
+		data = connection.recv(1024)
+		if not data: break
+		connection.send('Echo=>%s at %s' % (data, now()))
+	connection.close()
+	os._exit(0)
+
+def dispatcher():
+	while True:
+		connection, address = sockobj.accept()
+		print 'Server connected by', address
+		print 'at', now()
+		childPid = os.fork()
+		if childPid == 0:	# child process
+			handleClient(connection)
+	
+dispatcher()
+{%endhighlight%}
+
+## Threading servers
+
+{%highlight python%}
+
+## fork-server-signal.py
+
+# performance is better than fork
+# portable
+
+import os, time, sys, signal
+from socket import *
+myHost = ''
+myPort = 50007
+
+sockobj = socket(AF_INET, SOCK_STREAM)
+sockobj.bind((myHost, myPort))
+sockobj.listen(5)	#listen, allow 5 pending connects
+
+def now():
+	return time.ctime(time.time())
+
+def handleClient(connection):
+	time.sleep(5)
+	while True:
+		data = connection.recv(1024)
+		if not data: break
+		connection.send('Echo=>%s at %s' % (data, now()))
+	connection.close()
+
+def dispatcher():
+	while True:
+		connection, address = sockobj.accept()
+		print 'Server connected by', address
+		print 'at', now()
+		thread.start_new(handleClient, (connection,))
+	
+dispatcher()
+{%endhighlight%}
+
+## Multiplexing Servers with select
+
+With the *select* system call, a single event loop can process clients and accept new ones in parallel. Such servers are sometimes called *asynchronous*
+
+That is, when the sources passed to *select* are sockets, we can be sure that socket calls like *accept*, *recv* and *send* will not block the server when applied to objects returned by *select*
+
+{%highlight python%}
+
+## select-server.py
+
+import time, sys
+from select import select
+from socket import *
+
+myHost = ''
+myPort = 50007
+if len(sys.argv) == 3:
+	myHost, myPort = sys.argv[1:]
+numPortSocks = 2
+
+def now():
+	return time.ctime(time.time())
+
+mainsocks, readsocks, writesocks = [], [], []
+for i in range(numPortSocks):
+	portsock = socket(AF_INET, SOCK_STREAM)
+	portsock.bind((myHost, myPort))
+	portsock.listen(5)	#listen, allow 5 pending connects
+	mainsocks.append(portsock)
+	readsocks.append(portsock)
+	myPort += 1
+
+print 'select-server loop starting'
+while True:
+	readables, writeables, exceptions = select(readsocks, writesocks, [])
+	for sockobj in readables:
+		if sockobj in mainsocks:
+			newsock, address = sockobj.accept()
+			print 'Connect:', address, id(newsock)
+			readsocks.append(newsock)
+		else:
+			data = sockobj.recv(1024)
+			print '\tgot', data, 'on', id(sockobj)
+			if not data:
+				sockobj.close()
+				readsocks.remove(sockobj)
+			else:
+				sockobj.send('Echo=>%s at %s' % (data, now()))
+{%endhighlight%}
+
+## A Simple Python File Server
+
+{%highlight python%}
+
+## getfile.py
+
+import os, time, sys, thread
+from socket import *
+
+blksz = 1024
+defaultHost = ''
+defaultPort = 50007
+
+helptext = """
+Usage ...
+server=> getfile.py  -mode server		[-port nnn] [-host hhh|localhost]
+client=> getfile.py [-mode client] -file fff	[-port nnn] [-host hhh|localhost]
+"""
+
+def parsecommandline():
+	dict = {}
+	args = sys.argv[1:]
+	while len(args) >= 2:
+		dict[args[0]] = args[1]
+		args = args[2:]
+	return dict
+
+def client(host, port, filename):
+	sock = socket(AF_INET, SOCK_STREAM)
+	sock.connect((host, port))
+	sock.send(filename+'\n')
+	dropdir = os.path.split(filename)[1]
+	file = open(dropdir, 'wb')
+	while True:
+		data = sock.recv(blksz)
+		if not data: break
+		file.write(data)
+	sock.close()
+	file.close()
+	print 'Client got', filename, 'at', now()
+
+def serverthread(clientsock):
+	sockfile = clientsock.makefile('r')
+	filename = sockfile.readline()[:-1]
+	try:
+		file = open(filename, 'rb')
+		while True:
+			bytes = file.read(blksz)
+			if not bytes: break
+			sent = clientsock.send(bytes)
+			assert sent == len(bytes)
+	except:
+		print 'Error downloading file on server:', filename
+	clientsock.close()
+	
+def server(host, port):
+	serversock = socket(AF_INET, SOCK_STREAM)
+	serversock.bind((defaultHost, defaultPort))
+	serversock.listen(5)	#listen, allow 5 pending connects
+	while True:
+		clientsock, clientaddr = serversock.accept()
+		print 'Server connected by', clientaddr, 'at', now()
+		thread.start_new_thread(serverthread, (clientsock,))
+
+def now():
+	return time.ctime(time.time())
+
+def main(args):
+	host = args.get('-host', defaultHost)
+	port = int(args.get('-port', defaultPort))
+	if args.get('-mode') == 'server':
+		if host=='localhost': host = ''
+		server(host, port)
+	elif args.get('-file'):
+		client(host, port, args['-file'])
+	else:
+		print helptext
+
+if __name__ == '__main__':
+	args = parsecommandline()
+	main(args)
+
+
+## getfilegui-2.py
+
+import getfile
+from socket import *
+from Tkinter import *
+from tkMessageBox import showinfo
+
+def onSubmit():
+	getfile.client(content['Server'].get(),
+			int(content['Port'].get()),
+			content['File'].get())
+	showinfo('getfilegui-2', 'Download complete')
+
+box = Tk()
+labels = ['Server', 'Port', 'File']
+rownum = 0
+content = {}
+for label in labels:
+	Label(box, text=label).grid(column=0, row=rownum)
+	entry = Entry(box)
+	entry.grid(column=1, row=rownum, sticky=E+W)
+	content[label] = entry
+	rownum += 1
+
+box.columnconfigure(0, weight=0)
+box.columnconfigure(1, weight=1)
+Button(text='Submit', command=onSubmit).grid(row=rownum, column=0, columnspan=2)
+
+box.title('getfilegui-2')
+box.bind('<Return>', (lambda event: onSubmit()))
+mainloop()
+{%endhighlight%}
+
+# Chapter 14 Client-Side Scripting
+
+## Fetching Files with ftplib
+
+{%highlight python%}
+#!/usr/bin/python
+
+import os, sys
+from getpass import getpass 
+
+nonpassive = False
+filename = 'lawnlake2-jan-03.jpg'
+dirname = '.'
+sitename = 'ftp.rmi.net'
+userinfo = ('lutz', getpass('Pswd?'))	# use () for anonymous
+if len(sys.argv) > 1: filename = sys.argv[1]
+
+print 'Connecting...'
+from ftplib import FTP
+localfile = open(filename, 'wb')
+connection = FTP(sitename)
+connection.login(*userinfo)
+connection.cwd(dirname)
+if nonpassive:
+	connection.set_pasv(False)
+
+print 'Downloading...'
+connection.retrbinary('RETR '+filename, localfile.write, 1024)
+connection.quit()
+localfile.close()
+
+{%endhighlight%}
