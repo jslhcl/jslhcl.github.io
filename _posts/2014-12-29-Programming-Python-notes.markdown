@@ -3186,6 +3186,8 @@ mainloop()
 {%highlight python%}
 #!/usr/bin/python
 
+# getone.py
+
 import os, sys
 from getpass import getpass 
 
@@ -3210,4 +3212,457 @@ connection.retrbinary('RETR '+filename, localfile.write, 1024)
 connection.quit()
 localfile.close()
 
+{%endhighlight%}
+
+## Using urllib to FTP Files
+
+{%highlight python%}
+#!/usr/bin/python
+
+# getone-url.lib
+
+import os, getpass
+import urllib
+
+filename = 'lawnlake2-jan-03.jpg'
+password = getpass.getpass('Pswd?')
+remoteaddr = 'ftp://lutz:%s@ftp.rmi.net/%s;type=i' % (password, filename)
+print 'Downloading', remoteaddr
+
+# this works too:
+# urllib.urlretrieve(remoteaddr, filename)
+
+remotefile = urllib.urlopen(remoteaddr)
+localfile = open(filename, 'wb')
+localfile.write(remotefile.read())
+localfile.close()
+remotefile.close()
+
+{%endhighlight%}
+
+## FTP get and put Utilities
+
+{%highlight python%}
+
+#!/usr/bin/python
+
+# getfile.py
+
+from ftplib import FTP
+from os.path import exists
+
+def getfile(file, site, dir, user=(), verbose=True, refetch=False):
+	if exists(file) and not refetch:
+		if verbose: print file, 'already fetched'
+	else:
+		if verbose: print 'Downloading' file
+		local = open(file, 'wb')
+		try:
+			remote = FTP(site)
+			remote.login(*user)
+			remote.cwd(dir)
+			#retrbinary: downloads the requested file in binary mode
+			#retrlines: downloads the requested file in ASCII text mode
+			remote.retrbinary('RETR '+file, local.write, 1024)	
+			remote.quit()
+		finally:
+			local.close()
+		if verbose: print 'Download done.'
+
+if __name__ == '__main__':
+	from getpass import getpass
+	file = 'lawnlake2-jan-03.jpg'
+	dir = '.'
+	site = 'ftp.rmi.net'
+	user = ('lutz', getpass('Pswd?'))
+	getfile(file, site, dir, user)
+
+
+# putfile.py
+#!/usr/bin/python
+
+from ftplib 
+
+def putfile(file, site, dir, user=(), verbose=True):
+	if verbose: print 'Uploading ', file
+	local = open(file, 'rb')
+	remote = ftplib.FTP(site)
+	remote.login(*user)
+	remote.cwd(dir)
+	remote.setorbinary('STOR ' + file, local, 1024)
+	remote.quit()
+	local.close()
+	if verbose: print 'Upload done'
+
+if __name__ == '__main__':
+	dir = '.'
+	site = 'ftp.rmi.net'
+	import sys, getpass
+	pswd = getpass.getpass('Pswd?')
+	putfile(sys.argv[1], site, dir, user=('lutz', pswd))
+
+{%endhighlight%}
+
+## Downloading web sites
+
+{%highlight python%}
+
+#!/bin/env python
+
+import os, sys, ftplib
+from getpass import getpass
+from mimetypes import guess_type
+
+nonpassive = False
+remotesite = 'home.rmi.net'
+remotedir = '.'
+remoteuser = 'lutz'
+remotepass = getpass('Password for %s on %s: ' % (remoteuser, remotesite))
+localdir = (len(sys.argv) > 1 and sys.argv[1]) or '.'
+cleanall = raw_input('Clean local directory first? ')[:1] in ['y', 'Y']
+
+print 'connecting...'
+connection = ftplib.FTP(remotesite)
+connection.login(remoteuser, remotepass)
+connection.cwd(remotedir)
+if nonpassive:
+	connection.set_pasv(False)
+
+if cleanall:
+	for localname in os.listdir(localdir):
+		try:
+			print 'deleting local', localname
+			os.remove(os.path.join(localdir, localname))
+		except:
+			print 'cannot delete local', localname
+
+count = 0
+remotefiles = connection.nlst()	#nlst() gives files list
+
+for remotename in remotefiles:
+	mimetype, encoding = guess_type(remotename)
+	mimetype = mimetype or '?/?'
+	maintype = mimetype.split('/')[0]
+
+	localpath = os.path.join(localdir, remotename)
+	print 'downloading', remotename, 'to', localpath,
+	print 'as', maintype, encoding or ''
+	if maintype == 'text' and encoding==None:
+		localfile = open(localpath, 'w')
+		callback = lambda line: localfile.write(line+'\n')
+		connection.retrlines('RETR '+remotename, callback)
+	else:
+		localfile = open(localpath, 'wb')
+		connection.retrbinary('RETR '+remotename, localfile.write)
+	localfile.close()
+	count += 1
+
+connection.quit()
+print 'Done:', count, 'files downloaded.'
+{%endhighlight%}
+
+## Uploading web sites
+
+{%highlight python%}
+
+#!/bin/env python
+
+import os, sys, ftplib
+from getpass import getpass
+from mimetypes import guess_type
+
+nonpassive = False
+remotesite = 'home.rmi.net'
+remotedir = '.'
+remoteuser = 'lutz'
+remotepass = getpass('Password for %s on %s: ' % (remoteuser, remotesite))
+localdir = (len(sys.argv) > 1 and sys.argv[1]) or '.'
+cleanall = raw_input('Clean local directory first? ')[:1] in ['y', 'Y']
+
+print 'connecting...'
+connection = ftplib.FTP(remotesite)
+connection.login(remoteuser, remotepass)
+connection.cwd(remotedir)
+if nonpassive:
+	connection.set_pasv(False)
+
+if cleanall:
+	for remotename in connection.nlst():
+		try:
+			print 'deleting remote', remotename
+			connection.delete(remotename)
+		except:
+			print 'cannot delete remote', remotename
+
+count = 0
+localfiles = os.listdir(localdir)
+
+for localname in localfiles:
+	mimetype, encoding = guess_type(localname)
+	mimetype = mimetype or '?/?'
+	maintype = mimetype.split('/')[0]
+
+	localpath = os.path.join(localdir, localname)
+	print 'uploading', localpath, 'to', localname,
+	print 'as', maintype, encoding or ''
+	if maintype == 'text' and encoding==None:
+		localfile = open(localpath, 'r')
+		connection.storlines('STOR '+localname, localfile)
+	else:
+		localfile = open(localpath, 'rb')
+		connection.storbinary('STOR '+localname, localfile)
+	localfile.close()
+	count += 1
+
+connection.quit()
+print 'Done:', count, 'files uploaded.'
+{%endhighlight%}
+
+## POP Mail Reader Script
+
+{%highlight python%}
+
+## mailconfig.py
+popservername = 'pop.earthlink.net'
+popusername = 'pp3e'
+
+smtpservername = 'smtp.comcast.net'
+
+myaddress = 'pp3e@earthlink.net'
+mysignature = '--Mark Lutz (http://www.rmi.net/~lutz)'
+
+smtpuser = None
+smtppasswdfile = ''
+
+poppasswdfile = r'c:\temp\pymailgui.txt'
+sentmailfile = r'.\sentmail.txt'
+savemailfile = r'c:\temp\savemail.txt'
+
+## popmail.py
+#!/usr/local/bin/python
+
+import poplib, getpass, sys, mailconfig
+
+mailserver = mailconfig.popservername
+mailuser = mailconfig.popusername
+mailpasswd = getpass.getpass('Password for %s?' % mailserver)
+
+print 'Connecting...'
+server = poplib.POP3(mailserver)
+server.user(mailuser)
+server.pass_(mailpasswd)
+
+try:
+	print server.getwelcome()
+	msgCount, msgBytes = server.stat()
+	print 'There are ', msgCount, 'mail message in', msgBytes, 'bytes'
+	print server.list()
+	print '-'*80
+	raw_input('[Press Enter key]')
+
+	for i in range(msgCount):
+		hdr, message, octets = server.retr(i+1)
+		for line in message: print line
+		print '-'*80
+		if i < msgCount-1:
+			raw_input('[Press Enter key]')
+finally:
+	server.quit()
+print 'Bye'
+{%endhighlight%}
+
+## SMTP Mail Sender Script
+
+{%highlight python%}
+
+#!/usr/local/bin/python
+
+import smtplib, getpass, sys, mailconfig
+
+mailserver = mailconfig.smtpservername
+
+From = raw_input('From? ').strip()
+To = raw_input('To? ').strip()
+To = To.split(';')
+Subj = raw_input('Subj? ').strip()
+
+date = time.ctime(time.time())
+text = ('From: %s\nTo: %s\nDate: %s\nSubject: %s\n\n' % (From, ';'.join(To), date, Subj))
+
+print 'Type message text, end with line=(ctrl + D or Z)'
+
+while 1:
+	line = sys.stdin.readline()
+	if not line:
+		break
+	# if line[:4] == 'From':
+	#	line = '>'+line
+	text = text+line
+
+print 'Connecting...'
+server = smtplib.SMTP(mailserver)
+failed = server.sendmail(From, To, text)
+server.quit()
+if failed:
+	print 'Failed recipients:', failed
+else:
+	print 'No errors.'
+print 'Bye.'
+
+{%endhighlight%}
+
+## Email time
+
+{%highlight python%}
+>>> import time
+>>> time.ctime(time.time())
+>>> import email.Utils
+>>> email.Utils.formatdate()
+>>> email.Utils.formatdate(localtime=True)
+>>> email.Utils.formatdate(usegmt=True)
+
+{%endhighlight%}
+
+## Basic email Interfaces in Action
+
+{%highlight python%}
+>>> from email.MIMEMultipart import MIMEMultipart
+>>> from email.MIMEText import MIMEText
+
+>>> top = MIMEMultipart()
+>>> top['from'] = 'Art <arthur@camelot.org>'
+>>> top['to'] = 'pp3e@earthlink.net'
+
+>>> sub1 = MIMEText('nice red uniforms...\n')
+>>> sub2 = MIMEText(open('data.txt').read())
+>>> sub2.add_header('Content-Disposition', 'attachment', 'filename='data.txt')
+>>> top.attach(sub1)
+>>> top.attach(sub2)
+>>> text = top.as_string()
+>>> print text
+
+>>> from email.Parser import Parser
+>>> msg = Parser().parsestr(text)
+>>> msg['from']
+'Art <arthur@camelot.org>'
+
+>>> for part in msg.walk():
+	print part.get_content_type()
+	print part.get_payload()
+	print
+
+{%endhighlight%}
+
+## NNTP: Accessing Newsgroups
+
+{%highlight python%}
+
+## readnews.py
+
+listonly = 0
+showhdrs = ['From', 'Subject', 'Date', 'Newsgroups', 'Lines']
+try:
+	import sys
+	servername, groupname, showcount = sys.argv[1:]
+	showcount = int(showcount)
+except:
+	servername = 'news.rmi.net'
+	groupname = 'comp.lang.python'
+	showcount = 10
+
+print 'Connecting to' servername, ' for ', groupname
+form nntplib import NNTP
+connection = NNTP(servername)
+(reply, subjects) = connection.group(groupname)
+print '%s has %s articles: %s - %s' % (name, count, first, last)
+
+fetchfrom = str(int(last)-(showcount-1))
+(reply, subjects) = connection.xhdr('subject', (fetchfrom+'-'+last))
+
+for (id, subj) in subjects:
+	print 'Article %s [%s]' % (id, subj)
+	if not listonly and raw_input('=> Display?') in ['y', 'Y']:
+		reply, num, tid, list = connection.head(id)
+		for line in list:
+			for prefix in showhdrs:
+				if line[:len(prefix)] == prefix:
+					print line[:80]; break
+			if raw_input('=> Show body?') in ['y', 'Y']:
+				reply, num, tid, list = connection.body(id)
+				for line in list:
+					print line[:80]
+	print
+print connection.quit()
+{%endhighlight%}
+
+## HTTP: Accessing Web Sites
+
+{%highlight python%}
+
+## http-getfile.py
+
+import sys, httplib
+showlines = 6
+try:
+	servername, filename = sys.argv[1:]
+except:
+	servername, filename = 'starship.python.net', '/index.html'
+
+print servername, filename
+server = httplib.HTTP(servername)
+server.putrequest('GET', filename)
+server.putheader('Accept', 'text/html')
+server.endheaders()
+
+errcode, errmsh, replyheader = server.getreply()
+if errcode != 200:
+	print 'Error sending request', errcode
+else:
+	file = server.getfile()
+	data = file.readlines()
+	file.close()
+	for line in data[:showlines]: print line,
+{%endhighlight%}
+
+## Module urllib Revisited
+
+{%highlight python%}
+
+## http-getfile-urllib1.py
+
+import sys, urllib
+showlines = 6
+try:
+	servername, filename = sys.argv[1:]
+except:
+	servername, filename = 'starship.python.net', '/index.html'
+
+remoteaddr = 'http://%s/%s' % (servername, filename)
+print remoteaddr
+remotefile = urllib.urlopen(remoteaddr)
+remotedata = remotefile.readlines()
+remotefile.close()
+for line in remotedata[:showlines]: print line,
+
+
+## http-getfile-urllib2.py
+
+import sys, os, urllib, urlparse
+showlines = 6
+try:
+	servername, filename = sys.argv[1:3]
+except:
+	servername, filename = 'starship.python.net', '/index.html'
+
+remoteaddr = 'http://%s/%s' % (servername, filename)
+if len(sys.argv) == 4:
+	localname = sys.argv[3]
+else:
+	(scheme, server, path, parms, query, frag) = urlparse.urlparse(remoteaddr)
+	localname = os.path.split(path)[1]
+
+print remoteaddr, localname
+urllib.urlretrieve(remoteaddr, localname)
+remotedata = open(localname).readlines()
+for line in remotedata[:showlines]: print line,
 {%endhighlight%}
