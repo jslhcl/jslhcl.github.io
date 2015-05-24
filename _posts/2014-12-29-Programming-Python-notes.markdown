@@ -3666,3 +3666,112 @@ urllib.urlretrieve(remoteaddr, localname)
 remotedata = open(localname).readlines()
 for line in remotedata[:showlines]: print line,
 {%endhighlight%}
+
+# Chapter 16 Server-Side Scripting
+
+## Advanced urllib usage note
+
+{%highlight python%}
+>>> from urllib import urlopen, urlencode
+>>> params = urlencode({'user':'Brian'})
+>>> params
+'user=Brian'
+>>> print urlopen('http://localhost/cgi-bin/tutor3.py', params).read()
+<TITLE>tutor3.py</TITLE>
+<H1>Greetings</H1>
+<HR>
+<P>Hello, Brian.</P>
+<HR>
+{%endhighlight%}
+
+## General tips for debugging server-side CGI script
+
+1. Run the script from the command line
+
+1. Assign sys.stderr to sys.stdout as early as possible in your script
+
+1. Mock up inputs to simulate the enclosing CGI context
+
+1. Call utilities to display CGI context in the browser
+
+1. Show exceptions you catch, print tracebacks
+
+1. add debugging prints
+
+1. Run it live 
+
+## HTTP "Cookies"
+
+The domain defaults to the hostname of the server that set the cookie, and the path defaults to the path of the document or script that set the cookie--these are later matched by the client to know when to send a cookie's value back to the server.
+
+{%highlight python%}
+# Creating a cookie
+>>> import Cookie, time
+>>> cooks = Cookie.SimpleCookie()
+>>> cooks['visited'] = time.asctime()
+>>> cooks['username'] = 'Bob'
+>>> cooks['username']['path'] = '/myscript'
+
+# Receiving a cookie
+import os, Cookie
+cooks = Cookie.SimpleCookie(os.environ.get("HTTP_COOKIE"))
+vcook = cooks.get("visited")
+if vcook != None:
+	time = vook.value
+
+# Using cookies in CGI scripts
+## cookies.py
+
+import Cookie, os
+cookstr = os.environ.get("HTTP_COOKIE")
+cookies = Cookie.SimpleCookie(cookstr)
+usercook = cookies.get("user")
+
+if usercook == None:
+	cookies = Cookie.SimpleCookie()
+	cookies['user'] = 'Brian'
+	print cookies
+	greeting = '<p>His name shall be ... %s</p>' % cookies['user']
+else:
+	greeting = '<p>Welcome back, %s</p>' % usercook.value
+
+print "Content-type: text/html\n"
+print greeting	
+
+# Handling cookies with the module urllib2
+>>> import urllib2
+>>> opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+>>> urllib2.install_opener(opener)
+>>> reply = urllib2.urlopen('http://localhost/cgi-bin/cookies.py').read()
+>>> print reply	
+<p> His name shall be...Set-Cookie: user=Brian;</p> 
+
+>>> reply = urllib2.urlopen('http://localhost/cgi-bin/cookies.py').read()
+>>> print reply 
+<p> Welcome back, Brian</p>
+
+{%endhighlight%}
+
+## Escaping HTML Code and URLs
+
+{%highlight python%}
+>>> import cgi
+>>> cgi.escape('a < b > c & d "spam"', 1)
+'a &lt; b &gt; c &amp; d &quot;spam&quot;'
+
+>>> s = cgi.escape("1<2 <b>hello</b>")
+>>> s
+'l&lt;2 &lt;b&gt;hello&lt;/b&gt;'
+
+>>> import urllib
+>>> urllib.quote("a & b #! c")
+'a%20%26%20b%20%23%21%20c'
+
+>>> x = urllib.quote_plus("a & b #! c")
+>>> x
+'a+%26+b+%23%21+c'
+
+>>> urllib.unquote_plus(x)
+'a & b #! c'
+
+{%endhighlight%}
