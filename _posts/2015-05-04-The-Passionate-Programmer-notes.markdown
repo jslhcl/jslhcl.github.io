@@ -320,3 +320,107 @@ Offer a solution
 
 Ask for help
 
+## 31 don't panic
+
+What panicking really gave me was an inability to perform at my best at the times I really needed to be performing at my best.
+
+We panic because we lose perspective. When something has going wrong, it's hard not to focus all attention on the problem. To some extent, that's a good way to solve problems. Unfortunately, it also makes the problem, no matter how small, seem more important than it is. And with the problem inflated and stress levels running high, our brains turn themselves off.
+
+I analyze the situation from the third-person perspective, as if I'm helping that frustrated family member with their word processing disaster. Seemingly hard problems are suddenly easier. Seemingly bad situations are suddenly not so bad. And, I often find that the solution simple and staring me in the face in the same way that an error dialog often tells you exactly what to do next.
+
+### Act on It!
+
+1. Keep a panic journal.The key to catching panic before it happens is to develop a heightened real-time awareness of your perception and emotions as they happen. I've had my best luck learning to do this by analyzing my reactions to situations after the fact. I'm not smart enough to naturally keep a background thread running and analyzing my thoughts as they happen, but I've discovered that if I practice the analysis "offline," I get better and better at doing the analysis in real time.
+
+	Saying you're going to do a better job of analyzing your reactions and actually doing it are two different things. Keeping a journal will help add structure to the process. Each day at a specific time (use a calendar with a reminder!), open up a text file and record any situation that caused you to panic, even if only a little bit. Once a week, look back on the past week's list and take stock of the lasting impact of each panic-inducing situation. Was the situation panic-worthy? What would have been the most productive reaction to the situation? What would the hero in a dramatized movie about your life have done instead of panicking?
+
+	After some practice, you'll find the analysis to start happening while the panic sets in. As you rationally explore the reasons for your panic in real time, you'll find that the panic itself takes a backseat and eventually dissipates.
+
+## 32 say it, do it, show it
+
+The easiest way to never get anything done is to never commit to anything. If you don't have a deadline, you don't have any pressure or much incentive to finish something. This is especially true when the something that needs to get done isn't 100 percent exciting.
+
+Consistently tracing tasks on a plan will create the deserved impression that no important work is getting lost in the mix.
+
+# Part 4
+
+## 33 Perceptions, Perschmeptions
+
+The same goes for your work. If you kick ass and no one is there to see, did you really kick ass? Who cares? No one.
+
+Perceptions really do matter. They keep you employed (or unemployed). They get you promoted or get you stuck in the same job for years. They give you raises or lowball you on salary. The sooner you get over yourself and learn to manage perceptions, the sooner you'll be on the right track.
+  
+## 35 Me Rite Reel Nice
+
+### Act on It!
+
+Start keeping a development diary. Write a little in it each day, explaining what you've been working on, justifying your design decisions, and vetting tough technical or professional decisions. Even though you are the primary (or only--it's up to you) audience, pay attention to the quality of your writing and to your ability to clearly express yourself. Occasionally reread old entries, and critique them. Adjust your new entries based on what you liked and disliked about the old ones. Not only will your writing improve, but you can also use this diary as a way to strengthen your understanding of the decisions you make and as a place to refer to when you need to understand how or why you did something previously.
+
+## 36 Being Present
+
+Remember, you need to make it personal, and to do that you have to remember the natural human tendency to want to work with other humans--not voicemail, e-mail, or instant messaging but actual people.
+
+## 37 Suit Speak 
+
+### Act on It!
+
+Make a list of your recent accomplishments. Write the business benefit for each. If there are accomplishments on the list that you can't write a business benefit for, ask a manager or trusted acquaintance how they would frame the benefit.
+
+Make your elevator speech, and memorize it.
+
+## 38 Change the World
+
+### Act on It!
+1. Catalog the crusades you've personally witnessed in the workplace. Think of the people you've worked with who have behaved as if on a mission. Think of the most driven and effective people in the places where you've worked. What were their missions?
+
+	Can you think of any such missions that were inappropriate? Where is the line between drive and zealotry? Have you seen people cross it?
+
+## 39 Let Your Voice Be Heard
+
+Set your sights higher. Don't think of yourself as a programmer at a specific company--after all, it's not likely that you'll be at the same place forever--but as a participating member of an industry. You are a craftsperson or an artist.
+
+The more places you are attached to the network, the better your chances of connecting with that perfect job or career break. Limiting yourself to the company you work for places serious limits on the number of connections you can form.
+
+the most critical tip of all is to start sooner than you think you're ready. Most people undersell themselves. You have something to teach. You will never feel 100 percent ready, so you might as well start now.
+
+### Act on It!
+
+1. If you don't already have a weblog, create one right now. Go to one of the many free weblog hosting sites, and set one up.
+
+	Now create a new text file on your computer. In it, create a list of possible weblog topics. These are future articles you're going to write. Don't limit yourself to epic ideas. Shoot for ideas you can write about in ten to twenty minutes. Stop when the list is ten items long (unless you're inspired--keep going).
+
+	Save the file but leave it open. If you reboot, reopen the file. You have three weeks. Each day, choose an item from the list and write an article. Don't think too hard about it. Just write it and publish it. In the articles, link to other weblogs with related articles. As you read the list to pick each day's topic, feel free to add ideas to it.
+
+	After the three weeks are over, pick your two favorite articles and submit them to user-moderated news sites such as Digg and Reddit. If you still have ideas on your list, keep writing.
+
+## 40 Build Your Brand
+
+Guard your brand with all your might. Protect it from yourself. It's all you've got.
+
+### Act on It!
+
+1. Google yourself--Search Google for your full name in quotes. Look through the first four pages of results (are there actually four pages of results?). What could someone surmise about you following only the links from the first four pages of Google results? Are you even represented in the first four pages of search results for your name? Is the picture that these first four pages paints a picture that you appreciate?
+
+Do the same search again, but this time pay special attention to forum and mailing list conversations. Are you a jerk?
+
+## 41 Release Your Code
+
+### Act on It!
+
+1. Stuart Halloway does a workshop at conferences he calls "Refactotum." If you get a chance to participate, I highly recommend it, but the gist is as follows: Take a piece of open source software with unit tests. Run the unit tests through a code coverage analyzer. Find the least-tested part of the system and write tests to improve the coverage of that code. Untested code is often untestable code. Refactor to make the code more testable. Submit your change as a patch.
+
+	The beautiful thing about this is it's measurable and can be done quickly. There's no excuse not to try it.
+
+## 42 Remarkability
+
+To be remarkable means that something is worthy of attention. You will not become a remarkable software developer by simply being better than all the other software developers you know. Being incrementally better than someone else isn't striking enough to result in the viral spread of your reputation. If someone were to ask, you might have a glowing report card, but remarkability means that people talk about you before they are asked.
+
+To be remarkable, you have to be significantly different from those around you.
+
+You might be the smartest or the fastest, but just being isn't good enough. You have to be doing.
+
+### Act on It!
+
+1. Start small, but try to do something remarkable on your current project or job. One way to experiment is to shoot for remarkable productivity. Project schedules often have a lot of padding. Find something that everyone thinks is going to take a week and do it in a day. Work extra hours for it if you need to do so. You don't have to make a habit of working extra hours, but this is an experiment. Do the work in a remarkably short time. See whether people "remark." If not, why not? If so, in what ways? Fine-tune the variables, and try again.
+
+

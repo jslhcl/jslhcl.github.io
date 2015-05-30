@@ -3775,3 +3775,230 @@ print greeting
 'a & b #! c'
 
 {%endhighlight%}
+
+# Chapter 18 Advanced Internet Topics
+
+## Zope: A Web Application Framework
+
+{%highlight python%}
+## messages.py
+def greeting(size='brief', topic='zope'):
+	"a published Python function"
+	return 'A %s %s introduction' % (size, topic)
+
+## invocation
+>>> import messages
+>>> messages.greeting()
+'A brief zope introduction'
+
+>>> messages.greeting(size='short')
+'A short zope introduction'
+
+>>> messages.greeting(size='tiny', topic='ORB')
+'A tiny ORB introduction'	
+{%endhighlight%}
+
+the following URLs are equivalent to the three earlier calls:
+
+http://www.myserver.com/messages/greeting
+
+http://www.myserver.com/messages/greeting?size=short
+
+http://www.myserver.com/messages/greeting?size=tiny&topic=ORB
+
+In other words, URLs in Zope become remote function calls, not just script invocations.
+
+In general, a URL like:
+
+http://servername/folderpath/object1/object2/method?arg1=val1&arg2=val2
+
+is mapped by the Zope ORB running on the servername into a call to a Python object in a Python module file of the form:
+
+{%highlight python%}
+folderpath.object1.object2.method(arg1=val1, arg2=val2)
+{%endhighlight%}
+
+## HTMLgen: Web Pages from Objects
+
+HTMLgen is a third-party Python tool. HTMLgen is open source software, but it is not a standard part of Python and must therefore be installed separately.
+
+{%highlight python%}
+>>> from HTMLgen import *
+>>> p = Paragraph("Making pages from objects is easy\n")
+>>> print p
+<P>Making pages from objects is easy
+</P>
+
+>>> choices = ['python', 'tcl', 'perl']
+>>> print List(choices)
+<UL>
+<LI>python
+<LI>tcl
+<LI>perl
+</UL> 
+
+>>> h = Href('http://www.python.org', 'python')
+>>> print h
+<A HREF="http://www.python.org">python</A>
+
+>>> d = SimpleDocument(title = 'My doc')
+>>> p = Paragraph('Web pages made easy')
+>>> d.append(p)
+>>> d.append(h)
+{%endhighlight%}
+
+## Jython: Python for Java
+
+Jython is an entirely distinct implementation of the Python programming language that allows programmers to use Python as an easy-to-use scripting component in Java-based applications.
+
+Jython is a collection of Java classes that run Python code.
+
+## XML Processing Tools
+
+{%highlight python%}
+''' books.xml
+<catalog>
+	<book	isbn="0-596-00128-2">
+		<title>Python &amp; XML</title>
+		<author>Jones, Drake</author>
+	</book>
+	<book	isbn="0-596-00085-5">
+		<title>Programming Python</title>
+		<author>Lutz</author>
+	</book>
+</catalog>
+'''
+
+## bookhandler.py
+
+import xml.sax.handler
+
+class BookHandler(xml.sax.handler.ContentHandler):
+	def __init__(self):
+		self.inTitle = 0
+		self.mapping = {}
+
+	def startElement(self, name, attributes):
+		if name == "book":
+			self.buffer = ""
+			self.isbn = attributes["isbn"]
+		elif name == "title":
+			self.inTitle = 1
+	
+	def characters(self, data):
+		if self.inTitle:
+			self.buffer += data
+
+	def endElement(self, name):
+		if name=="title":
+			self.inTitle = 0
+			self.mapping[self.isbn] = self.buffer
+
+## invocation
+>>> import xml.sax
+>>> import bookhandler
+>>> import pprint
+>>> parser = xml.sax.make_parser()
+>>> handler = bookhandler.BookHandler()
+>>> parser.setContentHandler(handler)
+>>> parser.parse('books.xml')
+>>> pprint.pprint(handler.mapping)
+{%endhighlight%}
+
+The following is a DOM-based equivalent to the SAX parser listed earlier:
+
+{%highlight python%}
+## dombook.py
+
+import pprint
+import xml.dom.minidom
+from xml.dom.minidom import Node
+
+doc = xml.dom.minidom.parse("book.xml")
+
+mapping = {}
+for node in doc.getElementsByTagName("book"):
+	isbn = node.getAttribute("isbn")
+	L = node.getElementsByTagName("title")
+	for node2 in L:
+		title = ""
+		for node3 in node2.childNodes:
+			if node3.nodeType == Node.TEXT_NODE:
+				title += node3.data
+		mapping[isbn] = title
+
+pprint.pprint(mapping)
+{%endhighlight%}
+
+## Python Server Pages
+
+Python Server Pages (PSP) has also been compared to PHP, a server-side scripting language embedded in HTML
+
+{%highlight python%}
+$[
+# Generate a simple message page with the client's IP address
+]$
+<HTML><HEAD>
+<TITLE>Hello PSP World</TITLE>
+</HEAD>
+<BODY>
+$[include banner.psp]$
+<H1>Hello PSP world</H1>
+<BR>
+$[
+Response.write("Hello from PSP, %s" % (Request.server["REMOTE_ADDR"]) )
+]$
+<BR>
+</BODY></HTML>
+{%endhighlight%}
+
+Request is used to access HTTP headers for the request
+
+# Chapter 19 Databases and Persistence
+
+## DBM file operations
+
+{%highlight python%}
+import anydbm
+file = anydbm.open('filename', 'c')	# Create or open an existing DMB file
+file['key'] = 'value'
+value = file['key']
+count = len(file)
+index = file.keys()
+found = file.has_key('key')
+del file['key']
+file.close()
+
+{%endhighlight%}
+
+## Pickled Objects
+
+{%highlight python%}
+>>> import pickle
+>>> f = open('temp', 'w')
+>>> x = ['Hello', ('pickle', 'world')]
+>>> pickle.dump(x, f)
+>>> f.close()
+>>>
+>>> f = open('temp', r')
+>>> y = pickle.load(f)
+>>> y
+['Hello', ('pickle', 'world')]
+>>> x==y, x is y	# in Python-speak, the unpickled object is == but is not is
+(True, False)
+{%endhighlight%}
+
+## Shelve file operations
+
+{%highlight python%}
+import shelve
+file = shelve.open('filename')
+file['key'] = anyvalue
+value = file['key']
+count = len(file)
+index = file.keys()
+found = file.has_key('key')
+del file['key']
+file.close()
+{%endhighlight%}
+
