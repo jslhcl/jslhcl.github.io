@@ -423,4 +423,52 @@ You might be the smartest or the fastest, but just being isn't good enough. You 
 
 1. Start small, but try to do something remarkable on your current project or job. One way to experiment is to shoot for remarkable productivity. Project schedules often have a lot of padding. Find something that everyone thinks is going to take a week and do it in a day. Work extra hours for it if you need to do so. You don't have to make a habit of working extra hours, but this is an experiment. Do the work in a remarkably short time. See whether people "remark." If not, why not? If so, in what ways? Fine-tune the variables, and try again.
 
+## 43 Making the Hang
+
+Speaking for myself (and extrapolating from there), the most serious barrier between us mortals and the people we admire is our own fear. Associating with smart, well-connected people who can teach you things or help find you work is possibly the best way to improve yourself, but a lot of us are afraid to try.
+
+### Act on It!
+
+Pick one of your favorite pieces of software and e-mail its creator. Start by thanking him or her for the software. Then make a suggestion, ask a question, or make some other attempt at establishing a human connection with them. Solicit a response of some sort. If the software is free or open source, offer to help in some way.
+
+Think of someone local to you whom you admire or would like to learn from. Look for a situation where you can see the person (a users' group meeting or speech are good possibilities), and go out of your way to start a conversation, even if it makes you uncomfortable--especially if it makes you uncomfortable.
+
+# Part 5
+
+## 44 Already Obsolete
+
+### Act on It!
+
+1. Carve out weekly time to investigate the bleeding edge. Make room for at least two hours each week in order to research new technologies and to start to develop skills in them. Do hands-on work with these new technologies. Build simple applications. Prototype new-tech versions of the hard bits of your current-tech projects to understand what the differences are and what the new technologies enable. Put this time on your schedule. Don't let yourself miss it.
+
+## 47 make yourself a map
+
+Although it is definitely ok to learn diverse skills--it expands your thinking--it's also a good idea to think about the story your skillset tells
+
+### Action on it
+
+1. Before mapping out where you want to go, it can be encouraging and informative to map out where you’ve been. Take some time to explicitly lay out the timeline of your career. Show where you started and what your skills and jobs were at each step. Notice where you made incremental improvements and where you seemed to make big leaps. Notice the average length of time it took to make a major advancement. Use this map as input as you look forward in your career. You can set more realistic goals for yourself if you have a clear image of your historical progress. Once you’ve created this historical map, keep it updated. It’s a	great way to reflect on your progress as you move toward your newly defined goals.
+
+## 48 watch the market
+
+You have to keep your eyes and ears open. Watch the technology news, both the business side and the pure technical side. Watch the alpha geeks. Slog geeks are those supernerds who are always on the bloodiest tip of the bleeding edge, at least in their hobby activities. If you can find these people and see what they're into, you can get a glimpse of what's going to be big one or two Years down the road
+
+### Act on it
+
+Spend the next year trying to become one of the alpha geeks. Or at least make the hang with one 
+
+## 52 Better Than Yesterday
+
+### Act on It!
+1. Make a list of the difficult or complex improvements you'd like to make; they can be personal or professional. It's OK if you have a fairly long list. Now, for each item in the list, think about what you could do today to make yourself or that item better than yesterday. Tomorrow, look at the list again. Was yesterday better than the day before? How can you make today better? Do it again the next day. Put it on your calendar. Spend two minutes thinking about this each morning.
+
+## 53 Go Independent
+
+In this way, a big company makes a wonderful place to go and semi-retire for a while if you're burned out. But if you're striving to be remarkable (which you are!), a big company is a hard place to get into the right groove in the same way that a bakery is a bad place to go to try to work off your love handles. The solution? Go independent!
+
+Consider it a personal development project, and put yourself in the market in your spare time. Set a goal to land a contract at a certain rate and finish it with a happy customer. Work on it at night or on the weekends (but please don't work on it in your cubicle at your day job!). You'll learn a lot without losing your safety net. Worst case, you'll overwork yourself for a few weeks, fail at one project, and be sent back to your comfortable cubicle with a new sense of appreciate for your job. The best case is that you are wildly successful, love the work, and set yourself on a new path toward career satisfaction and financial reward.
+
+If you currently work for a big company, consider joining a small one. If you work for an established company, try a startup. In a small startup, you can get the best of both worlds: a full-time job with a salary and the challenge of being pitted directly against the unfiltered problems of your business.
+
+# HaveFun
 

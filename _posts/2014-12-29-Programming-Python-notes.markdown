@@ -4002,3 +4002,85 @@ del file['key']
 file.close()
 {%endhighlight%}
 
+## The ZODB Object-Oriented Database
+
+{%highlight python%}
+# Creating a ZODB database
+>>> from ZODB import FileStorage, DB
+>>> storage = FileStorage.FileStorage(r'C:\Mark\temp\mydb.fs')
+>>> db = DB(storage)
+>>> connection = db.open()
+>>> root = connection.root()
+
+>>> object1 = (1, 'spam', 4, 'YOU')
+>>> object2 = [[1,2,3], [4,5,6]]
+>>> object2.append([7,8,9])
+>>> root['mystr'] = 'spam'*3
+>>> root['mytuple'] = object1
+>>> root['mylist'] = object2
+
+# Because ZODB supports transaction rollbacks, you must commit your changes to the database to make them permanent.
+
+>>> import transaction
+>>> transaction.commit()
+>>> storage.close()
+
+# Fetching and changing
+
+>>> from ZODB import FileStorage, DB
+>>> storage = FileStorage.FileStorage(r'C:\Mark\temp\mydb.fs')
+>>> db = DB(storage)
+>>> connection = DB.open()
+>>> root = connection.root()
+>>> print len(root), root.keys()
+3, ['mylist', 'mystr', 'mytuple']
+{%endhighlight%}
+
+## the MySQL system 
+
+{%highlight python%}
+
+>>> import MySQLdb
+>>> conn = MySQLdb.connect(host='localhost', user='root', passwd='python')
+
+>>> curs = conn.cursor()
+>>> curs.execute('create database peopledb')
+1L
+>>> curs.execute('use peopledb')
+0L
+>>> tblcmd = 'create table people (name char(30), job char(10), pay int(4))'
+>>> curs.execute(tblcmd)
+0L 
+
+# Adding records
+>>> curs.execute('insert people values (%s, %s, %s)', ('Bob', 'dev', '5000'))
+1L
+>>> curs.rowcount
+1L
+>>> curs.executemany('insert people values (%s, %s, %s)', 
+		[('Sue', 'mus', '70000'), ('Ann', 'mus', '60000')])
+2L
+>>> curs.rowcount
+2L
+
+# We always need to call the connection's commit method to write our changes out to the database.
+>>> conn.commit()
+
+# Running queries
+>>> curs.execute('select * from people')
+>>> curs.fetchall()
+
+# after a query execute all, the DB API specifies that the cursor's description attribute gives the names and types of the columns in the result table
+>>>curs.execute('select * from people')
+3L
+>>> curs.description
+(('name', 254, 3, 30, 30, 0, 1), ('job', 254, 3, 10, 10, 0, 1), ('pay', 3, 5, 4, 4, 0, 1))
+>>> colnames = [desc[0] for desc in curs.description]
+>>> colnames
+['name', 'job', 'pay']
+
+# loading database tables from files
+>>> curs.execute('delete from people')
+>>> curs.execute("load data local infile 'data.txt' into table people fields terminated by ','")
+{%endhighlight%}
+
