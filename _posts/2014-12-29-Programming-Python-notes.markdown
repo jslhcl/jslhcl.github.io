@@ -4071,7 +4071,7 @@ file.close()
 >>> curs.fetchall()
 
 # after a query execute all, the DB API specifies that the cursor's description attribute gives the names and types of the columns in the result table
->>>curs.execute('select * from people')
+>>> curs.execute('select * from people')
 3L
 >>> curs.description
 (('name', 254, 3, 30, 30, 0, 1), ('job', 254, 3, 10, 10, 0, 1), ('pay', 3, 5, 4, 4, 0, 1))
@@ -4084,3 +4084,112 @@ file.close()
 >>> curs.execute("load data local infile 'data.txt' into table people fields terminated by ','")
 {%endhighlight%}
 
+# Chapter 21 Text and Language
+
+## Regular Expression Pattern Matching
+
+{%highlight python%}
+>>> text1 = 'Hello spam...World'
+>>> text2 = 'Hello spam...other'
+>>> matchobj = re.match('Hello(.*)World', text1)
+>>> matchobj.group(1)
+' spam...'
+
+# The re.compile function is useful to optimize patterns that may be matched more than once (compiled patterns match faster)
+>>> pattobj = re.compile('Hello(.*)World')
+>>> matchobj = pattobj.match(text1)
+>>> matchobj.group(1)
+' spam...'
+
+>>> patt = '[ \t]*Hello[ \t]+(.*)[Ww]orld'
+>>> line = 'Hello spamworld'
+>>> mobj = re.match(patt, line)
+>>> mobj.group(1)
+'spam'
+
+
+## re-basics.py
+import re
+
+pattern, string = "A.C", "xxABCDxx"
+matchobj = re.search(pattern, string)
+if matchobj:
+	print matchobj.start()
+
+pattobj = re.compile("A.*C.*")
+matchobj = pattobj.search("xxABCDxx")
+if matchobj:
+	print matchobj.start()
+
+# selection sets
+print re.search(" *A.C[DE][D-F][^G-ZE]G\t+ ?", "..ABCDEFG\t..").start()
+
+# alternatives
+print re.search("A|XB|YC|ZD", "..AYCD..").start()
+
+# word boundaries
+print re.search(r"\bABCD", "..ABCD ").start()
+print re.search(r"ABCD\b", "..ABCD ").start()
+
+
+## re-groups.py
+import re
+
+patt = re.compile("A(.)B(.)C(.)")
+mobj = patt.match("A0B1C2")
+print mobj.group(1), mobj.group(2), mobj.group(3)
+
+patt = re.compile("A(.*)B(.*)C(.*)")
+mobj = patt.match("A000B111C222")
+print mobj.groups()
+
+print re.search("(A|X)(B|Y)(C|Z)D", "..AYCD..").groups()
+
+patt = re.compile(r"[\t ]*#\s*define\s*([a-z0-9_]*)\s*(.*)")
+mobj = patt.search(" # define spam 1+2+3")
+print mobj.groups()
+
+
+## re-subst.py
+import re
+print re.sub('[ABC]', '*', 'XAXAXBXBXCXC')
+print re.sub('[ABC]_', '*', 'XA-XA_XB-XB_XC-XC_')
+{%endhighlight%}
+
+## Scaning C Header Files for Patterns
+
+{%highlight python%}
+
+## cheader.py
+
+#!/usr/local/bin/python
+import sys, re
+
+pattDefine = re.compile('^#[\t ]*define[\t ]+([a-zA-Z0-9_]+)[\t ]*(.*)')
+
+pattInclude = re.compile('^#[\t ]*include[\t ]+[<"]([a-zA-Z0-9_/\.]+)')
+
+def scan(file):
+	count = 0
+	while 1:
+		line = file.readline()
+		if not line: break
+		count += 1
+		matchobj = pattDefine.match(line)
+		if matchobj:
+			name = matchobj.group(1)
+			body = matchobj.group(2)
+			print count, 'defined', name, '=', body.strip()
+			continue
+		matchobj = pattInclude.match(line)
+		if matchobj:
+			start, stop = matchobj.span(1)
+			filename = line[start:stop]
+			print count, 'include', filename
+
+if len(sys.argv) == 1:
+	scan(sys.stdin)
+else:
+	scan(open(sys.argv[1], 'r'))
+
+{%endhighlight%}
