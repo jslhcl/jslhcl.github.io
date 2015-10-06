@@ -1,0 +1,499 @@
+---
+layout:	post
+title:	"Structure and Interpretation of Computer Programs notes III"
+date:	2015-09-08
+---
+# Chapter 3. Modularity, Objects and State
+
+## Local State Variables
+
+{% highlight Scheme %}
+(define balance 100)
+
+(define (withdraw amount)
+	(if (>= balance amount)
+	    (begin (set! balance (- balance amount))
+				balance)
+		"Insufficient funds")) 
+
+; (set! <name> <new-value>) set the name new-value
+; (begin <exp1> <exp2> ... <expk>) evaluate exp1 through expk in sequnce and return the value of expk
+{% endhighlight %}
+
+We can make *balance* internal to *withdraw*:
+
+{% highlight Scheme %}
+(define new-withdraw
+	(let ((balance 100))
+		(lambda (amount)
+			(if (>= balance amount)
+				(begin (set! balance (- balance amount))
+					balance)
+				"Insufficient funds"))))
+
+(define (make-withdraw balance)
+	(lambda (amount)
+		(if (>= balance amount)
+			(begin (set! balance (- balance amount))
+				balance)
+			"Insufficient funds")))
+
+(define W1 (make-withdraw 100))
+(define W2 (make-withdraw 100))
+(W1 50)
+50
+(W2 70)
+30
+(W2 40)
+"Insufficient funds"
+(W1 40)
+10
+; W1 and W2 are completely independent objects
+{% endhighlight %}
+ 
+## Exercise 3.1
+{% highlight Scheme %}
+(define (make-accumulator x)
+	(lambda (num)
+		(begin (set! x (+ x num))
+			x)))
+{% endhighlight %}
+
+## Exercise 3.2
+{% highlight Scheme %}
+(define (make-monitored f)
+	(let ((counter 0))
+		(define (dispatch m)
+			(cond ((eq? m 'how-many-calls?) counter)
+				  ((eq? m 'reset)
+				  	(begin (set! counter 0)
+						0))
+				  (else (begin (set! counter (+ counter 1))
+				  			(f m)))))
+	m))	
+{% endhighlight %}
+
+## Exercise 3.3
+{% highlight Scheme %}
+(define (make-account balance passwd)
+	(define (withdraw amount)
+		(if (>= balance amount)
+			(begin (set! balance (- balance amount))
+				balance)
+			"Insufficient funds"))
+	(define (deposit amount)
+		(set! balance (+ balance amount))
+		balance)
+	(define (dispatch pwd method)
+		(if (eq? pwd passwd)
+			(cond ((eq? method 'withdraw) withdraw)
+				  ((eq? method 'deposit)  deposit)
+				  (else (error "Unknown request -- MAKE-ACCOUNT"
+				  	method)))
+			(lambda () (error "Incorrect password"))))
+	dispatch)
+{% endhighlight %}
+
+## Exercise 3.4
+{% highlight Scheme %}
+(define (make-account balance passwd)
+	(let ((wrongNum 0))
+		(define (withdraw amount)
+			(if (>= balance amount)
+				(begin (set! balance (- balance amount))
+					balance)
+				"Insufficient funds"))
+		(define (deposit amount)
+			(set! balance (+ balance amount))
+			balance)
+		(define (dispatch pwd method)
+			(if (eq? pwd passwd)
+				(cond ((eq? method 'withdraw) withdraw)
+					  ((eq? method 'deposit)  deposit)
+					  (else (error "Unknown request -- MAKE-ACCOUNT"
+					  	method)))
+				(if (< wrongNum 7)
+					(begin (set! wrongNum (+ wrongNum 1))
+					  	(lambda () (error "Incorrect password")))
+					(call-the-cops))))
+	dispatch))
+{% endhighlight %}
+
+## Benefits of Introducing Assignment
+
+{% highlight Scheme %}
+; Suppose we have another function rand-update to produce the rand function
+
+(define rand
+	(let ((x rand-init))
+		(lambda () 
+			(set! x (rand-update x))
+		x)))
+{% endhighlight %}
+
+### Monte Carlo method 
+
+We can approximate pi using the fact that 6/pi^2 is the probability that two integers chosen at random will have no factors in common; that is, that their greatest common divisor will be 1. To obtain the approximation to pi, we perform a large number of experiments. In each experiment we choose two integers at random and perform a test to see if their GCD is 1.
+
+{% highlight Scheme %}
+(define (estimate-pi trials)
+  (sqrt (/ 6 (monte-carlo trials cesaro-test))))
+(define (cesaro-test)
+   (= (gcd (rand) (rand)) 1))
+(define (monte-carlo trials experiment)
+  (define (iter trials-remaining trials-passed)
+    (cond ((= trials-remaining 0)
+           (/ trials-passed trials))
+          ((experiment)
+           (iter (- trials-remaining 1) (+ trials-passed 1)))
+          (else
+           (iter (- trials-remaining 1) trials-passed))))
+  (iter trials 0))
+{% endhighlight %}
+
+Now let us try the same computation using rand-update directly rather than rand, the way we would be forced to proceed if we did not use assignment to model local state:
+
+{% highlight Scheme %}
+(define (estimate-pi trials)
+  (sqrt (/ 6 (random-gcd-test trials random-init))))
+(define (random-gcd-test trials initial-x)
+  (define (iter trials-remaining trials-passed x)
+    (let ((x1 (rand-update x)))
+      (let ((x2 (rand-update x1)))
+        (cond ((= trials-remaining 0)   
+               (/ trials-passed trials))
+              ((= (gcd x1 x2) 1)
+               (iter (- trials-remaining 1)
+                     (+ trials-passed 1)
+                     x2))
+              (else
+               (iter (- trials-remaining 1)
+                     trials-passed
+                     x2))))))
+  (iter trials 0 initial-x))
+{% endhighlight %}
+
+It betrays some painful breaches of modularity. In the first version of the program, assignment encapsulates the state of the random-number generator within the rand procedure, so that the details of random-number generation remain independent of the rest of the program.
+
+## Exercise 3.6
+
+{% highlight Scheme %}
+(define rand
+	(let ((x rand-init))
+		(define (dispatch symbol)
+			(cond ((eq? symbol 'generate) 
+					(begin (set! x (rand-update x))
+						x))
+				  ((eq? symbol 'reset)
+				  	(lambda (new-x)
+						(set! x new-x)))
+				  (else (error "unknown request"))))
+		dispatch))
+{% endhighlight %}
+
+## The Cost of Introducing Assignment
+
+So long as we do not use assignments, two evaluations of the same procedure with the same arguments will produce the same result, so that procedures can be viewed as computing mathematical functions. Programming without any use of assignments is known as functional programming.
+
+In contrast to functional programming, programming that makes extensive use of assignment is known as imperative programming. In addition to raising complications about computational models, programs written in imperative style are susceptible to bugs that cannot occur in functional programs (the order of assignment matters!).
+
+## Two key properties that make local procedure definitions a useful technique for modularizing program:
+
++ The names of the local procedures do not interfere with names external to the enclosing procedure, because the local procedure names will be bound in the frame that the procedure creates when it is run, rather than being bound in the global environment.
+
++ The local procedures can access the arguments of the enclosing procedure, simply by using parameter names as free variables. This is because the body of the local procedure is evaluated in an environment that is subordinate to the evaluation environment for the enclosing procedure.
+
+## Mutable List Structure
+
+The Primitive mutators for pairs are set-car! and set-cdr!
+
+{% highlight Scheme %}
+(define (cons x y)
+  (let ((new (get-new-pair)))
+    (set-car! new x)
+    (set-cdr! new y)
+    new))
+{% endhighlight %}
+
+## Sharing and Identity
+
+{% highlight Scheme %}
+(define x (list 'a 'b))
+(define z1 (cons x x))
+
+(define z2 (cons (list 'a 'b) (list 'a 'b)))
+
+(define (set-to-wow! x)
+  (set-car! (car x) 'wow)
+  x)
+
+z1
+((a b) a b)
+
+(set-to-wow! z1)
+((wow b) wow b)
+
+z2
+((a b) a b)
+
+(set-to-wow! z2)
+((wow b) a b)
+{% endhighlight %}
+
+## Streams are delayed Lists
+
+If we represent sequences as lists, this elegance is bought at the price of severe inefficiency with respect to both the time and space required by our computations. When we represent manipulations on sequences as transformations of lists, our programs must construct and copy data structures (which may be huge) at every step of a process.
+
+{% highlight Scheme %}
+(define (sum-primes a b)
+  (accumulate +
+              0
+              (filter prime? (enumerate-interval a b))))
+{% endhighlight %}
+
+The filter cannot do any testing until enumerate-interval has constructed a complete list of the numbers in the interval. The filter generates another list, which in turn is passed to accumulate before being collapsed to form a sum. Such large intermediate storage is not needed.
+
+Streams are a clever idea that allows one to use sequence manipulations without incurring the costs of manipulating sequences as lists. The basic idea is to arrange to construct a stream only partially, and to pass the partial construction to the program that consumes the stream.
+
+{% highlight Scheme %}
+(stream-car (cons-stream x y)) = x
+(stream-cdr (cons-stream x y)) = y
+
+(define (stream-ref s n)
+  (if (= n 0)
+      (stream-car s)
+      (stream-ref (stream-cdr s) (- n 1))))
+(define (stream-map proc s)
+  (if (stream-null? s)
+      the-empty-stream
+      (cons-stream (proc (stream-car s))
+                   (stream-map proc (stream-cdr s)))))
+(define (stream-for-each proc s)
+  (if (stream-null? s)
+      'done
+      (begin (proc (stream-car s))
+             (stream-for-each proc (stream-cdr s)))))
+{% endhighlight %}
+
+Streams are the same as lists. The difference is the time at which the elements are evaluated. With ordinary lists, both the car and the cdr are evaluated at construction time. With streams, the cdr is evaluated at selection time.
+
+{% highlight Scheme %}
+; (delay <exp>) returns a delayed object, which as a "promise" to evaluate <exp> at some future time
+(define (cons-stream a b) (cons a (delay b)))
+
+(define (stream-car stream) (car stream))
+
+(define (stream-cdr stream) (force (cdr stream)))
+
+(define (stream-enumerate-interval low high)
+  (if (> low high)
+      the-empty-stream
+      (cons-stream
+       low
+	   (stream-enumerate-interval (+ low 1) high))))
+{% endhighlight %}
+
+## Implementing delay and force
+
+In other words, we implement delay as a special-purpose memoized procedure.
+
+{% highlight Scheme %}
+(define (memo-proc proc)
+  (let ((already-run? false) (result false))
+    (lambda ()
+      (if (not already-run?)
+          (begin (set! result (proc))
+                 (set! already-run? true)
+                 result)
+          result))))
+
+; (delay <exp>) is equivalent to
+(memo-proc (lambda () <exp>))
+
+(define (force delayed-object)
+  (delayed-object))
+{% endhighlight %}
+
+## Exercise 3.50
+
+{% highlight Scheme %}
+(define (stream-map proc . argstreams)
+  (if (null? (car argstreams))
+      the-empty-stream
+      (cons-stream
+       (apply proc (map stream-car argstreams))
+       (apply stream-map
+              (cons proc (map stream-cdr argstreams))))))
+{% endhighlight %}
+
+## Infinite Streams
+
+{% highlight Scheme %}
+(define (integers-starting-from n)
+  (cons-stream n (integers-starting-from (+ n 1))))
+
+(define integers (integers-starting-from 1))
+
+; the stream of integers that are not divisible by 7:
+(define (divisible? x y) (= (remainder x y) 0))
+(define no-sevens
+  (stream-filter (lambda (x) (not (divisible? x 7)))
+                 integers))
+
+; the 100th integer that are not divisible by 7
+(stream-ref no-sevens 100) 
+117
+{% endhighlight %}
+
+Infinite stream of Fibonacci numbers:
+
+{% highlight Scheme %}
+; Fibs is a pair whose car is 0 and whose cdr is a promise to evaluate (fibgen 1 1). 
+; When we evaluate this delayed (fibgen 1 1), it will produce a pair whose car is 1 and whose cdr is a promise to evaluate (fibgen 1 2), and so on.
+(define (fibgen a b)
+  (cons-stream a (fibgen b (+ a b))))
+(define fibs (fibgen 0 1))
+{% endhighlight %}
+
+Infinite stream of prime numbers:
+
+{% highlight Scheme %}
+(define (sieve stream)
+  (cons-stream
+   (stream-car stream)
+   (sieve (stream-filter
+           (lambda (x)
+             (not (divisible? x (stream-car stream))))
+           (stream-cdr stream)))))
+
+(define primes (sieve (integers-starting-from 2)))
+
+(stream-ref primes 50)
+233
+{% endhighlight %}
+
+Define streams implicitly
+
+{% highlight Scheme %}
+(define ones (cons-stream 1 ones))
+{% endhighlight %}
+
+We can do more interesting things by manipulating streams with operations such as add-streams, which produces the elementwise sum of two given streams:
+
+{% highlight Scheme %}
+(define (add-streams s1 s2)
+  (stream-map + s1 s2))
+{% endhighlight %}
+
+Now we can define the integers as follows:
+
+{% highlight Scheme %}
+(define integers (cons-stream 1 (add-streams ones integers)))
+{% endhighlight %}
+
+We can define the Fibonacci numbers in the same style:
+
+{% highlight Scheme %}
+(define fibs
+  (cons-stream 0
+               (cons-stream 1
+                            (add-streams (stream-cdr fibs)
+                                         fibs))))
+{% endhighlight %}
+
+Scale-stream is another useful procedure in formulating such stream definitions. This multiplies each item in a stream by a given constant:
+
+{% highlight Scheme %}
+(define (scale-stream stream factor)
+  (stream-map (lambda (x) (* x factor)) stream))
+
+; produces the stream of powers of 2: 1, 2, 4, 8, 16, 32, ....
+(define double (cons-stream 1 (scale-stream double 2)))
+
+{% endhighlight %}
+
+## Exploiting the Stream Paradigm
+
+the stream version sqrt procedure
+
+{% highlight Scheme %}
+(define (sqrt-improve guess x)
+  (average guess (/ x guess)))
+
+(define (sqrt-stream x)
+  (define guesses
+    (cons-stream 1.0
+                 (stream-map (lambda (guess)
+                               (sqrt-improve guess x))
+                             guesses)))
+  guesses)
+{% endhighlight %}
+
+Generate an approximation to pi, based on the alterating series:
+
+pi/4 = 1-1/3+1/5-1/7+...
+
+{% highlight Scheme %}
+(define (pi-summands n)
+  (cons-stream (/ 1.0 n)
+               (stream-map - (pi-summands (+ n 2)))))
+(define pi-stream
+  (scale-stream (partial-sums (pi-summands 1)) 4))
+(display-stream pi-stream)
+{% endhighlight %}
+
+We can transform a stream with a sequence accelerator that converts a sequence of approximations to a new sequence that converges to the same value as the original, only faster.
+
+One such accelerator, due to the eighteenth-century Swiss mathematician Leonhard Euler, works well with sequences that are partial sums of alternating series. If Sn is the nth term of the original sum sequence, then the accelerated sequence has terms:
+
+$$S_{n+1}-\frac{(S_{n+1}-S{n})^2}{S_{n-1}-2S_n+S_{n+1}}$$
+
+Thus, if the original sequence is represented as a stream of values, the transformed sequence is given by
+
+{% highlight Scheme %}
+(define (euler-transform s)
+  (let ((s0 (stream-ref s 0))           ; Sn-1
+        (s1 (stream-ref s 1))           ; Sn
+        (s2 (stream-ref s 2)))          ; Sn+1
+    (cons-stream (- s2 (/ (square (- s2 s1))
+                          (+ s0 (* -2 s1) s2)))
+                 (euler-transform (stream-cdr s)))))
+{% endhighlight %}
+
+## Modularity of Functional Programs and Modularity of Objects
+
+One of the major benefits of introducing assignment is that we can increase the modularity of our systems by encapsulating. Stream models can provide an equivalent modularity without the use of assignment.
+
+Reimplement the Monte Carlo estimation of pi:
+
+{% highlight Scheme %}
+(define random-numbers
+  (cons-stream random-init
+               (stream-map rand-update random-numbers)))
+
+(define cesaro-stream
+  (map-successive-pairs (lambda (r1 r2) (= (gcd r1 r2) 1))
+                        random-numbers))
+
+(define (map-successive-pairs f s)
+  (cons-stream
+   (f (stream-car s) (stream-car (stream-cdr s)))
+   (map-successive-pairs f (stream-cdr (stream-cdr s)))))
+
+(define (monte-carlo experiment-stream passed failed)
+  (define (next passed failed)
+    (cons-stream
+     (/ passed (+ passed failed))
+     (monte-carlo
+      (stream-cdr experiment-stream) passed failed)))
+  (if (stream-car experiment-stream)
+      (next (+ passed 1) failed)
+      (next passed (+ failed 1))))
+
+(define pi
+  (stream-map (lambda (p) (sqrt (/ 6 p)))
+              (monte-carlo cesaro-stream 0 0)))
+{% endhighlight %}
+
+Modeling with objects is powerful and intuitive. However, these models raise thorny problems of constraining the order of events and of synchronizing multiple processes. The possibility of avoiding these problems has stimulated the development of *functional programming languages*, which do not include any provision for assignment or mutable data. In such a language, all procedures implement well-defined mathematical functions of their arguments, whose behavior does not change. The functional approach is extremely attractive for dealing with concurrent systems.
+
