@@ -48,3 +48,27 @@ All OO languages show some tendency to suck programmers into the trap of excessi
 Another side-effect of OO abstraction is that opportunities for optimization tend to disappear. For example, a+a+a+a can become a\*4 and even a<<2 if a is an integer. But if one creates a class with operators, there is nothing to indicate if they are commutative, distributive, or associative. Since one isn't supposed to look inside the object.
 
 In GUIs and graphics, for example, there is generally a rather natural mapping between manipulable visual objects and classes.
+
+# Chapter 20. Futures
+
+## Problems in the Design of Unix
+
+A Unix File is Just a Big Bag of Bytes
+
+Unix Support for GUIs Is Weak
+
+File Deletion is Forever
+
+Unix Assumes a Static File System
+
+The Design of Job Control Was Badly Botched
+
+The Unix API Doesn't Use Exceptions
+
+ioctl(2) and fcntl(2) Are an Embarrassment
+
+The Unix Security Model May Be Too Primitive
+
+Unix Has Too Many Different Kinds Of Names
+
+File Systems Might Be Considered Harmful
