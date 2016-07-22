@@ -1,4 +1,4 @@
 name: Lei Cao
-markdown: redcarpet
+markdown: kramdown
 pygments: true
 encoding: UTF-8
