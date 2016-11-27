@@ -13,9 +13,9 @@ date:	2016-11-26
 
 1. sudo auto/configure
 
-This step will configure some variables and create objs/Makefile
+    This step will configure some variables and create objs/Makefile
 
-Install PCRE, zlib if you haven't 
+    Install PCRE, zlib if you haven't 
 
 2. sudo make -f objs/Makefile
 
@@ -43,14 +43,14 @@ sudo objs/nginx -s reload
 
 # Debug
 
-1. using GDB to attach nginx process
+* using GDB to attach nginx process
 
 {% highlight bash %}
 sudo gdb
 (gdb) attach 16288 
 {% endhighlight %}
 
-2. in configuration file:
+* in configuration file:
 
 {% highlight bash %}
 master_process off;
@@ -100,13 +100,13 @@ No, in the function ngx_load_module(), it uses the system function dlsym() to lo
 
 Refer [this link](https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-12-04)
 
-1. install PHP
+* install PHP
 
 {% highlight bash %}
 sudo apt-get install php5-fpm
 {% endhighlight %}
 
-2. change nginx configuration file
+* change nginx configuration file
 
 add the following lines in the "server" block:
 
@@ -124,7 +124,7 @@ location ~ \.php$ {
 
 Notice: If you build nginx from source code, you need to copy fastcgi.conf and fastcgi_params into the conf/ folder manually.
 
-3. create a php file to test
+* create a php file to test
 
 {% highlight bash %}
 sudo vim /usr/local/nginx/html/info.php
