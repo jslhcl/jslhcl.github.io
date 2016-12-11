@@ -67,4 +67,5 @@ See the *Reference* part
 ## Reference
 
 [geeksforgeeks1](http://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/)
+
 [geeksforgeeks2](http://www.geeksforgeeks.org/segment-tree-set-1-range-minimum-query/)
