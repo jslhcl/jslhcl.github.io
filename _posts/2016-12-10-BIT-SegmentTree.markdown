@@ -11,25 +11,16 @@ Basic idea of BIT is to introduce a helper array, say, BIT[], when we update BIT
 
 Suppose the array is {1,2,3,4,5,6,7,8} (index is 1-based), we update the BIT array step by step:
 
-Index   1   2   3   4   5   6   7   8
-
-array   1   2   3   4   5   6   7   8
-
-BIT     1   1       1               1   (update BIT[1])
-
-        1   3       3               3   (update BIT[2])
-
-        1   3   3   6               6   (update BIT[3])
-
-        1   3   3  10              10   (update BIT[4])
-
-        1   3   3  10   5   5      15   (update BIT[5])
-
-        1   3   3  10   5  11      21   (update BIT[6])
-
-        1   3   3  10   5  11   7  28   (update BIT[7])
-
-        1   3   3  10   5  11   7  36   (update BIT[8])
+Index   |1   |2   |3  | 4   |5  | 6   |7  | 8   |
+array   |1   |2   |3  | 4   |5  | 6   |7  | 8   |
+BIT     |1   |1   |   | 1   |   |     |   | 1   |(update BIT[1])
+        |1   |3   |   | 3   |   |     |   | 3   |(update BIT[2])
+        |1   |3   |3  | 6   |   |     |   | 6   |(update BIT[3])
+        |1   |3   |3  |10   |   |     |   |10   |(update BIT[4])
+        |1   |3   |3  |10   |5  | 5   |   |15   |(update BIT[5])
+        |1   |3   |3  |10   |5  |11   |   |21   |(update BIT[6])
+        |1   |3   |3  |10   |5  |11   |7  |28   |(update BIT[7])
+        |1   |3   |3  |10   |5  |11   |7  |36   |(update BIT[8])
 
 so if we want sum(1..7), it equals BIT[7] (which is array[7]) + BIT[6] (which is array[6]+array[5]) + BIT[4] (which is array[1]+array[2]+array[3]+array[4])
 
@@ -58,7 +49,7 @@ so if we want sum(1..7), it equals BIT[7] (which is array[7]) + BIT[6] (which is
 
 ## Reference
 
-[](https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/)
+[topcoder](https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/)
 
 # Segment Tree
 
@@ -75,5 +66,5 @@ See the *Reference* part
 
 ## Reference
 
-[](http://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/)
-[](http://www.geeksforgeeks.org/segment-tree-set-1-range-minimum-query/)
+[geeksforgeeks1](http://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/)
+[geeksforgeeks2](http://www.geeksforgeeks.org/segment-tree-set-1-range-minimum-query/)
