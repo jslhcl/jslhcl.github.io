@@ -49,8 +49,6 @@ The problem with temps is that they are temporary and local. Because they can be
 
 If you have a money class with a currency and a value, ... That does not mean your salary cannot change. It means that to change your salary, you need to replace the existing money object with a new money object rather than changing the amount on an existing money object. 
 
-# Chapter 8 Organizing Data
-
 ## Encapsulate Collection
 
 A method returns a collection. *Make it return a read-only view and provide add/remove methods*.
