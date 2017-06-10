@@ -55,3 +55,22 @@ A method returns a collection. *Make it return a read-only view and provide add/
 
 The getter should not return the collection object itself, because that allows clients to manipulate the contents of the collection without the owning class's knowing what is going on. It also reveals too much to clients about the object's internal data structures.
 
+# Chapter 10 Making Method Calls Simpler
+
+## Encapsulate Downcast
+
+{% highlight Java %}
+Object lastReading() {
+        return readings.lastElement();
+}
+{% endhighlight %}
+
+=>
+
+{% highlight Java %}
+Reading lastReading() {
+        return (Reading)readings.lastElement();
+}
+{% endhighlight %}
+
+If you return a value from a method, and you know the type of what is returned is more specialized than what the method signature says, you are putting unnecessary work on your clients. Rather than forcing them to do the downcasting, you should always provide them with the most specific type you can.
