@@ -19,9 +19,11 @@ A group of stones (black or white) that are adjacent horizontally or vertically 
 水平或垂直连接的子
 
 ![Fig 1](/img/fig1.png)
+
 *Fig 1*
 
 ![Fig 2](/img/fig2.png)
+
 *Fig 2*
 
 Fig1 is one connected group while Fig2 is not (a single stone and one connected group of 3 stones)
@@ -37,21 +39,27 @@ The empty intersection that is adjacent to a stone or a connected group horizont
 和棋子水平或垂直相连的空白交叉点
 
 ![Fig 3 black has 4 liberties 黑子有4口气](/img/fig3.png)
+
 *Fig 3 black has 4 liberties 黑子有4口气*
 
 ![Fig 4 white has 3 liberties 白子有三口气](/img/fig4.png)
+
 *Fig 4 white has 3 liberties 白子有三口气*
 
 ![Fig 5 black has 2 liberties 黑子有2口气](/img/fig5.png)
+
 *Fig 5 black has 2 liberties 黑子有2口气*
 
 ![Fig 6 black has 2 liberties left 黑子还剩2口气](/img/fig6.png)
+
 *Fig 6 black has 2 liberties left 黑子还剩2口气*
 
 ![Fig 7 black has 12 liberties 黑子有12口气](/img/fig7.png)
+
 *Fig 7 black has 12 liberties 黑子有12口气*
 
 ![Fig 8 black has 1 liberty left 黑子还剩1口气](/img/fig8.png)
+
 *Fig 8 black has 1 liberty left 黑子还剩1口气*
 
 **Definition 3**: Live or Death
@@ -79,6 +87,8 @@ Each of these separate liberties are called ‘eye’. So in short, you need to 
 每一个像这样的气被称为“眼”。所以简而言之，你至少需要做两个眼。
 
 ![Fig 9 black has 2 eyes so it will live forever. 黑棋有了两个眼，所以能长久的生存下去](/img/fig9.png)
+
+*Fig 9 black has 2 eyes so it will live forever. 黑棋有了两个眼，所以能长久的生存下去*
 
 **Definition 4**: Territory
 
