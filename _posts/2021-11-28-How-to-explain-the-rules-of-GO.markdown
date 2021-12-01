@@ -19,8 +19,10 @@ A group of stones (black or white) that are adjacent horizontally or vertically 
 水平或垂直连接的子
 
 ![Fig 1](/img/fig1.png)
+*Fig 1*
 
 ![Fig 2](/img/fig2.png)
+*Fig 2*
 
 Fig1 is one connected group while Fig2 is not (a single stone and one connected group of 3 stones)
 
@@ -35,16 +37,22 @@ The empty intersection that is adjacent to a stone or a connected group horizont
 和棋子水平或垂直相连的空白交叉点
 
 ![Fig 3 black has 4 liberties 黑子有4口气](/img/fig3.png)
+*Fig 3 black has 4 liberties 黑子有4口气*
 
 ![Fig 4 white has 3 liberties 白子有三口气](/img/fig4.png)
+*Fig 4 white has 3 liberties 白子有三口气*
 
 ![Fig 5 black has 2 liberties 黑子有2口气](/img/fig5.png)
+*Fig 5 black has 2 liberties 黑子有2口气*
 
 ![Fig 6 black has 2 liberties left 黑子还剩2口气](/img/fig6.png)
+*Fig 6 black has 2 liberties left 黑子还剩2口气*
 
 ![Fig 7 black has 12 liberties 黑子有12口气](/img/fig7.png)
+*Fig 7 black has 12 liberties 黑子有12口气*
 
 ![Fig 8 black has 1 liberty left 黑子还剩1口气](/img/fig8.png)
+*Fig 8 black has 1 liberty left 黑子还剩1口气*
 
 **Definition 3**: Live or Death
 
@@ -86,7 +94,7 @@ For example, in Fig 9 black has a territory with the area of 14.
 
 The goal of GO: To gain more territories. The one who owns more territories wins the game. 
 
-围棋的目标：多占领土。占有领土越多的人获胜
+围棋的目标：多占领土。围有领土越多的人获胜
 
 后记
 
