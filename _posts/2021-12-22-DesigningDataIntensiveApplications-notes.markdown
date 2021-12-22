@@ -3,9 +3,7 @@ layout:	post
 title:	"Designing Data-Intensive Applications notes"
 date:	2021-12-22
 ---
-
 # Chapter 1 Reliable, Scalable, and Maintainable Applications
-
 Three concerns that are important in most software system: Reliability, Scalability and Maintainability
 
 ## Scalability
@@ -18,14 +16,13 @@ If you are working on a fast-growing service, you will need to rethink your arch
 Keep your database on a single node (scale up) until scaling cost or high-availability requirements forced you to make it distributed.
 
 # Chapter 2 Data Models and Query Languages
-why NoSQL: greater scalability, specialized query that are not well supported by SQL, restrictiveness of relational schemas, better performance due to locality.
+Why NoSQL: greater scalability, specialized query that are not well supported by SQL, restrictiveness of relational schemas, better performance due to locality.
 
 If data is stored in relational tables, a translation layer is required between the objects in the application code and the DB model of tables, rows and columns.
 
 Relational model provides better support for joins, and many-to-one and many-to-many relationships.
 
 ## Document Model
- 
 If your application does use many-to-many relationships, the document model becomes less appealing:
 - joins will be emulated in application code by making multiple requests to the DB, 
 - moves complexity into the application level
@@ -37,8 +34,9 @@ If your application has mostly one-to-many relationships (tree-structured data) 
 
 The advantage of using an ID is that because it has no meaning to humans, it never needs to change: the ID can remain the same, even if the information it identifies changes. Anything that is meaningful to humans may need to change sometime in the future.
 
-Schema-on-read: the structure of the data is implicit, and only interpreted when the data is read. (Document DB)
-Schema-on-write: the schema is explicit and the database ensures all written data conforms to it. (Relational DB) 
+- Schema-on-read: the structure of the data is implicit, and only interpreted when the data is read. (Document DB)
+- Schema-on-write: the schema is explicit and the database ensures all written data conforms to it. (Relational DB) 
+
 Schema-on-read is similar to dynamic (runtime) type checking in programming language, whereas schema-on-write is similar to static (compile-time) type checking. 
 
 Convergence of Document and relational DB
