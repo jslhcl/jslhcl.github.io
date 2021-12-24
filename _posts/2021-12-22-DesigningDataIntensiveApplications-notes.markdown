@@ -93,7 +93,7 @@ Data cube/OLAP cube: cache aggregates that queries use more often. One way of cr
 
 why OLAP workloads are so different from OLTP: when your queries require sequentially scanning across a large number of rows, indexes are much less relevant.
 
-# Chapter 4 
+# Chapter 4 Encoding and Evolution
 Binary encoding: Apache Thrift, Protobuf, Apache Avro
 
 Data outlives code
