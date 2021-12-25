@@ -171,6 +171,29 @@ Version vectors (vector clock):
 - Need to use a version number per replica as well as per key.
 
 # Chapter 6 Partitioning
+Consistent Hashing: a way of evenly distributing load across an internet-wide system of caches.
+
+Cassandra achieves a compromise between two partitioning strategies (by key range and by hash of key). If the primary key is chosen to be (user\_id, update\_timestamp), the 1st key (user\_id) is hashed to determine the partition, the second key (update\_timestamp) is used as a concatenated index. Different users may be stored on different partitions, but within each user, the updates are stored ordered by timestamp on a single partition.
+
+Hashing a key cannot avoid hot spots entirely. If one key is known to be very hot, a simple technique is to add a random number to the beginning or end of the key.
+
+Partitioning secondary indexes by Document vs. by Term
+- By Document (local index): secondary index will scatter in different partitions. Write to DB (add/remove/update a document) only need to deal with the partition that contains the document ID you are writing, but read will search all the partitions.
+- By Term (global index): secondary index will be in one partition for one secondary index value. Read will only request to the partition containing the term, writes may affect multiple partitions. 
+ 
+## Rebalancing partitions
+Fixed number of partitions (partition numbers > nodes) vs. Dynamic partitioning vs. Fixed number of partitions per node
+
+## Operations: Automatic or Manual Rebalancing
+Automation can be dangerous in combination with automatic failure detection. This puts additional load on the overloaded node, other nodes and the network --making the situation worse and potentially causing a cascading failure.
+
+Service Discovery: How does the component making the routing decision (which may be one of the nodes, or the routing tier, or the client)
+
+Many distributed data systems rely on a separate coordination service such as ZooKeeper to keep track of this cluster metadata. Whenever a partition changes ownership, or a node is added or removed, ZooKeeper notifies the routing tier so that it can keep its routing information up to date. 
+
+HBase, SolrCloud and Kafka also use ZooKeeper to track partition assignments.
+
+Cassandra and Riak use a *gossip protocol* among the nodes. Requests can be sent to any node, and that node forwards them to the appropriate node.
 
 # Chapter 7 Transactions
 
