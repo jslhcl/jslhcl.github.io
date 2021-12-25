@@ -98,3 +98,88 @@ Binary encoding: Apache Thrift, Protobuf, Apache Avro
 
 Data outlives code
 
+# Chapter 5 Replication 
+scale up vs. scale out
+
+- leader: first writes new data to its local storage
+- follower: receive data change from leader
+
+Synchronous vs. Asynchronous Replication
+
+In practice, if you enable synchronous replication, it usually means one of the followers is sync, and the others are async. If the sync follower becomes unavailable or slow, one of the async followers is made sync. (also called semi-synchronous) (Azure Storage uses chain replication which is a variant of sync replication)
+
+## Single Leader Replication
+
+Set up new follower: take a consistent snapshot of the leader's DB, copy snapshot to the new follower, follower requests all the data changes that have happened since the snapshot was taken
+
+Handle Node outages 
+- Follower failure: catch-up recovery
+- Leader failure: failover. One of the followers needs to be promoted to be the new leader. (split brain: two nodes both believe they are the leader) (Chapter 9 summary, wait for the leader to recover, or manually fail over, or use an algorithm to automatically choose a new leader. This approach requires a consensus algorithm)
+
+Implementation of Replication logs
+- Statement-based (not deterministic. call Now() or Rand(), have side effects, e.g., triggers)
+- Write-ahead log shipping (the log describes that data on a very low level)
+- Logical (row-based) log replication
+- Trigger-based: more flexible (only replicate a subset of data), greater overheads
+
+Eventual consistency, replication lag
+- Read your own writes: always read the user's own profile from the leader, and any other user's profile from a follower.
+- Monotonic Read: each user always makes their reads from the same replica
+- Consistent Prefix Reads: particular problem in partitioned (sharded) DB. One solution is to make sure any writes that are causally related to each other are written to the same partition.
+
+## Multi-leader Replication: 
+allow more than one node to accept writes. Each leader simultaneously acts as a follower to the other leader (master-master or active/active replication). Used in multi-datacenter operation.
+
+retrofitted feature, may cause other DB features (autoincreamenting keys, triggers) problematic. Should be avoided if possible.
+
+Another situation in which multi-leader replication is appropriate is if you have an application that needs to continue to work while it is disconnected from the Internet
+
+The biggest problem with multi-leader replication is that write conflicts can occur.
+
+Conflict Resolutions: The simplest strategy is to avoid them: If the application can ensure that all writes for a particular record go through the same leader, then conflicts cannot occur.
+
+Last write wins (LWW): prone to data loss
+
+merge conflicts, let application code to resolve.
+
+Another problem is writes may arrive in the wrong order at some replicas, similar to "Consistent Prefix Reads". Simply attaching a timestamp to every write is not sufficient, because clocks cannot be trusted to be sufficiently in sync to correctly order these events. a technique called *version vectors* can be used 
+
+## Leaderless Replication
+Read requests are also sent to several nodes in parallel. Appealing for use cases that require high availability and low latency and that can tolerate occasional stale reads, also suitable for multi-datacenter operation.
+
+How does an unavailable node catch up on the writes that it missed?
+- Read repair: This approach works well for values that are frequently read
+- Anti-entropy process: a background process that constantly looks for differences in the data between replicas and copies any missing data from one replica to another
+
+Quorum reads (r) and writes (w): r + w > n (replicas)
+
+### What if we cannot reach a  quorum of w or r nodes?
+*Sloppy quorum*: writes and reads still require w and r successful response, but those may include nodes that are not among the designated n home nodes for a value. Once the network interruption is fixed, any writes that one node temporarily accepted on behalf of another node are sent to the appropriate “home” nodes (*hinted handoff*)
+
+Quorum Consistency cannot guarantee to get the latest value. Stronger guarantees require transactions or consensus.  
+
+### Detect Concurrent Writes
+LWW (last write wins) achieves the goal of eventual convergence, but at the cost of durability: if there are several concurrent writes to the same key, even if they were all reported as successful to the client, only one of the writes will survive and others will be silently discarded. Moreover, LWW may even drop writes that are not concurrent. 
+
+The only safe way of using DB with LWW is to ensure a key is only written once and thereafter treated as immutable
+
+Version vectors (vector clock): 
+- The server maintains a version number for every key, increments the version number every time that key is written. 
+- When a client writes a key, it must include the version number from the prior read, and it must merge together all values that it received in the prior read.
+- If a client makes a write without including a version number, it is concurrent with all other writes, so it will not overwrite anything.
+- An item cannot simply be deleted from DB when it is removed, instead, the system must leave a deletion marker (*tombstone*) with an appropriate version number indicating that the item has been removed when merging siblings.
+- Need to use a version number per replica as well as per key.
+
+# Chapter 6 Partitioning
+
+# Chapter 7 Transactions
+
+# Chapter 8 The Trouble with Distributed Systems
+
+# Chapter 9 Consistency and Consensus
+
+# Chapter 10 Batch Processing
+
+# Chapter 11 Stream Processing
+
+# Chapter 12 The Future of Data Systems
