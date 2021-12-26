@@ -4,9 +4,11 @@ title:	"Designing Data-Intensive Applications notes"
 date:	2021-12-22
 ---
 # Chapter 1 Reliable, Scalable, and Maintainable Applications
+
 Three concerns that are important in most software system: Reliability, Scalability and Maintainability
 
 ## Scalability
+
 load parameters: numbers to describe load. e.g., (Twitter) The distribution of followers per user is a key load parameter for discussing scalability. Hybrid mode of both approaches: Most users' tweets continued to be fanned out to home timelines, small number of celebrities are fetching tweets separately and merged with that user's home timeline when it is read
 
 use percentiles to measure performance
@@ -16,6 +18,7 @@ If you are working on a fast-growing service, you will need to rethink your arch
 Keep your database on a single node (scale up) until scaling cost or high-availability requirements forced you to make it distributed.
 
 # Chapter 2 Data Models and Query Languages
+
 Why NoSQL: greater scalability, specialized query that are not well supported by SQL, restrictiveness of relational schemas, better performance due to locality.
 
 If data is stored in relational tables, a translation layer is required between the objects in the application code and the DB model of tables, rows and columns.
@@ -23,6 +26,7 @@ If data is stored in relational tables, a translation layer is required between 
 Relational model provides better support for joins, and many-to-one and many-to-many relationships.
 
 ## Document Model
+
 If your application does use many-to-many relationships, the document model becomes less appealing:
 - joins will be emulated in application code by making multiple requests to the DB, 
 - moves complexity into the application level
@@ -46,11 +50,13 @@ SQL is a declarative query language. You just specify the pattern of the data yo
 Many commonly used programming language are imperative
 
 ## Graph Data Model 
+
 Facebook maintains a single graph with many types of vertices and edges: vertices represent people, locations, events, checkins and comments
 
 Graphs are good for evolvability
 
 # Chapter 3 Storage and Retrieval
+
 Well-chosen indexes speed up read queries, but every index slows down writes
  
 Append-only log is good (compared with update the file in place) for several reasons:
@@ -75,6 +81,7 @@ In MySQL's InnoDB storage engine, the primary key of a table is always a cluster
 The performance advantage of in-memory DB is not due to the fact that they don't need to read from disk (Operating system cache will make sure a disk-based storage engine may never need to read from disk). They can be faster because they can avoid the overheads of encoding in-memory data structures in a form that can be written to disk.
 
 ## OLTP vs. OLAP
+
 OLTP (online transaction processing): handles raw data, interactive. Records are inserted or updated based on the user’s input
 
 OLAP (online analytic processing): aggregate raw data 
@@ -94,11 +101,13 @@ Data cube/OLAP cube: cache aggregates that queries use more often. One way of cr
 why OLAP workloads are so different from OLTP: when your queries require sequentially scanning across a large number of rows, indexes are much less relevant.
 
 # Chapter 4 Encoding and Evolution
+
 Binary encoding: Apache Thrift, Protobuf, Apache Avro
 
 Data outlives code
 
 # Chapter 5 Replication 
+
 scale up vs. scale out
 
 - leader: first writes new data to its local storage
@@ -128,6 +137,7 @@ Eventual consistency, replication lag
 - Consistent Prefix Reads: particular problem in partitioned (sharded) DB. One solution is to make sure any writes that are causally related to each other are written to the same partition.
 
 ## Multi-leader Replication: 
+
 allow more than one node to accept writes. Each leader simultaneously acts as a follower to the other leader (master-master or active/active replication). Used in multi-datacenter operation.
 
 retrofitted feature, may cause other DB features (autoincreamenting keys, triggers) problematic. Should be avoided if possible.
@@ -145,6 +155,7 @@ merge conflicts, let application code to resolve.
 Another problem is writes may arrive in the wrong order at some replicas, similar to "Consistent Prefix Reads". Simply attaching a timestamp to every write is not sufficient, because clocks cannot be trusted to be sufficiently in sync to correctly order these events. a technique called *version vectors* can be used 
 
 ## Leaderless Replication
+
 Read requests are also sent to several nodes in parallel. Appealing for use cases that require high availability and low latency and that can tolerate occasional stale reads, also suitable for multi-datacenter operation.
 
 How does an unavailable node catch up on the writes that it missed?
@@ -154,11 +165,13 @@ How does an unavailable node catch up on the writes that it missed?
 Quorum reads (r) and writes (w): r + w > n (replicas)
 
 ### What if we cannot reach a  quorum of w or r nodes?
+
 *Sloppy quorum*: writes and reads still require w and r successful response, but those may include nodes that are not among the designated n home nodes for a value. Once the network interruption is fixed, any writes that one node temporarily accepted on behalf of another node are sent to the appropriate “home” nodes (*hinted handoff*)
 
 Quorum Consistency cannot guarantee to get the latest value. Stronger guarantees require transactions or consensus.  
 
 ### Detect Concurrent Writes
+
 LWW (last write wins) achieves the goal of eventual convergence, but at the cost of durability: if there are several concurrent writes to the same key, even if they were all reported as successful to the client, only one of the writes will survive and others will be silently discarded. Moreover, LWW may even drop writes that are not concurrent. 
 
 The only safe way of using DB with LWW is to ensure a key is only written once and thereafter treated as immutable
@@ -171,6 +184,7 @@ Version vectors (vector clock):
 - Need to use a version number per replica as well as per key.
 
 # Chapter 6 Partitioning
+
 Consistent Hashing: a way of evenly distributing load across an internet-wide system of caches.
 
 Cassandra achieves a compromise between two partitioning strategies (by key range and by hash of key). If the primary key is chosen to be (user\_id, update\_timestamp), the 1st key (user\_id) is hashed to determine the partition, the second key (update\_timestamp) is used as a concatenated index. Different users may be stored on different partitions, but within each user, the updates are stored ordered by timestamp on a single partition.
@@ -182,9 +196,11 @@ Partitioning secondary indexes by Document vs. by Term
 - By Term (global index): secondary index will be in one partition for one secondary index value. Read will only request to the partition containing the term, writes may affect multiple partitions. 
  
 ## Rebalancing partitions
+
 Fixed number of partitions (partition numbers > nodes) vs. Dynamic partitioning vs. Fixed number of partitions per node
 
 ## Operations: Automatic or Manual Rebalancing
+
 Automation can be dangerous in combination with automatic failure detection. This puts additional load on the overloaded node, other nodes and the network --making the situation worse and potentially causing a cascading failure.
 
 Service Discovery: How does the component making the routing decision (which may be one of the nodes, or the routing tier, or the client)
@@ -196,6 +212,102 @@ HBase, SolrCloud and Kafka also use ZooKeeper to track partition assignments.
 Cassandra and Riak use a *gossip protocol* among the nodes. Requests can be sent to any node, and that node forwards them to the appropriate node.
 
 # Chapter 7 Transactions
+
+Systems that do not meet the ACID criteria are sometimes called *BASE*: Basically Available, Soft state, and Eventual consistency.
+
+The idea of ACID consistency is that you have certain statements about your data (invariants) that must always be true. 
+
+Atomicity, isolation and durability are properties of the DB, whereas consistency (in ACID sense) is a property of the application. It's the application's responsibility to define its transactions correctly, this is not something that the DB can guarantee.
+
+The idea of ACID isolation is that concurrently running transactions shouldn't interfere with each other.  
+
+A transaction is usually understood as a mechanism for grouping multiple operations on multiple objects into one unit of execution.
+
+Many distributed datastores have abandoned multi-object transactions because they are difficult to implement across partitions. Datastores with leaderless replication work much more on a "best effort" basis
+
+## Weak isolation levels (vs. serializable isolation which means the DB guarantees that transactions have the same effect as if they ran serially):
+
+### Read Committed 
+
+no dirty read - cannot see uncommitted data, (how to implement) use lock, or remember both the old committed value and the new value
+
+no dirty write - cannot overwrite uncommitted data. (how to implement) use lock
+
+### Snapshot Isolation and Repeatable Read
+
+*read skew*, an example of nonrepeatable read. A client sees different parts of the DB at different points in time.
+
+Each transaction reads from a consistent snapshot of the database - the transaction sees all the data that was committed in the DB at the start of the transaction. Even if the data is subsequently changed by another transaction, each transaction sees only the old data from that particular point in time. 
+
+A key point of snapshot isolation is readers never block writes, and writes never block readers
+
+(how to implement) DB must keep several different committed versions of an object (multi-version concurrency control, MVCC). A typical approach is that read committed uses a separate snapshot for each query, while snapshot isolation uses the same snapshot for an entire transaction. When a transaction is started, it is given a unique, always-increasing transaction ID (txid)
+
+The reason of this naming confusion (Oracle: serializable, PostgreSQL and MySQL: repeatable read) is that the SQL standard doesn't have the concept of snapshot isolation. IBM DB2 uses "repeatable read" to refer to serializability 
+
+#### Prevent Lost Updates
+
+Lost update problem: read-modify-write cycle concurrently.
+
+Many DB provide atomic update operations, which remove the need to implement read-modify-write cycles in application code. (but it won't help if application code still uses read-modify-write cycles) Or use lock, application code needs to add lock explicitly
+
+An alternative is to allow them to execute in parallel and, if the transaction manager detects a lost update, abort the transaction and force it to retry its read-modify-write cycle.
+
+#### Write Skew and Phantoms
+
+*write skew*: not dirty write nor lost update, because the two transactions are updating two different objects
+
+*phantom*: a write in one transaction changes the result of a search query in another transaction
+
+## Serializability
+
+Serializable isolation is usually regarded as the strongest isolation level. It guarantees that even though transactions may execute in parallel, the end result is the same as if they had executed one at a time, serially, without any concurrency. **protect against all the concurrency issues**
+
+### Actual Serial Execution
+   
+To execute only one transaction at a time, in serial order, on a single thread.
+
+Encapsulating transactions in stored procedures. Systems with single-threaded serial transaction processing don’t allow interactive multi-statement transactions.
+
+Cons: 
+- Each DB has its own language for stored procedure; 
+- Harder to debug, test and monitor; 
+- Badly written stored procedure (using a lot of memory or CPU) can cause more trouble than code in application layer; 
+- Cross partition is orders of magnitude below its single-partition throughput and cannot be increased by adding more machines; 
+- Limited to use cases where the active dataset can fit in memory
+
+### Two-Phase Locking (2PL)
+
+Only one widely used algorithm for serializability for around 30 years. Used by the serializable isolation level in MySQL (InnoDB) and SQL Server, and the repeatable read isolation level in DB2.
+
+Implementation: acquire shared lock before read; acquire exclusive lock before write; upgrade shared lock to exclusive lock if first reads then writes; hold the lock until the end of the transaction (commit or abort. This is where the name comes from: 1st phase is when the locks are acquired, 2nd phase is when all the locks are released)
+
+Will cause deadlock. DB automatically detects deadlocks and aborts one of them. The aborted transaction needs to be retried by the application.
+
+Unlike snapshot isolation, Reading an old version of the object is not acceptable under 2PL. 
+
+Quite unstable latency, very slow at high percentiles.
+
+- Predict Locks: solve phantom issue. It belongs to all objects that match some search condition. 
+- Index-range lock: simplified approximation of predict locking.
+
+### Serializable Snapshot Isolation (SSI)
+    
+First described in 2008.
+
+Optimistic concurrency control. It lets transactions continue anyway, in the hope that everything will turn out all right. When a transaction wants to commit, the DB checks whether anything bad happened; if so, the transaction is aborted and has to be retried. 
+
+Based on snapshot isolation, On top of snapshot isolation, SSI adds an algorithm for detecting serialization conflicts among writes and determining which transactions to abort. 
+
+How to detect: 
+- When the transaction wants to commit, the DB checks whether any of the ignored writes have now been committed. If so, the transaction must be aborted;  
+- When the transaction writes to the DB, DB checks whether the prior read is outdated and committed. If so, the transaction must be aborted.
+ 
+Performance: 
+
+- Less detailed tracking is faster, but may lead to more transactions being aborted than strictly necessary.
+- One transaction doesn't need to block waiting for locks held by other transaction, read-only queries can run on a consistent snapshot without requiring any locks, which is very appealing for read-heavy workloads.
+- The rate of aborts significantly affects the overall performance of SSI. SSI requires that read-write transactions be fairly short (long-running read-only transactions may be OK)
 
 # Chapter 8 The Trouble with Distributed Systems
 
