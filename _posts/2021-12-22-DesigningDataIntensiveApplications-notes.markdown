@@ -311,6 +311,26 @@ Performance:
 
 # Chapter 8 The Trouble with Distributed Systems
 
+Partial failures in a distributed system are nondeterministic. You may not even know whether something succeeded or not. 
+
+Rather than using configured constant timeouts, systems can continually measure response times and their variability (*jitter*)
+
+Monotonic clock is suitable for measuring a duration (time interval) as they are guaranteed to always move forward; while time-of-day clock is unsuitable due to the jumps back issue
+
+Fundamental problems of LWW: 
+- A node with a lagging clock is unable to overwrite values previously written by a node with a faster clock.
+- LWW cannot distinguish between writes that occurred sequentially and writes that were truly concurrent. Additional causality tracking mechanisms, such as version vector, are needed in order to prevent violation of causality.
+
+Physical clock (time-of-day and monotonic clock, measure actual elapsed time) vs. logical clock (based on incrementing counters, are safer for ordering events)
+
+The truth is defined by the majority
+
+Fencing token: a number that increases every time a lock is granted
+
+Byzantine fault/Byzantine General Problem: nodes may "lie" (send arbitrary faulty or corrupted response)
+
+Byzantine fault-tolerant 
+
 # Chapter 9 Consistency and Consensus
 
 # Chapter 10 Batch Processing
