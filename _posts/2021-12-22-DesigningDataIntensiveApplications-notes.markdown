@@ -333,6 +333,112 @@ Byzantine fault-tolerant
 
 # Chapter 9 Consistency and Consensus
 
+Transaction isolation is primarily about avoiding race conditions due to concurrently executing transactions, whereas distributed consistency is mostly about coordinating the state of replicas in the face of delays and faults.
+
+Linearizability (aka atomic consistency, strong consistency, immediate consistency, or external consistency):
+
+The basic idea is to make a system appear as if there were only one copy of the data, and all operations on it are atomic.
+
+Linearizability vs. Serializability
+- Serializability is an isolation property of transactions, where every transaction may read and write multiple objects. It guarantees that transactions behave the same as if they had executed in some serial order.
+- Linearizability is a recency guarantee on reads and writes of a register (an individual object). It doesn't group operations together into transactions, so it does not prevent problems such as write skew.
+
+A DB may provide both serializability and linearizability, and this combination is known as *strict serializability* or *strong one-copy serializability*.
+2PL or actual serial execution are linearizable, but SSI is not linearizable, as it does not include writes that are more recent than the snapshot.
+
+Linearizability Scenarios: leader election, uniqueness constraints (username or email address must be unique)
+
+CAP theorem: Consistency, Availability, Partition tolerance: pick 2 out of 3 (better phrasing CAP would be either Consistent (linearizability) or Availability when Partitioned, because partitions aren't something about which you have a choice: they will happen whether you like it or not). 
+
+Applications that don't require linearizability can be more tolerant of network problems.
+
+If you want linearizability, the response time of read and write requests is at least proportional to the uncertainty of delays in the network. A faster algorithm for linearizability does not exist, but weaker consistency models can be much faster, so this trade-off is important for latency-sensitive systems.
+
+Linearizability has a *total order* of operations, causality defines a *partial order*. There are no concurrent operations in a linearizability datastore. Linearizability implies causality: any system that is linearizability will preserve causality correctly. In many cases, system that appear to require linearizability in fact only really require causal consistency.
+
+## Lamport Timestamps
+
+Generating sequence numbers that is consistent with causality.
+
+A pair of (counter, node ID)
+
+Every node and every client keeps track of the maximum counter value it has seen so far, and includes that maximum on every request. When a node receives a request or response with a maximum counter value greater than its own counter value, it immediately increases its own counter to that maximum.
+
+Version vectors can distinguish whether two operations are concurrent or whether one is causally dependent on the other, whereas Lamport timestamps always enforce a total ordering, you cannot tell whether two operations are concurrent or whether they are causally dependent.
+
+Not sufficient to solve many common problems in distributed system (for example, unique username, this approach works for determining the winner after the fact, but not sufficient when a node has just received a request from a user to create a username, and needs to decide right now)
+
+Total Order broadcast: Knowing when your total order is finalized
+
+Delivering a message is like appending to the log. A node is not allowed to retroactively insert a message into an earlier position in the order if subsequent messages have already been delivered. This fact makes total order broadcast stronger than timestamp ordering.
+
+The sequence number can then serve as a fencing token, because it is monotonically increasing. In ZooKeeper, this sequence number is called zxid.
+
+It can be proved that a linearizable compare-and-set (or increment-and-get) register and total order broadcast are both equivalent to consensus.
+
+## Distributed Transactions and Consensus
+
+### Two-phase Commit (2PC): implementing atomic commit (for distributed system)
+
+- phase 1: prepare request to each nodes, asking them whether they are able to commit;
+- phase 2: commit if all participants reply yes, abort if any replies no
+
+Coordinator failure: 
+
+The only way 2PC can complete is by waiting for the coordinator to recover (In principle, the participants could communicate among themselves to find out how each participant voted and come to some agreement, but that is not part of the 2PC protocol)
+
+### Three-phase Commit
+
+2PC is called a blocking atomic commit protocol due to the fact that 2PC can be stucking waiting for the coordinator to recover
+
+Nonblocking atomic commit requires a perfect failure detector – i.e., a reliable mechanism for telling whether a node has crashed or not. In a network with unbounded delay a timeout is not a reliable failure detector.
+
+### Distributed Transactions in Practice
+
+Many cloud services choose not to implement distributed transactions due to the operational problems.
+
+Distributed transactions in MySQL are reported to be over 10 times slower than single-node transactions.
+
+Database-internal distributed transactions can often work quite well. On the other hand, transactions spanning heterogeneous technologies are a lot more challenging.
+
+XA (extended architecture) is a standard for implementing two-phase commit across heterogeneous technologies. It's not a network protocol, merely a C/Java Transaction API for interfacing with a transaction coordinator.
+
+### Limitations of distributed transactions
+
+Coordinator logs are required in order to recover in-doubt transactions after a crash, which makes application server no longer stateless
+
+Since XA needs to be compatible with a wide range of data systems, it is necessarily a lowest common denominator. (cannot detect deadlocks across different systems, does not work with SSI)
+
+Have a tendency of amplifying failures (any part of the system is broken, the transaction fails)
+
+### Fault-Tolerant Consensus (Paxos, Raft)
+
+A consensus algorithm cannot simply sit around and do nothing forever, it must make progress, Even if some nodes fail, the other nodes must still reach a decision.
+
+Any consensus algorithm requires at least a majority of nodes to be functioning correctly in order to assure termination. That majority forms a quorum
+
+Total order broadcast is equivalent to repeated rounds of consensus
+
+We have two rounds of voting: once to choose a leader, and a second time to vote on a leader's proposal. The key insight is that the quorums for those two votes must overlap: if a vote on a proposal succeeds, at least one of the nodes that voted for it must have also participated in the most recent lead election.
+
+Difference between fault-tolerant consensus and 2PC:
+
+in 2PC the coordinator is not elected, fault-tolerant consensus algorithms only require votes from a majority of nodes, whereas 2PC requires a "yes" vote from every participant. Moreover, consensus algorithms define a recovery process by which nodes can get into a consistent state after a new leader is elected.
+
+### Membership and Coordination Service
+
+ZooKeeper and etcd are designed to hold small amounts of data that can fit entirely in memory. 
+
+ZooKeeper is modeled after Google's Chubby lock service, implementing not only total order broadcast (hence consensus), but also: Linearizable atomic operations, total ordering of operations, failure detection, change notification
+
+ZooKeeper runs on a fixed number of nodes (usually three or five) and performs its majority votes among those nodes while supporting a potentially large number of clients
+
+Normally, the kind of data managed by ZooKeeper is quite slow-changing: it represents information like "the node running on IP address 10.1.1.23 is the leader for partition 7"
+
+ZooKeeper, etcd, and Consul are often used for service discovery – that is, to find out which IP address you need to connect to in order to reach a particular service
+
+Causal consistency (weak consistency, as somethings can be concurrent) does not have the coordination overhead of linearizability and is much less sensitive to network problems
+
 # Chapter 10 Batch Processing
 
 # Chapter 11 Stream Processing
