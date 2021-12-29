@@ -441,6 +441,49 @@ Causal consistency (weak consistency, as somethings can be concurrent) does not 
 
 # Chapter 10 Batch Processing
 
+Services (online systems) vs. Batching processing systems (offline systems) vs. Stream processing systems (near-real-time systems)
+
+Distributed batch processing engines have a deliberately restricted programming model: 
+- Treat inputs as immutable;
+- Callback functions (mappers and reducers) are assumed to be stateless and to have no externally visible side effects
+
+Sushi principle: raw data is better
+
+## Alternatives for batching processing (besides MapReduce)
+
+Dataflow engines: Spark (distributed batch computations), handle an entire workflow as one job, rather than breaking it up into independent subjobs. Sufficient for intermediate state between operators to be kept in memory instead of Materialization of Intermediate State (The process of writing out this intermediate state to files. like MapReduce)
+
+MapReduce does not account for the iterative nature, it will always read the entire input dataset and produce a completely new output dataset (vs. Graph model and iterative processing)
+
+A difference between batch processing and stream processing
+- batch: input data is bounded, it has a known, fixed size
+- stream: input is unbounded, its inputs are never-ending streams of data (so a job is never complete)
+
 # Chapter 11 Stream Processing
 
+When moving toward continual processing with low delays, polling becomes expensive if datastore is not designed for this kind of usage. It is better for consumers to be notified when new events appear (push. Messaging system).
+
+Batch processing system provides a strong reliability guarantee (failed tasks are automatically retried, etc.), messaging system may lose messages (Direct messaging. Whether message loss is acceptable depends on the application. For example, with sensor reading, an occasional missing data is perhaps not important, since an updated value will be sent a short time later).
+
+UDP multicast is widely used in the financial industry for streams such as stock market feeds, where low latency is important.
+
+Message brokers (message queue) vs. Direct Messaging (UDP, etc.)
+
+When multiple consumers read messages, two main patterns:
+- Load balancing (each message is delivered to one of the consumers)
+- Fan-out (each message is delivered to all of the consumers)
+
+Log-based message brokers: producer sends a message by appending it to the end of the log. Combine the durable storage approach with low-latency notification facilities (Apache Kafka) 
+
 # Chapter 12 The Future of Data Systems
+
+## Lambda Architecture
+
+Combine both batch processing and stream processing 
+
+## Separation of application code and state
+
+Most web applications today are deployed as stateless services, in which any user request can be routed to any application server, but the state has to go somewhere: a database
+
+request/response interaction vs. publish/subscribe dataflow (more responsive user interfaces and better offline support): an option of subscribing to changes, not just querying the current state 
+
