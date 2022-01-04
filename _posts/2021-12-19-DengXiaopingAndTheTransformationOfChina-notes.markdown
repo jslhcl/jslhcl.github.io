@@ -42,3 +42,12 @@ Deng knew very well that what he said at the meetings to criticize Zhou would be
 
 It was discovered that Lin Biao had written notes in the margins of things he had read, showing he had great respect for Confucius; the campaign against him and someone else accused of being too Confucian, Zhou Enlai, was therefore called “Criticize Lin, criticize Confucius”
 
+# Bringing Order under Mao, 1974 - 1975 
+
+In Deng’s view, for organizational reliability, a team of leaders was better than a single leader, no matter how able. Something might happen to one leader, but if there were a small team, then others would be ready to take over if problems arose. Ideally, these leadership team members would not only be able to provide overall leadership when needed but would also develop specialized knowledge in the areas to which they were assigned.
+
+# Looking forward under Mao, 1975
+
+During the Cultural Revolution, one out of every 250 scientific personnel at the CAS, where the vast majority of high-level scientists were concentrated, had been persecuted to death; in the CAS Shanghai branch the figure was one out of every 150 scientists.
+
+In 1965, on the eve of the Cultural Revolution, there had been some 106 research centers under CAS, with 24,714 scientific and research personnel. In 1975, by contrast, CAS had been reduced to thirteen research institutes, two research offices, and about 2,000 employees, of whom 1,800 were officials or researchers and 200 were lower-level support staff. Many of the scientists who had been sent to the countryside had not yet returned.
