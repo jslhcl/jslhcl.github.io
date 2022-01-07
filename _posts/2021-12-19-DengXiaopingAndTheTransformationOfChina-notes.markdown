@@ -51,3 +51,7 @@ In Deng’s view, for organizational reliability, a team of leaders was better t
 During the Cultural Revolution, one out of every 250 scientific personnel at the CAS, where the vast majority of high-level scientists were concentrated, had been persecuted to death; in the CAS Shanghai branch the figure was one out of every 150 scientists.
 
 In 1965, on the eve of the Cultural Revolution, there had been some 106 research centers under CAS, with 24,714 scientific and research personnel. In 1975, by contrast, CAS had been reduced to thirteen research institutes, two research offices, and about 2,000 employees, of whom 1,800 were officials or researchers and 200 were lower-level support staff. Many of the scientists who had been sent to the countryside had not yet returned.
+
+Mao complained to his nephew (Mao Yuanxin) about Deng and his consolidation efforts at Tsinghua University. Mao was also furious about the document on science; he zeroed in on one sentence that Hu Qiaomu had inserted in the final draft quoting Mao as saying that "science and technology consitute a force of production". Mao insisted that he had never said that.
+
+Deng showed courage when he argued that the social sciences were important enough to deserve a separate academy.... (On August 30, 1975) Hu (Qiaomu) laid out plans for developing an independent acedemy that would later be known as the CASS (Chinese Academy of Social Sciences) 
