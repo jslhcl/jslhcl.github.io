@@ -55,3 +55,5 @@ In 1965, on the eve of the Cultural Revolution, there had been some 106 research
 Mao complained to his nephew (Mao Yuanxin) about Deng and his consolidation efforts at Tsinghua University. Mao was also furious about the document on science; he zeroed in on one sentence that Hu Qiaomu had inserted in the final draft quoting Mao as saying that "science and technology consitute a force of production". Mao insisted that he had never said that.
 
 Deng showed courage when he argued that the social sciences were important enough to deserve a separate academy.... (On August 30, 1975) Hu (Qiaomu) laid out plans for developing an independent acedemy that would later be known as the CASS (Chinese Academy of Social Sciences) 
+
+The question of how Deng might treat Mao's reputation after his death was too sensitive to discuss directly; they brought it up indirectly, by discussing how Khrushchev had savaged Stalin's reputation. Deng's critics warned that he could end up being China's Khrushchev
