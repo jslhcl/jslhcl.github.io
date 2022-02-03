@@ -57,3 +57,11 @@ Mao complained to his nephew (Mao Yuanxin) about Deng and his consolidation effo
 Deng showed courage when he argued that the social sciences were important enough to deserve a separate academy.... (On August 30, 1975) Hu (Qiaomu) laid out plans for developing an independent acedemy that would later be known as the CASS (Chinese Academy of Social Sciences) 
 
 The question of how Deng might treat Mao's reputation after his death was too sensitive to discuss directly; they brought it up indirectly, by discussing how Khrushchev had savaged Stalin's reputation. Deng's critics warned that he could end up being China's Khrushchev
+
+# Sidelined as the Mao Era Ends, 1976
+
+Within a single year, between December 1975 and September 1976, four senior Chinese leaders passed away. First Kang Sheng, the master internal spy who had done the dirty work for Mao in arranging the killing of hundreds of officials accused of betraying the revelution, died in December 1975.
+
+When Zhou passed away before Mao, it allowed Mao to shape the nature of Zhou's funeral arrangements -- and he used the occasion to try to dampen the public memory of Zhou, offering what was by party standards only minimal recognition of Zhou's service.
+
+But Mao did not attend the service. Three days before the service was to be held at the Great Hall of the People, Mao scoffed to his boyguard Wang Dongxing, "Why do I have to go to the service?" He instructed his personal assistant Zhang Yufeng to explain simply that he was unable to be there (even though, just a few weeks later, Mao was well enough to meet former president Nixon for a full hour and forty minutes)...... Mao, though far more mobile than Zhou, never once visited him in the hospital. Mao also tried to dampen foreigners' celebration of Zhou.
