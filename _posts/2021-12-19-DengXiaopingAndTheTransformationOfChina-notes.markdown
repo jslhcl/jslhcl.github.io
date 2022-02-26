@@ -85,3 +85,7 @@ He encouraged more democratic discussion within the party. But when protestors a
 (P283) The fear intensified during the Culture Revolution when China began sending radio messages into those countries to encourage the local people to carry out revolution. At the time of Deng's visit, these radio appeals had not yet stopped. The problem was mostly acute in Indonesia, where local Chinese had joined in the resistance to Sukarno that had nearly toppled his government. (Indonesia, furious, did not normalize relations with China until 1990.)
 
 (P285) In the 1950s the Communist movement in the British colony of Malaya was so strong that many Malayas had feared that the Communists might take over after Malaysian independence. After Malaysian independence was achieved in 1963, the Malays were afraid that the ethnic Chinese, who had a strong political party, would dominate their government. To Avoid this, Singapore, 75 percent ethnic Chinese and a part of Malaya, was cast out in 1965 and forced to become independent. 
+
+# Opening to the United States, 1978 - 1979
+
+(P342) Deng was fascinated by O'Neill's discussion of the separation of powers, especially the ways in which the legislative and executive branches competed for power and influence.... Deng had absolutely no doubt that, at least for China, the separation of powers was a terribly inefficient way to run a country, something China should avoid
