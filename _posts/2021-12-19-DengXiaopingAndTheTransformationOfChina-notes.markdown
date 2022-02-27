@@ -89,3 +89,11 @@ He encouraged more democratic discussion within the party. But when protestors a
 # Opening to the United States, 1978 - 1979
 
 (P342) Deng was fascinated by O'Neill's discussion of the separation of powers, especially the ways in which the legislative and executive branches competed for power and influence.... Deng had absolutely no doubt that, at least for China, the separation of powers was a terribly inefficient way to run a country, something China should avoid
+
+# Launching the Deng Administration, 1979 - 1980
+
+(P367) Not only did he want the writers to do more to stress the positive things that Mao stood for, but he also pressed them to acknowledge that Mao's mistakes were primarily systemic and institutional. Deng accepted Hu Qiaomu's point that the drafters had no choice but to acknowledge the errors of the Great Leap Forward (in which, unlike those of the Cultural Revolution, Deng had been deeply involved). Deng insisted, however, that in dealing with the Greap Leap, the drafters should begin by listing some of the positive achievements during that period and only thereafter acknowledge the weaknesses.
+
+(P372) Why did Marshal Ye defend Hua Guofeng? ... as other party officials argue, Marshal Ye was concerned that Deng might become too authoritarian -- that he would behave too much like Mao -- and he thus sought to retain Hua as a way of constraining Deng's power and promoting inner-party democracy. 
+
+Marshal Ye was not a strong-willed person who fought for his convictions; he preferred to avoid confrontation. He accepted the Politburo's decision on Hua, and in fact engaged in a mild self-criticism for his support of Hua. Indeed, once Deng became head of the CMC, Marshal Ye chose not to share this responsibility with Deng but to withdraw to his home base in Guangdong, where his son Ye Xuanning was already mayor of Guangzhou and vice governor and where he could enjoy a comfortable life. ... Later, when Marshal Ye was critically ill in 1984 and 1986, Deng did not pay a courtesy visit as he had done for Zhou. Marshal Ye died in 1986.
