@@ -97,3 +97,43 @@ He encouraged more democratic discussion within the party. But when protestors a
 (P372) Why did Marshal Ye defend Hua Guofeng? ... as other party officials argue, Marshal Ye was concerned that Deng might become too authoritarian -- that he would behave too much like Mao -- and he thus sought to retain Hua as a way of constraining Deng's power and promoting inner-party democracy. 
 
 Marshal Ye was not a strong-willed person who fought for his convictions; he preferred to avoid confrontation. He accepted the Politburo's decision on Hua, and in fact engaged in a mild self-criticism for his support of Hua. Indeed, once Deng became head of the CMC, Marshal Ye chose not to share this responsibility with Deng but to withdraw to his home base in Guangdong, where his son Ye Xuanning was already mayor of Guangzhou and vice governor and where he could enjoy a comfortable life. ... Later, when Marshal Ye was critically ill in 1984 and 1986, Deng did not pay a courtesy visit as he had done for Zhou. Marshal Ye died in 1986.
+
+# Deng's Art of Governing
+
+## Speak and act with authority
+
+## Defend the party
+
+## Maintain a unified command structure
+
+## Keep a firm grip on the military
+
+## Build public support before promoting
+
+## Avoid taking the blame
+
+When Deng's policies proved unpopular or mistaken, subordinates were ordinarily expected to take responsibility, just as Mao's errors were blamed on Lin Biao, Jiang Qing, and low-level officials. In a country where discipline at the top still depended on personal authority, Deng, like many other high party officials, believed that it was sometimes necessary to sacrifice the pawns to ensure continued respect for the king and his throne.
+
+## Set short-tem policies in light of long-term
+
+## Pursue policies that help achieve long-term goals
+
+## Uncover even the unpleasant truths
+
+## Be bold
+
+## Push, consolidate, and push again
+
+## Strengthen unity, minimize divisions
+
+## Avoid publicizing past grievances
+
+## Sidestep conservative resistance through experimentation
+
+## Use aphorisms to explain complex controversial issues
+
+## Make balanced presentations that explains underlying principles
+
+## Avoid factionalism and select competent officials
+
+## Study and shape the "Atmosphere"
