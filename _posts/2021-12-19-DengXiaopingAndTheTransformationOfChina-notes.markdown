@@ -137,3 +137,7 @@ When Deng's policies proved unpopular or mistaken, subordinates were ordinarily 
 ## Avoid factionalism and select competent officials
 
 ## Study and shape the "Atmosphere"
+
+# Experiments in Guangdong and Fujian, 1979 - 1984
+
+(P412) Guangdong officials regarded him as a constant thorn in their side. All high officials except Chen Yun and Li Xiannian made at least one visit to the SEZs and praised their achievements. Chen Yun went south every winter, to Hangzhou, Shanghai, and elsewhere, but he explained that his health did not permit him to visit Guangdong.
