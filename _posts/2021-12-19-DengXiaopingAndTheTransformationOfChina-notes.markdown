@@ -141,3 +141,7 @@ When Deng's policies proved unpopular or mistaken, subordinates were ordinarily 
 # Experiments in Guangdong and Fujian, 1979 - 1984
 
 (P412) Guangdong officials regarded him as a constant thorn in their side. All high officials except Chen Yun and Li Xiannian made at least one visit to the SEZs and praised their achievements. Chen Yun went south every winter, to Hangzhou, Shanghai, and elsewhere, but he explained that his health did not permit him to visit Guangdong.
+
+# The Ebb and Flow of Politics
+
+Deng's effort to give honor and perquisites without power was only partially successful. Many senior officials, including Chen Yun, Wang Zhen, and Song Renqiong, became members of the CAC, but also retained their previous positions. After they retired, Zhao Ziyang recorded that during the 1980s he and Hu Yaobang were like secretary generals, in effect office managers, since power throughout the decade was still in the hands of Deng, Chen Yun, Li Xiannian, and "the six-person small group" (Bo Yibo, Peng Zhen, Deng Yingchao, Song Renqiong, Yang Shangkun, and Wang Zhen). Deng was paramount, but he simply did not have the absolute power required to force all the others to retire. ... But Deng did establish the principle that the CAC would come to an end when these revolutionary veterans passed from the scene. In the future, too, all positions would have term limits. As planned, the CAC was abolished in 1992. It had given its members honor and it had reduced but not entirely eliminated their power until Deng himself fully stepped down in 1992.
