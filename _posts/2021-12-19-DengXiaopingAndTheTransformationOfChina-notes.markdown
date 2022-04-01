@@ -191,3 +191,10 @@ After June 4, the head of the Propaganda Department and the editor of *People's 
 (P677) In Zhuhai, Deng held a meeting ostensibly for military planning that turned up the heat under Jiang Zemin. He repeated the message he gave in Wuhan: "Whoever is opposed to reform must leave office..." The meeting Deng attended in Zhuhai on "military planning" was chaired by Qiao Shi ... Qiao Shi was also regarded by many as having the qualities needed to be a top leader and as a potential rival to Jiang Zemin, so this meeting had the potential to be about China's leadership.
 
 Jiang Zemin, eager to get precise news of the Zhuhai meeting, persuaded Jia Qinglin, first party secretary of Fujian, to give him a tape of the meeting; not long thereafter it was announced that Jia Qinglin had been appointed to the Politburo. And although it was not customary for Jiang to phone Deng on New Year's, on February 3, 1992, five days after Deng left Zhuhai, Jiang Zemin phoned Deng to wish him a happy New Year. As Jiang later acknowledged, the phone call was no accident. Jiang thereafter began to tilt more boldly toward reform 
+
+
+读《黑客与画家》的时候，有一句话印象很深: 如果你有两个选择，不知道选哪一个，那就选困难的那个。邓在70年代末重新掌权后，对于如何评价毛和之前的种种运动，也面临着选择。
+
+邓主张渐进式改革，"稳定压倒一切"和其他实用主义思想(猫论，摸石头过河)指导了整个改革开放，一直影响到今天的政策。但就像钱穆评价赵匡胤平天下先南后北的政策"贻艰巨与后人"一样， 有些原则随着时间的流逝越来越僵化(个人看法)。维护权威 维护稳定的口号下隐藏了多少罪恶，遑论有些制度又回到了改革开放前的那一套。追本溯源，如果八十年代的反思和思想解放不设限，会不会现在是另外一番景象?
+
+也许太苛求经历了十年浩劫的那一代人。也许全面反思那些运动(大跃进，反右，文革)在当时并不是一个选择。一代人要完成一代人的使命，我们不能指望牛顿前半生提出牛顿力学，后半生再提出相对论否定前半生。就像邓所说，他已经尽到了对这个国家的责任。有些事情是需要邓之后的几代人去解决的
