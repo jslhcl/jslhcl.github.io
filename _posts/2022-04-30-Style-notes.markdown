@@ -100,3 +100,114 @@ When your prose feels turgid, abstract, too complex, do two things, First, locat
     was because of                      -> because
     
     their personnel **losses**          -> they **lost** personnel
+
+## Useful Nominalizations
+
+In some cases, nominalizations are useful, even necessary. Don't revise these.
+
+1. The nominalization is a subject referring to a previous sentence:
+
+    **These arguments** all depend on a single unproven claim.
+
+    **This decision** can lead to costly consequences.
+
+2. The nominalization names what would be the object of its verb:
+
+    I do not understand either **her meaning** or **his intention**.
+
+This is a bit more compact than, "I do not understand either **what she means** or **what he intends**"
+
+3. A succinct nominalization can replace an awkward "The fact that":
+
+    **The fact that I denied what he accused me of** impressed the jury.
+
+    **My denial of his accusations** impressed the jury.
+
+But then, why not
+
+    When I **denied** his accusations, I **impressed** the jury.
+
+4. Some nominalizations refer to an often repeated concept.
+
+    Few issues have to divided Americans as **abortion on demand**.
+
+5. We often use a nominalization after *there is/are* to introduce a topic that we develop in subsequent sentences
+
+6. And sometimes our topic seems so abstract that we think we can write about it only in nominalizations
+
+## Passives and Agents
+
+We can usually make our style more vigorous and direct if we avoid both nominalizations and unnecessary passive verbs.
+
+### Choosing between Active and Passive
+
+To choose between the active and passive, we have to answer two questions: First, must our audience know who is performing the action? Second, are we maintaining a logically consistent string of subjects? and third, if the string of subjects is consistent, is it the right string of subjects? 
+
+# Chapter 3 Cohesion
+
+## Managing the Flow of Information
+
+We've illustrated two complementary principles of cohesion:
+
+- Put at the beginning of a sentence those ideas that you have already mentioned, referred to, or implied, or concepts that you can reasonably assume your reader is already familiar with, and will readily recognize.
+- Put at the end of your sentence the newest, the most surprising, the most significant information: information that you want to stress -- perhaps the information that you will expand on in your next sentence.
+
+All of us recognize this principle when a good teacher tries to teach us something new. That teacher will always try to connect something we already know to whatever new we are trying to learn.
+
+# Chapter 4 Emphasis
+
+## Managing Endings
+
+- Trim the end. 
+
+    Sociobiologists are making the provocative claim that our genes largely determine our social behavior in the way we act in situations we find around us every day
+
+    Sociobiologists are making the provocative claim that our genes largely determine our social behavior.
+
+- Shift less important information to the left
+
+    The data that are offered to establish the existence of ESP do not make believers of us **for the most part**.
+
+    **For the most part**, the data that are offered to establish the existence of ESP do not make us believers.
+
+- Shift important information to the right.
+
+- Extract and isolate.
+
+## Some Syntactic Devices
+
+- There. If you begin too many sentences with "There is" or "There are", your prose will become flat-footed, lacking movement or energy. But you can open a sentence with *there* in order to push to the end of that sentence those ideas that the next sentences will build on.
+
+- What. A *what* sentence throws special emphasis on what follows a linking verb. Compare the emphasis of:
+
+    This country needs a monetary policy that will end the violent fluctuations in money supply, unemployment, and inflation.
+
+    **What** this country needs is a monetary policy that will end the violent fluctuations in money supply, unemployment, and inflation.
+
+You have to pay for this added emphasis with a few more words, so use the pattern sparingly. 
+
+- It. By using *it* as a fill-in subject, you can shift a long introductory clause that would otherwise have been the subject to a position after the verb:
+
+    **That domestic oil prices must eventually rise to the level set by OPEC** once seemed inevitable. 
+
+    It once seemed inevitable **that domestic oil prices must eventually rise to the level set by OPEC**.
+
+With this pattern, you simultaneously select and emphasize a topic and throw added weight on the stress. Compare:
+
+    In 1933 this country experienced a depression that almost wrecked our democratic system of government.
+
+    **It** was in 1933 that this country experienced a depression that almost wrecked our democratic system of government. 
+
+# Chapter 6 Coherence II
+
+The final point is not to make every paragraph a work of art. Art may be long, but life is too short. The point is to make these principles work together *well enough* so that you do not confuse your readers. Readers call writing clear not when it is clear, but when they have no reason to call it unclear.
+
+# Chapter 10 Usage
+
+Careful writers use *alternative* to refer to one of three or more choices. 
+
+Whenever we move a preposition before its object, we make the sentence a bit more formal. Compare:
+
+The man **with whom** I spoke was not the man **to whom** I had been referred.
+
+The man I spoke **with** was not the man I had been referred **to**.
