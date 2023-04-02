@@ -1,6 +1,7 @@
 ---
 layout:	post
 title:	"The Road to Serfdom"
+tag: 笔记
 date:	2023-2-11
 ---
 

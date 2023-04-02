@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"The Art Of Unix Programming notes"
+tag: 笔记
 date:	2016-07-17
 ---
+
 # Chapter 1. Basics of the Unix philosophy
 
 Data dominates. If you've chosen the right data structures and organized things well, the algorithms will almost always be self-evident. Data structures, not algorithms, are central to programming.

@@ -1,6 +1,7 @@
 ---
 layout:	post
 title:	"Programming Ruby notes"
+tag: 笔记
 date:	2015-05-19
 ---
 

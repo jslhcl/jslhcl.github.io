@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Solution and Improvement on removeInvalidParentheses in leetcode"
+tag: 编程
 date:	2015-11-14
 ---
+
 [这道题](https://leetcode.com/problems/remove-invalid-parentheses/)需要列举出所有可能的组合，所以第一想法是用递归：如果当前的字符是"(", 就要考虑这个字符加入最终解和不加入最终解的情况(加入最终解的情况要先考虑这样才能产生最长的解)；如果当前的字符是")", 也分这两种情况考虑，只是")"加入最终解的时候要考虑一个限制条件，即加入后")"的数量不能大于"("的数量(这一点用变量cnt来控制)；如果当前的字符是非括号之外的其他字符，就保留该字符进行递归。代码如下：
 
 {% highlight C++ %}

@@ -1,9 +1,12 @@
 ---
 layout:	post
 title:	"Structure and Interpretation of Computer Programs notes I"
+tag: 笔记
 date:	2014-01-24
 ---
+
 # environment:
+
 There are multiple List dialects. The one used in this book is Scheme:
 {% highlight Bash %}
 sudo apt-get install mit-scheme
@@ -24,6 +27,7 @@ invalid, We will enter "Error system", like:
 To jump out of Error system, input (RESTART x) x is the option number 
 
 # Chapter 1 Building Abstractions with Procedures
+
 ## 1. define variables
 {% highlight Scheme %}
 (define size 2)

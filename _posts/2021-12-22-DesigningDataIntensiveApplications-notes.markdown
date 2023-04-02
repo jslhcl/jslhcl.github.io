@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Designing Data-Intensive Applications notes"
+tag: 笔记
 date:	2021-12-22
 ---
+
 # Chapter 1 Reliable, Scalable, and Maintainable Applications
 
 Three concerns that are important in most software system: Reliability, Scalability and Maintainability

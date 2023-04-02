@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"The Pragmatic Programmer -- From Journeyman to Master notes"
+tag: 笔记
 date:	2016-11-05
 ---
+
 # 1
 
 Don't live with broken window

@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"CLR via C#"
+tag: 笔记
 date:	2016-12-27
 ---
+
 # Chapter 1 The CLR's Execution Model
 
 ## parts of a Managed Module (P5, table 1-1)

@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Structure and Interpretation of Computer Programs notes III"
+tag: 笔记
 date:	2015-09-08
 ---
+
 # Chapter 3. Modularity, Objects and State
 
 ## Local State Variables

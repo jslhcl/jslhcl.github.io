@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"C Traps and Pitfalls notes"
+tag: 笔记
 date:	2014-12-01
 ---
+
 # Chapter 0
 ## Exercise 0-1
 Most people would not knowingly buy a product that they expected to have significant design defects -- except if it is a software product. Most people write at least some of their programs for use by others. People expect software not to work.

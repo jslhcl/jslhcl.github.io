@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Structure and Interpretation of Computer Programs notes II"
+tag: 笔记
 date:	2014-04-13
 ---
+
 # Chapter 2. Building Abstractions with Data
 
 ## 1. Pairs

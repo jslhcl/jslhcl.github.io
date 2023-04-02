@@ -1,9 +1,12 @@
 ---
 layout:	post
 title:	"Coders At Work notes"
+tag: 笔记
 date:	2014-07-19
 ---
+
 # Jamie Zawinski
+
 At the end of the day, ship the fucking thing! It's great to rewrite your code and make it cleaner and by the third time it'll actually be pretty. But that's not the point -- you're not here to write code; you're here to ship products.
 
 If you spend the time to build the perfect framework that's going to do what you want and that's going to carry you from release 1.0 through release 5.0 and everything's going to be great; well guess what: release 1.0 is going to take you three years to ship and your competitor is going to ship their 1.0 in six months and now you're out of the game. Your never shipped your 1.0 because someone else ate your lunch.
@@ -15,9 +18,11 @@ Your competitor's six-month 1.0 has crap code and they're going to have to rewri
 ...Design Patterns -- which I just thought was crap...Then in meetings they'd be tossing around all this terminology they got out of that book. Like, the inverse, reverse, double-back-flip pattern -- whatever. Oh, you mean a loop? OK.
 
 # Brendan Eich
+
 But we need to be practical about standards. We can't just say all you need are lambdas -- Alonzo Church proved it, so we're not going to add any more to the language.
 
 # Joshua Bloch
+
 But what you do is you force people to subset it (c++)
 
 There are just a bunch of features (of c++) that you're not going to use because the resulting code is too high.

@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Style: Toward Clarity and Grace"
+tag: 笔记
 date:	2022-04-30
 ---
+
 # Chapter 1 Causes
 
 As societies become intellectually mature, it has been claimed, their writers seem increasingly to replace specific verbs with abstract nouns. 

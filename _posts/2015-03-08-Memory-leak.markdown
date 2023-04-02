@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Memory Leak"
+tag: 编程
 date:	2015-03-08
 ---
+
 工具：
 LeakFinderC.exe
 

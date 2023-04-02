@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"How to debug installation build using vs2010"
+tag: 编程
 date:	2014-11-30
 ---
+
 有些issue只能在installation版本里重现，这里记录一下自己在installation版本里搭建调试环境的步骤
 
 1. 下载与installation版本匹配的代码，configuration里选择"release"，编译出相应的dll或/和exe文件，以及**对应的pdb文件**

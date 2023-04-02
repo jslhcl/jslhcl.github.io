@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"The Social Animal"
+tag: 笔记
 date:	2020-04-12
 ---
+
 # Chapter 3 Mass Communication, Propaganda, and Persuasion
 
 Here is the plan: If you and your opponent are to present your arguments back to back, and if the election is still several days away, you should speak first. ... But if the election is going to be held immidiately after the second speech, and there is to be a prolonged coffee break between the two speeches, you would do well to speak last (P96)

@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Boston Legal S04E12"
+tag: 笔记
 date:	2022-07-10
 ---
+
 没想到第12集里面讲的案件就牵涉到最近很火的"Supreme court overruled Roe v. Wade"这个新闻。这个案子在美国真是历史悠久且富于争议。这个15年前的剧集里的一句台词: wouldn't the current supreme court just love an opportunity to overthrow Roe without being vilified as antiabortion? 真是一语成谶
 
 就不过多剧透了，关心这个事情的朋友都可以看一下。只列举一下触动我的台词和我的想法：

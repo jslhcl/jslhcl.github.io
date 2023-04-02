@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Programming Python notes"
+tag: 笔记
 date:	2014-12-29
 ---
+
 # Chapter 2 A Sneak Preview
 
 ## Lists

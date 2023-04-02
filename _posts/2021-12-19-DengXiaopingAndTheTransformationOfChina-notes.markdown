@@ -1,6 +1,7 @@
 ---
 layout:	post
 title:	"Deng Xiaoping and the Transformation of China notes"
+tag: 笔记
 date:	2021-12-19
 ---
 

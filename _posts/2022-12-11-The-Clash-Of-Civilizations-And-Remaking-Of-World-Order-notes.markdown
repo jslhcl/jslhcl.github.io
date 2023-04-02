@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"The clash of civilizations and the remaking of world order"
+tag: 笔记
 date:	2022-12-11
 ---
+
 # I. A World of Civilizations
 
 ## 2. Civilizations in History and Today

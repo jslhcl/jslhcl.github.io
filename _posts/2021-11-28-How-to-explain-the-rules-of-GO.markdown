@@ -1,6 +1,7 @@
 ---
 layout:	post
 title:	"How to explain the rules of GO (to foreigners) in one minute"
+tag: 生活
 date:	2021-11-28
 ---
 

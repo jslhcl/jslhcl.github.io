@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Binary Indexed Tree, Segment Tree"
+tag: 编程
 date:	2016-12-10
 ---
+
 # Binary Indexed Tree
 
 Suppose there is an array, how to get the sum of some interval of the array?

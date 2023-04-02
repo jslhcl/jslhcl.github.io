@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Refactoring"
+tag: 笔记
 date:	2017-06-01
 ---
+
 # Chapter 2 Principles in Refactoring
 
 ## The Rule of Three

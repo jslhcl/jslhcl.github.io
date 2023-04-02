@@ -1,6 +1,7 @@
 ---
 layout:	post
 title:	"Learning Perl"
+tag: 笔记
 date:	2015-07-06
 ---
 

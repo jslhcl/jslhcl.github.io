@@ -1,8 +1,10 @@
 ---
 layout:	post
 title:	"Nginx study"
+tag: 编程
 date:	2016-11-26
 ---
+
 # Reference
 1. [Nginx开发从入门到精通](http://tengine.taobao.org/book/)
 2. [Lenky](http://www.lenky.info/archives/category/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/nginx)
