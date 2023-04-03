@@ -63,6 +63,10 @@ a:visited { color: #a0a; }
   line-height: 1.5em;
 }
 
+.header {
+  display: flex;
+}
+
 .header a {
   font-weight: bold;
   text-decoration: none;
@@ -79,6 +83,19 @@ a:visited { color: #a0a; }
 
 .title a:hover {
   color: #000;
+}
+
+.extra2 {
+  color: #aaa;
+  margin-left: 1em;
+}
+
+.extra2:hover {
+  color: #000;
+}
+
+.extra2:hover .dropdown {
+  display: block;
 }
 
 .header a.extra {
@@ -157,4 +174,14 @@ a:visited { color: #a0a; }
 
 .post pre.terminal code {
   background-color: #333;
+}
+
+/*****************************************************************************/
+/* self define
+/*****************************************************************************/
+.dropdown {
+  list-style: none;
+  position: absolute;
+  display: none;
+  background-color: #fff;
 }
