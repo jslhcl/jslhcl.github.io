@@ -1834,3 +1834,14 @@ my $max = maxstr(@strings);
 use List::Util qw(shuffle);
 my @shuffled = shuffle(1..1000);	# randomized order of elements
 ```
+
+---
+
+# Not in this book
+
+```perl
+# the number of $ indicates the number of parameters (to be confirmed)
+sub roundup($$) {
+#   this function accepts 2 parameters
+}
+```
