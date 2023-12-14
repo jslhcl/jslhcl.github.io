@@ -42,6 +42,15 @@ a common reason is a reference is attached to a temporary variable, or dereferen
 
 If library A is calling another function defined in library B, make sure library A (static or dynamic) links library B. Otherwise there will be this error for the calling function.
 
+If you use CMake, the order in target\_link\_libraries matters. It seems the linker will check the symbols in each dependent library one by one, and throw the symbols away if it has no reference (To be confirmed). So make sure the dependent library using the symbol is before the dependent library defining the symbol.
+
+Also, suppose library A depends on library B, library B depends on library C, in target\_link\_libraries, it should list all the dependencies of library A (not just direct dependency, which is B):
+
+```cmake
+target_link_libraries(libA PUBLIC ${libB}   # need to list all the dependencies B and C, and B has to be before C as B is using some symbols defined in C
+                                  ${libC})
+```
+
 # 5. 
 
 Suppose you have a shared library (lib.so), you want to expose some API (functions, classes) for 3rd party library to use:
