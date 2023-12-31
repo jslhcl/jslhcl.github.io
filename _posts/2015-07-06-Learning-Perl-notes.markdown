@@ -1844,4 +1844,6 @@ my @shuffled = shuffle(1..1000);	# randomized order of elements
 sub roundup($$) {
 #   this function accepts 2 parameters
 }
+
+$group = \@someArray;   # make $group a reference to @someArray, similar to using *p pointer in C
 ```
