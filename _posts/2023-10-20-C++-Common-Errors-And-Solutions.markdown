@@ -454,3 +454,33 @@ In this way, there is no such symbol of the function GraphViewerRef::IsConstantI
 leca@host [ ~/code/plugin_pure_virtual ]$ readelf -s --wide libcustom_ep.so | grep -i 'IsConstantInitializer'
 leca@host [ ~/code/plugin_pure_virtual ]$ 
 ```
+
+# 6. static_cast vs. reinterpret_cast
+
+reinterpret_cast can only perform pointer-to-pointer conversions and reference-to-reference conversions (plus pointer-to-integer and integer-to-pointer conversions). So the following case, there will be an build error:
+
+```cpp
+float f = 3;
+int i = reinterpret_cast<int>(f);   // build error! You can use static_cast instead
+```
+
+For the opaque pointer case you can only use reinterpret_cast where you want to cast a pointer to an unimplemented class:
+
+```cpp
+struct StructNoImplementaion;
+    
+struct StructWithImplementation {
+    StructWithImplementation(int m) : member1(m) {}
+    int member1;
+};
+    
+int main()
+{
+    StructWithImplementation s(3);
+    // no error
+    StructNoImplementaion* p = reinterpret_cast<StructNoImplementaion*>(&s);
+
+    // error: cannot convert from 'StructWithImplemetation' to 'StructNoImplementation'
+    //StructNoImplementaion* p = static_cast<StructNoImplementaion*>(&s);
+}
+```
