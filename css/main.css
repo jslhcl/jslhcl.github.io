@@ -185,3 +185,10 @@ a:visited { color: #a0a; }
   display: none;
   background-color: #fff;
 }
+
+blockquote {
+  display: block;
+  margin: 0 0 1em;
+  padding-left: .75rem;
+  border-left: 1px solid;
+}
